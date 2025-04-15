@@ -35,7 +35,7 @@
 - *Electronics repair(phone, laptops)*
 - *Home service(plumbing, electrical)*
 
-### ***D. Appointment-Operations Like: ***
+### ***D. Appointment-Operations Like:***
 - *Retrieving a user appointment details(GET)*
 - *Retrieving all users appointment details(GET)*
 - *Updating a user appointment details(PUT)*
