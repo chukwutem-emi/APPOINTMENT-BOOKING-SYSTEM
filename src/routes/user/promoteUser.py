@@ -1,6 +1,6 @@
 from flask import request, jsonify as J
 from flaskFile import app
-from tables.dbModels import db, User
+from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
@@ -14,7 +14,6 @@ access_code = os.getenv("ACCESS_CODE")
 @app.route(rule="/promote", methods=["PUT"])
 @token_required
 def promote_user(current_user):
-    User()
     try:
         if not current_user:
             return J({"Access_denied":"⚠️ You don't have the permission to carry out this request. Unauthorized!"}), 401
@@ -48,7 +47,7 @@ def promote_user(current_user):
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
 
-            return J({"Promoted": "User has been Promoted to an Admin-user"}), 200
+            return J({"Promoted": "☑️ User has been Promoted to an Admin-user"}), 200
         
     except SQLAlchemyError as SQ:
         return J({"promotion_dbError":f"Database error. The server/database has encountered an error during the Promotion request: {str(SQ)}"}), 500

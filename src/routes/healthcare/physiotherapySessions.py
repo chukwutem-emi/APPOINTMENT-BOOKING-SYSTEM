@@ -1,13 +1,13 @@
 from flaskFile import app
 from flask import request, jsonify
 import requests
-from tables.dbModels import User, Appointment, AppointmentTypes, db
+from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
 from routes.authentication.accessToken import token_required
 import os
 from dotenv import load_dotenv
 from sqlalchemy.exc import SQLAlchemyError as dbError
-from datetime import datetime
+from datetime import datetime, timedelta
 from routes.utils.constants import PAYSTACK_PAYMENT_API
 from mail.sendMail import send_mail
 from routes.utils.appointmentGoogleCalender import book_appointment
@@ -19,9 +19,6 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 @token_required
 def physiotherapy_session(current_user):
     try:
-        User()
-        Appointment()
-        
         if not current_user:
             return({"physiotherapy_error": "Unauthorized to carry out physiotherapy appointment operation. Login required!"}), 401
         
@@ -56,6 +53,8 @@ def physiotherapy_session(current_user):
         location="40c, community road, off lasu-Isheri road, Obadore, lagos State"
         tel="07025347067"
 
+        end_time = (datetime.combine(date=appointment_date, time=appointment_time) + timedelta(minutes=duration)).time()
+
         if not amount:
             return jsonify({"physiotherapy_payment_required":f"Hi {first_name}, payment is require!"}), 402
 
@@ -85,14 +84,15 @@ def physiotherapy_session(current_user):
 
             user_appointment = t("""
                 INSERT INTO appointment(
-                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, doctor, location, tel, hospital, appointment_types, user_id, appointment_time, appointment_date, appointment_description
+                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, doctor, location, tel, hospital, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
                     ) VALUES(
-                    :first_name, :last_name, :gender, :user_phone_number, :address, :next_of_kin :email_address, :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :doctor, :location, :tel, :hospital, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description
+                    :first_name, :last_name, :gender, :user_phone_number, :address, :email_address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :doctor, :location, :tel, :hospital, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime
                     )
             """)
 
             connection.execute(statement=user_appointment, parameters={
-                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "doctor":doctor, "location":location, "tel":tel, "hospital":hospital, "appointment_types":AppointmentTypes.PHYSIOTHERAPY.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description
+                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "doctor":doctor, "location":location, "tel":tel, "hospital":hospital, "appointment_types":AppointmentTypes.PHYSIOTHERAPY.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description,
+                "appointment_endTime":end_time
                 })
             connection.commit()
 
@@ -103,13 +103,15 @@ def physiotherapy_session(current_user):
 
             summary = f"This is an appointment for:\n{AppointmentTypes.PHYSIOTHERAPY.value}"
             dateTime = f"{appointment_date}T{appointment_time}+01:00"
+            end_date_time = f"{appointment_date}T{end_time}+01:00"
             # capturing the response from book_appointment:
             appointment_response, status_code = book_appointment(
                 summary=summary, 
                 location=location, 
                 description=appointment_description, 
                 dateTime=dateTime, 
-                email=email_address
+                email=email_address,
+                endDateTime=end_date_time
                 )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
@@ -119,7 +121,7 @@ def physiotherapy_session(current_user):
                     "details":appointment_response
                     }), 500
             return jsonify({
-                "Physiotherapy":"Physiotherapy appointment was booked successfully!",
+                "Physiotherapy":"☑️ Physiotherapy appointment was booked successfully!",
                 "googleCalendarLink":html_link
                 }), 201
         

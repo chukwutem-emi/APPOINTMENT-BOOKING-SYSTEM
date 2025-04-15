@@ -2,7 +2,7 @@ from flaskFile import app
 from werkzeug.security import check_password_hash
 import uuid
 from flask import jsonify, request
-from tables.dbModels import User, db
+from tables.dbModels import db
 from sqlalchemy import text as t
 import jwt
 import datetime
@@ -19,7 +19,6 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 @app.route("/login", methods=["POST"])
 def sign_in():
     try:
-        User()
         data = request.get_json()
         if not data or not data.get("email_address") or not data.get("password"):
             return jsonify({"invalid":"Invalid input"}), 400
@@ -42,15 +41,12 @@ def sign_in():
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver) 
 
-            return({"Token":token}), 200
+            return({"Login_Verification":"☑️ Successfully Logged-In", "Token":token}), 200
     except (KeyError, ValueError)as kvError:
         return jsonify({"login_kvError":f"Invalid input!.:{str(kvError)}"}), 400
     except SQLAlchemyError as databaseError:
         return jsonify({"login_dbError":f"Database/server error.:{str(databaseError)}"}), 500
     except Exception as e:
         return jsonify({"login_exc":f"An error has occurred!.:{str(e)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    
             

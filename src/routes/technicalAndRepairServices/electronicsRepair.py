@@ -1,8 +1,8 @@
 from flask import request, jsonify
 from flaskFile import app
 from routes.authentication.accessToken import token_required
-from tables.dbModels import db, User, Appointment, AppointmentTypes
-from datetime import datetime
+from tables.dbModels import db, AppointmentTypes
+from datetime import datetime, timedelta
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError as dbError
 import requests
@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 from routes.utils.constants import PAYSTACK_PAYMENT_API
 from mail.sendMail import send_mail
+from routes.utils.appointmentGoogleCalender import book_appointment
 load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
@@ -20,9 +21,6 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 @token_required
 def electrical_repair(current_user):
     try:
-        User()
-        Appointment()
-
         if not current_user:
             return jsonify({"electrical_repair_error": "Unauthorized to carry out electrical repair appointment operation. Login required!"}), 400
         
@@ -58,6 +56,9 @@ def electrical_repair(current_user):
         organization_address="40c, community road, off lasu-Isheri road, Obadore, lagos State"
         tel="07025347067"
         price = 80000
+        duration = 180
+
+        end_time = (datetime.combine(date=appointment_date, time=appointment_time) + timedelta(minutes=duration)).time()
 
         if not amount:
             return jsonify({"electrical_repair_payment_required":f"Hi {first_name}, payment is require!"}), 402
@@ -87,14 +88,14 @@ def electrical_repair(current_user):
 
             user_appointment = t("""
                 INSERT INTO appointment(
-                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, phone_repair_price, price, laptop_repair_price, organization_address, tel, organization_name, appointment_types, user_id, appointment_time, appointment_date, appointment_description
+                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, phone_repair_price, price, laptop_repair_price, organization_address, tel, organization_name, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, duration
                     ) VALUES(
-                    :first_name, :last_name, :gender, :user_phone_number, :address, :next_of_kin :email_address, :next_of_kin_phone_number, :next_of_kin_address, :phone_repair_price, :price, :laptop_repair_price, :organization_address, :tel, :organization_name, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description
+                    :first_name, :last_name, :gender, :user_phone_number, :address, :email_address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :phone_repair_price, :price, :laptop_repair_price, :organization_address, :tel, :organization_name, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :duration
                     )
             """)
 
             connection.execute(statement=user_appointment, parameters={
-                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "phone_repair_price":phone_repair_price, "price":price, "laptop_repair_price":laptop_repair_price, "organization_address":organization_address, "tel":tel, "organization_name":organization_name, "appointment_types":AppointmentTypes.ELECTRONICS_REPAIR.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description
+                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "phone_repair_price":phone_repair_price, "price":price, "laptop_repair_price":laptop_repair_price, "organization_address":organization_address, "tel":tel, "organization_name":organization_name, "appointment_types":AppointmentTypes.ELECTRONICS_REPAIR.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "duration":duration
                 })
             connection.commit()
 
@@ -103,7 +104,28 @@ def electrical_repair(current_user):
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
 
-            return jsonify({"electronics_repair":"Electrical repair appointment was booked successfully!"}), 200
+            summary = f"This is an appointment for:\n{AppointmentTypes.ELECTRONICS_REPAIR.value}"
+            dateTime = f"{appointment_date}T{appointment_time}+01:00"
+            endDateTime = f"{appointment_date}T{end_time}+01:00"
+            # capturing the response from book_appointment:
+            appointment_response, status_code = book_appointment(
+                summary=summary, 
+                location=organization_address, 
+                description=appointment_description, 
+                dateTime=dateTime, 
+                email=email_address,
+                endDateTime=endDateTime
+                )
+            if status_code == 201:
+                html_link = appointment_response.get("eventLink")
+            else:
+                return jsonify({"ElectronicsErr": "Failed to create google calender event",
+                        "Details":appointment_response
+                        }), 500
+
+            return jsonify({"electronics_repair":"☑️ Electrical repair appointment was booked successfully!",
+                            "googleCalenderEvent":html_link
+                            }), 201
 
     except (KeyError, ValueError) as KvError:
         return jsonify({"electrical_repair_kvError":f"Invalid input!:{str(KvError)}"}), 400

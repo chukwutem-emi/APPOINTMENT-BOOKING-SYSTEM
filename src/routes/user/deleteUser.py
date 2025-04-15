@@ -1,6 +1,6 @@
 from flask import jsonify as J
 from flaskFile import app
-from tables.dbModels import db, User
+from tables.dbModels import db
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
@@ -10,7 +10,6 @@ from sqlalchemy.exc import SQLAlchemyError
 @app.route(rule="/delete", methods=["DELETE"])
 @token_required
 def delete_user(current_user):
-    User()
     try:
         if not current_user.admin:
             return J({"Not_permitted":"⚠️ You are Unauthorized to make this request"}), 401
@@ -23,7 +22,7 @@ def delete_user(current_user):
             if user.rowcount ==0 :
                 return J({"Empty":"User details are null(empty) or user not found!"}), 404
             connection.commit()
-            return J({"Deleted":"User information has been deleted from the database successfully!"}), 200
+            return J({"Deleted":"☑️ User information has been deleted from the database successfully!"}), 200
         
     except SQLAlchemyError as Error:
         return J({"deleteUser_dbError":f"Database/server error.:{str(Error)}"}), 500

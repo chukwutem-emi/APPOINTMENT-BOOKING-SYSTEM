@@ -1,17 +1,15 @@
 from flask import jsonify
 from flaskFile import app
-from tables.dbModels import Appointment, db
+from tables.dbModels import db
 from sqlalchemy import text as t
 from routes.authentication.accessToken import token_required
 from sqlalchemy.exc import SQLAlchemyError as dbError
-
+from datetime import datetime, timedelta
 
 @app.route(rule="/users_appointment", methods=["GET"])
 @token_required
 def users_appointment_details(current_user):
     try:
-        Appointment()
-
         if not current_user.admin:
             return jsonify({"admin_users_only":"Unauthorized!. You are not permitted to perform this request, it is meant for only admin users."}), 401
         
@@ -22,6 +20,8 @@ def users_appointment_details(current_user):
             for appointment in appointments_data:
                 if appointment not in appointments_list:
                     appointment_dict = {
+                     "user_id":appointment.user_id,
+                     "id":appointment.id,
                      "first_name":appointment.first_name,
                      "last_name":appointment.last_name,
                      "gender":appointment.gender,
@@ -44,13 +44,23 @@ def users_appointment_details(current_user):
                      "institution_name":appointment.institution_name,
                      "phone_repair_price":appointment.phone_repair_price,
                      "laptop_repair_price":appointment.laptop_repair_price,
-                     "payment_status":appointment.payment_status,
                      "appointment_types":appointment.appointment_types,
                      "appointment_time":appointment.appointment_time,
                      "appointment_date":appointment.appointment_date,
                      "appointment_description":appointment.appointment_description
                     }
-                appointments_list.append(appointment_dict)
+                cleaned_all_users_appointment_row = {}
+                for key, value in appointment_dict.items():
+                    # Skip null value
+                    if value is None:
+                        continue
+                    elif isinstance(value, timedelta):
+                        cleaned_all_users_appointment_row[key] = str(value)
+                    elif isinstance(value, datetime):
+                        cleaned_all_users_appointment_row[key] = value.isoformat()
+                    else:
+                        cleaned_all_users_appointment_row[key] = value
+                appointments_list.append(cleaned_all_users_appointment_row)
 
             return jsonify({"All_appointments":appointments_list}), 200
 
@@ -61,4 +71,4 @@ def users_appointment_details(current_user):
     finally:
         if connection:
             connection.close()
-            print("Database connection as been closed!")      
+            print("Database connection as been closed!") 

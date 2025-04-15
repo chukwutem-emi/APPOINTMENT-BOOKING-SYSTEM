@@ -1,7 +1,7 @@
 from flaskFile import app
 from flask import request, jsonify
 import requests
-from tables.dbModels import User, Appointment, AppointmentTypes, db
+from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
 from routes.authentication.accessToken import token_required
 import os
@@ -19,9 +19,6 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 @token_required
 def counseling_session(current_user):
     try:
-        User()
-        Appointment()
-        
         if not current_user:
             return({"counseling_error": "Unauthorized to carry out counseling appointment operation. Login required!"}), 401
         data = request.get_json()
@@ -89,7 +86,7 @@ def counseling_session(current_user):
                 INSERT INTO appointment(
                     first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, doctor, location, tel, hospital, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
                     ) VALUES(
-                    :first_name, :last_name, :gender, :user_phone_number, :address, :next_of_kin, :email_address, :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :doctor, :location, :tel, :hospital, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime
+                    :first_name, :last_name, :gender, :user_phone_number, :address, :email_address, :next_of_kin, :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :doctor, :location, :tel, :hospital, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime
                     )
             """)
 
@@ -122,7 +119,7 @@ def counseling_session(current_user):
                     "details":appointment_response
                     }), 500
             return jsonify({
-                "Counseling":"Counseling appointment was booked successfully!",
+                "Counseling":"☑️ Counseling appointment was booked successfully!",
                 "googleCalendarLink":html_link
                 }), 201
         

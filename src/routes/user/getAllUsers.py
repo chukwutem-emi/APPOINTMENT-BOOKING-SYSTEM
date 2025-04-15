@@ -1,6 +1,6 @@
 from flask import jsonify
 from flaskFile import app
-from tables.dbModels import db, User
+from tables.dbModels import db
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError 
@@ -9,7 +9,6 @@ from sqlalchemy.exc import SQLAlchemyError
 @token_required
 def get_users(current_user):
     try:
-        User()
         if not current_user.admin:
             return jsonify({"Not_an_admin": "⚠️ You are not Authorized to perform this operation!. This operation is meant for Admin users only"}), 401
         with db.engine.connect() as connection:

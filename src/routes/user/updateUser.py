@@ -1,5 +1,5 @@
 from flask import request, jsonify as J
-from tables.dbModels import db, User
+from tables.dbModels import db
 from werkzeug.security import generate_password_hash
 from routes.authentication.accessToken import token_required
 from flaskFile import app
@@ -11,7 +11,6 @@ from mail.sendMail import send_mail
 @token_required
 def update_user(current_user):
     try:
-        User()
         if not current_user:
             return({"Request Error": "⚠️ You are not Authorized to carry out this task. Please you have to login for verification, thank you!"}), 401
         
@@ -52,7 +51,7 @@ def update_user(current_user):
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
 
-            return J({"Updated": "Your details has been uploaded and updated successfully!"}), 200
+            return J({"Updated": "☑️ Your details has been uploaded and updated successfully!"}), 200
         
     except (KeyError, ValueError) as kvError:
         return J({"update_kvError":f"Invalid input!.:{str(kvError)}"}), 400

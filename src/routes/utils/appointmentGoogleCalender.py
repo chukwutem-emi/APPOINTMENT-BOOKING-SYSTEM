@@ -12,7 +12,7 @@ from .oauth2Callback import oauth2callback
 load_dotenv()
 ENV = os.getenv("ENV", "development")
 GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS_JSON")
-print("secret:", GOOGLE_CREDENTIALS_JSON)
+
 
 SCOPES = [SCOPE]
 if not GOOGLE_CREDENTIALS_JSON:

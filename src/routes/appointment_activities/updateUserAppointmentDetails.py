@@ -1,18 +1,17 @@
 from flask import request, jsonify
 from flaskFile import app
 from routes.authentication.accessToken import token_required
-from tables.dbModels import Appointment, db, User
+from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from sqlalchemy import text as t
 from datetime import datetime
-
+from mail.sendMail import send_mail
+from routes.utils.appointmentGoogleCalender import book_appointment
 
 @app.route(rule="/update_user_appointment", methods=["PUT"])
 @token_required
 def update_user_appointment_details(current_user):
     try:
-        Appointment()
-        User()
         if not current_user:
             return jsonify({"appointment_update_not_allowed":"Unauthorized!. You can't perform this operation, login required. Please login!"}), 401
         
@@ -51,16 +50,19 @@ def update_user_appointment_details(current_user):
             connection.execute(update_a_user_appointment_details, {"first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "appointment_description":appointment_description, "appointment_time":appointment_time, "appointment_date":appointment_date, "user_id":user["id"]})
             connection.commit()
 
-            return jsonify({"user_appointment_info":"User appointment details updated successfully!"}), 200
+            subject = "Appointment update!"
+            body = f"Hi {last_name}!,\n\nYour academic advising appointment was booked successfully!,\ntime:{appointment_time},\ndate:{appointment_date},\n\nThanks for using our service\nBest regard!\nThe Team"
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
+
+            return jsonify({"user_appointment_info":"☑️ User appointment details updated successfully!"}), 200
         
-    except KeyError as k:
-        return jsonify({"user_appointment_update_keyError":f"Missing data. A required key is missing.: {str(k)}"}), 400
-    except ValueError as v:
-        return jsonify({"user_appointment_update_valueError":f"There is an error in the value that you entered. Input error!.:{str(v)}"}), 400
+    except (KeyError, ValueError) as kv:
+        return jsonify({"user_appointment_update_keyValueError":f"Invalid Input!: {str(kv)}"}), 400
     except dbError as d:
         return jsonify({"user_appointment_update_dbError":f"The server/database encountered an error. Please try again later.:{str(d)}"}), 500
     except Exception as e:
-        return jsonify({"user_appointment_update_exc":f"An error has occurred during your user-appointment-update request. Please try again later!.:{str(e)}"}), 400
+        return jsonify({"user_appointment_update_exc":f"An error has occurred during your user-appointment-update request. Please try again later!.:{str(e)}"}), 500
     finally:
         if connection:
             connection.close()

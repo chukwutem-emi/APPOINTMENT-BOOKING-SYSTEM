@@ -1,6 +1,6 @@
 .env
 env/
+config/
 __pycache__/
 migrations/
-config/credentials.json
-config/credentials_production.json
+src/token_development.json

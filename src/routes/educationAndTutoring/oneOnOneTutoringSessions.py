@@ -3,13 +3,14 @@ import requests
 from flaskFile import app
 from tables.dbModels import db, User, Appointment, AppointmentTypes
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from dotenv import load_dotenv
 from routes.authentication.accessToken import token_required
 from routes.utils.constants import PAYSTACK_PAYMENT_API
 from sqlalchemy import text as t
 from mail.sendMail import send_mail
+from routes.utils.appointmentGoogleCalender import book_appointment
 
 load_dotenv()
 
@@ -19,8 +20,6 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 @token_required
 def one_on_one_tutoring(current_user):
     try:
-        User()
-        Appointment()
         if not current_user:
             return jsonify({"Msg": "You are not permitted to perform this operation without login. Login required!"}), 401
         
@@ -55,6 +54,8 @@ def one_on_one_tutoring(current_user):
         location = "40c, community road, off lasu-Isheri road, Obadore, lagos State"
         tel="07025347067"
         institution_name = "ChemSten University"
+
+        end_time = (datetime.combine(date=appointment_date, time=appointment_time)+timedelta(minutes=duration)).time()
         
         if not amount:
             return jsonify({"Required":f"Hi {first_name}, payment is require!"}), 402
@@ -84,21 +85,43 @@ def one_on_one_tutoring(current_user):
 
             user_appointment = t("""
                 INSERT INTO appointment(
-                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, tutor, location, tel, institution_name, appointment_types, user_id, appointment_time, appointment_date, appointment_description
+                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, tutor, location, tel, institution_name, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
                     ) VALUES(
-                    :first_name, :last_name, :gender, :user_phone_number, :address, :next_of_kin :email_address, :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :tutor, :location, :tel, :institution_name, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description
+                    :first_name, :last_name, :gender, :user_phone_number, :address, :email_address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :tutor, :location, :tel, :institution_name, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime
                     )
             """)
 
             connection.execute(user_appointment, {
-                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "tutor":tutor, "location":location, "tel":tel, "institution_name":institution_name, "appointment_types":AppointmentTypes.TUTORING_ONE_ON_ONE.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description})
+                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":user_phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "tutor":tutor, "location":location, "tel":tel, "institution_name":institution_name, "appointment_types":AppointmentTypes.TUTORING_ONE_ON_ONE.value, "user_id":user["id"], "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time
+                })
             connection.commit()
             subject = "ChemSten University"
             body = f"Hi {last_name}!,\n\nOne_on_one tutoring appointment was booked successfully!,\ntime:{appointment_time},\ndate:{appointment_date},\n\nThanks for using our service,\nBest regard,\nChemSten University Team"
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
 
-            return jsonify({"one_one_tutoring":"One_on_one tutoring appointment was booked successfully!"}), 201
+            summary = f"This is an appointment for: \n{AppointmentTypes.TUTORING_ONE_ON_ONE.value}"
+            dateTime = f"{appointment_date}T{appointment_time}+01:00"
+            endDateTime = f"{appointment_date}T{end_time}+01:00"
+
+            # Capturing response from book_appointment
+            appointment_response, status_code = book_appointment(
+                summary=summary,
+                location=location,
+                description=appointment_description,
+                dateTime=dateTime,
+                email=email_address,
+                endDateTime=endDateTime
+            )
+            if status_code == 201:
+                html_link = appointment_response.get("eventLink")
+            else:
+                return jsonify({"TutoringErr": "Failed to create google calender event"}), 500
+
+            return jsonify({"one_one_tutoring":"☑️ One_on_one tutoring appointment was booked successfully!",
+                            "googleCalenderEvent":html_link
+                        }), 201
+        
     except (KeyError, ValueError) as kvError:
         return jsonify({"tutor_kvError":f"Invalid input: {str(kvError)}"}), 400
     except dbError as d:

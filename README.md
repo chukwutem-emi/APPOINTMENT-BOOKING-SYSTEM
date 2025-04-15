@@ -35,7 +35,11 @@
 - *Electronics repair(phone, laptops)*
 - *Home service(plumbing, electrical)*
 
-
+### ***D. Appointment-Operations Like: ***
+- *Retrieving a user appointment details(GET)*
+- *Retrieving all users appointment details(GET)*
+- *Updating a user appointment details(PUT)*
+- *Deleting user appointment details(DELETE)*
 
 ### ***A. Authentication page:***
 #### ***1. Register(signUp):***
@@ -191,15 +195,561 @@
 ```
 ##### ***Response:***
 ```json
-"Status": 200
+"Status": 201
 {
     "Consultation": "Consultation appointment was booked successfully!"
 }
 ```
-##### ***II. Dental appointments:***
+##### ***II. counseling Sessions:***
+##### ***Endpoint:*** /counseling
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "Counseling": "Counseling appointment was booked successfully!",
+    "googleCalendarLink": ""
+}
+```
+##### ***III. Dental Appointment:***
 ##### ***Endpoint:*** /dental
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
-
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "Dental": "Dental appointment was booked successfully!",
+    "googleCalendarLink": ""
+}
+```
+##### ***IV. Physiotherapy Session:***
+##### ***Endpoint:*** /physiotherapy
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "Physiotherapy": "Physiotherapy appointment was booked successfully!",
+    "googleCalendarLink": ""
+}
+```
+##### ***V. Vaccination Appointment:***
+##### ***Endpoint:*** /vaccination
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "googleCalendarLink": "",
+    "vaccination": "Vaccination appointment was booked successfully!"
+}
+```
+#### ***b. Professional Services🧑‍🏫:***
+##### ***I. Business Consultations:***
+##### ***Endpoint:*** /business
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "business_consultation": "Business consultation appointment was booked successfully!",
+    "googleCalendarLink": ""
+}
+```
+##### ***II. Financial Advisory:***
+##### ***Endpoint:*** /financial
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "financial_advisory": "Financial advisory appointment was booked successfully!",
+    "googleCalendarLink": ""
+}
+```
+##### ***III. Real Estate Agent Appointment:***
+##### ***Endpoint:*** /real_estate
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "googleCalenderEvent": "",
+    "real_estate_agent": "Real estate agent appointment was booked successfully!"
+}
+```
+#### ***c. Education And Tutoring🧑‍🏫:***
+##### ***I. Academic Advising:***
+##### ***Endpoint:*** /academic
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "Academic_advising": "Academic advising appointment was booked successfully!",
+    "googleCalenderEvent": ""
+}
+```
+##### ***II. Career Counseling:***
+##### ***Endpoint:*** /career
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "Career_counseling": "Career counseling appointment was booked successfully!",
+    "googleCalenderEvent": ""
+}
+```
+##### ***III. One-On-One-Tutoring-Session:***
+##### ***Endpoint:*** /tutoring
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "googleCalenderEvent": "",
+    "one_one_tutoring": "One_on_one tutoring appointment was booked successfully!"
+}
+```
+#### ***d. Technical And Repair Service🛠️🪛:***
+##### ***I. Electronics Repair:***
+##### ***Endpoint:*** /electrical
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "electronics_repair": "Electrical repair appointment was booked successfully!",
+    "googleCalenderEvent": ""
+}
+```
+##### ***II. Home Service:***
+##### ***Endpoint:*** /home
+##### ***Method:*** POST
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "amount":,
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":201
+{
+    "googleCalenderEvent": "",
+    "home_service": "Home service appointment was booked successfully!"
+}
+```
+### ***D. Appointment-Operations:***
+#### ***I. Retrieving a user appointment details(GET)***
+##### ***Endpoint:*** /user_appointment
+##### ***Method:*** GET
+##### ***Response:***
+```json
+"Status":200
+{
+    "user_appointments": [
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_endTime": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "created_at": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id": 27,
+            "last_name": "",
+            "location": "",
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price": ,
+            "tel": "",
+            "update_at": "",
+            "user_id": 4,
+            "user_phone_number": ""
+        },
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_endTime": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "created_at": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id": 28,
+            "last_name": "",
+            "location": "",
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price": ,
+            "tel": "",
+            "update_at": "",
+            "user_id": 4,
+            "user_phone_number": ""
+        }
+    ]
+}
+```
+#### ***II. Retrieving all users appointment details(GET)***
+##### ***Endpoint:*** /users_appointment
+##### ***Method:*** GET
+##### ***Response:***
+```json
+"Status":200
+{
+    "All_appointments": [
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id":,
+            "last_name": "",
+            "location": "",
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price": ,
+            "tel": "",
+            "user_id": 2,
+            "user_phone_number": ""
+        },
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id": 26,
+            "last_name": "",
+            "location": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price": ,
+            "tel": "",
+            "user_id": 2,
+            "user_phone_number": ""
+        },
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_types": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id": 27,
+            "last_name": "",
+            "location": "",
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price":,
+            "tel": "",
+            "user_id": 4,
+            "user_phone_number": ""
+        },
+        {
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "doctor": "",
+            "duration": ,
+            "email_address": "",
+            "first_name": "",
+            "gender": "",
+            "hospital": "",
+            "id": 28,
+            "last_name": "",
+            "location": "",
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "price": ,
+            "tel": "",
+            "user_id": 4,
+            "user_phone_number": ""
+        }
+    ]
+}
+```
+#### ***III. Updating a user appointment details(PUT)***
+##### ***Endpoint:*** /update_user_appointment
+##### ***Method:*** PUT
+##### ***Payload:***
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "gender":"",
+    "user_phone_number":"",
+    "address":"",
+    "email_address":"",
+    "next_of_kin":"",
+    "next_of_kin_phone_number":"",
+    "next_of_kin_address":"",
+    "appointment_description":"",
+    "appointment_time":"",
+    "appointment_date":""
+}
+```
+##### ***Response:***
+```json
+"Status":200
+{
+    "user_appointment_info": "☑️ User appointment details updated successfully!"
+}
+```
+#### ***IV. Deleting user appointment details(DELETE)***
+##### ***Endpoint:*** /delete_appointment
+##### ***Method:*** DELETE
+##### ***Response:***
+```json
+"Status":200
+{
+    "user_appointment_details": "User appointment details was deleted successfully!"
+}
 ```
