@@ -1,4 +1,4 @@
-from flaskFile import app
+from src.flaskFile import app
 from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import bp
