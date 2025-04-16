@@ -1,8 +1,8 @@
 from flask import request, jsonify as J
-from flaskFile import app
-from tables.dbModels import db
+from src.flaskFile import app
+from src.tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError
-from routes.authentication.accessToken import token_required
+from src.routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from dotenv import load_dotenv
 import os

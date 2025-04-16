@@ -1,7 +1,7 @@
 from flask import request, jsonify
-from flaskFile import app
-from tables.dbModels import db
-from routes.authentication.accessToken import token_required
+from src.flaskFile import app
+from src.tables.dbModels import db
+from src.routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
 

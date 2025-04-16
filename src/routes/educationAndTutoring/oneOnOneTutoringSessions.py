@@ -1,16 +1,16 @@
 from flask import request, jsonify
 import requests
-from flaskFile import app
-from tables.dbModels import db, User, Appointment, AppointmentTypes
+from src.flaskFile import app
+from src.tables.dbModels import db, User, Appointment, AppointmentTypes
 import os
 from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from dotenv import load_dotenv
-from routes.authentication.accessToken import token_required
-from routes.utils.constants import PAYSTACK_PAYMENT_API
+from src.routes.authentication.accessToken import token_required
+from src.routes.utils.constants import PAYSTACK_PAYMENT_API
 from sqlalchemy import text as t
-from mail.sendMail import send_mail
-from routes.utils.appointmentGoogleCalender import book_appointment
+from src.mail.sendMail import send_mail
+from src.routes.utils.appointmentGoogleCalender import book_appointment
 
 load_dotenv()
 

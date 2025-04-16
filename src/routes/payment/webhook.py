@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flaskFile import app
+from src.flaskFile import app
 import os
 import hashlib
 import hmac

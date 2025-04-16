@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flaskFile import app
+from src.flaskFile import app
 
 
 @app.route(rule="/callback", methods=["GET"])

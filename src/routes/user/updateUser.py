@@ -1,11 +1,11 @@
 from flask import request, jsonify as J
-from tables.dbModels import db
+from src.tables.dbModels import db
 from werkzeug.security import generate_password_hash
-from routes.authentication.accessToken import token_required
-from flaskFile import app
+from src.routes.authentication.accessToken import token_required
+from src.flaskFile import app
 from sqlalchemy import text as t
 from sqlalchemy.exc import  SQLAlchemyError
-from mail.sendMail import send_mail
+from src.mail.sendMail import send_mail
 
 @app.route(rule="/update", methods=["PUT"])
 @token_required
