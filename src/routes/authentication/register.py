@@ -1,11 +1,11 @@
 from flask import jsonify, request
 from werkzeug.security import generate_password_hash
-from tables.dbModels import db, User
+from src.tables.dbModels import db, User
 import uuid
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
-from flaskFile import app
-from mail.sendMail import send_mail
+from src.flaskFile import app
+from src.mail.sendMail import send_mail
 
 
 @app.route("/register", methods=["POST"])

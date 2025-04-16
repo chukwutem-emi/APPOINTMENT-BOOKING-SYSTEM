@@ -1,6 +1,6 @@
-from .businessConsultations import business_consultation
-from .financialAdvisory import financial_advisory
-from .realEstateAgentAppointment import  real_estate_agent
+from src.routes.professionalServices.businessConsultations import business_consultation
+from src.routes.professionalServices.financialAdvisory import financial_advisory
+from src.routes.professionalServices.realEstateAgentAppointment import  real_estate_agent
 from flask import Blueprint
 
 pro_service_bp = Blueprint(name="professional", import_name=__name__)

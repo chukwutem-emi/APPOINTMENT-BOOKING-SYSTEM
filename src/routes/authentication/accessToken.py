@@ -1,8 +1,8 @@
 from functools import wraps
-from tables.dbModels import User
+from src.tables.dbModels import User
 from flask import request, jsonify as J
 import jwt
-from flaskFile import  app
+from src.flaskFile import  app
 import os
 from dotenv import load_dotenv
 

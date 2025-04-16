@@ -5,10 +5,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
-from flaskFile import app
-from .constants import SCOPE
-from .startOauth import start_oauth
-from .oauth2Callback import oauth2callback
+from src.flaskFile import app
+from src.routes.utils.constants import SCOPE
+from src.routes.utils.startOauth import start_oauth
+from src.routes.utils.oauth2Callback import oauth2callback
 load_dotenv()
 ENV = os.getenv("ENV", "development")
 GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS_JSON")

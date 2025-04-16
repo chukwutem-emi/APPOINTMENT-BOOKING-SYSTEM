@@ -1,6 +1,6 @@
 from flask import Blueprint
-from .callback import payment_callback
-from .webhook import paystack_webhook
+from src.routes.payment.callback import payment_callback
+from src.routes.payment.webhook import paystack_webhook
 
 payment_bp = Blueprint(name="payment", import_name=__name__)
 

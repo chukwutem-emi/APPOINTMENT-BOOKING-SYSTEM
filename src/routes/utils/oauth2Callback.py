@@ -1,6 +1,6 @@
-from flaskFile import app
+from src.flaskFile import app
 from flask import request, redirect
-from .constants import SCOPE
+from src.routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import InstalledAppFlow
 from dotenv import load_dotenv
 import os

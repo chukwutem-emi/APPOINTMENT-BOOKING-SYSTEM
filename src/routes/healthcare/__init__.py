@@ -1,9 +1,9 @@
 from flask import Blueprint
-from .consultation import consultation_session
-from .counselingSessions import counseling_session
-from .dentalAppointment import dental_session
-from .physiotherapySessions import physiotherapy_session
-from .vaccinationAppointment import vaccination_session 
+from src.routes.healthcare.consultation import consultation_session
+from src.routes.healthcare.counselingSessions import counseling_session
+from src.routes.healthcare.dentalAppointment import dental_session
+from src.routes.healthcare.physiotherapySessions import physiotherapy_session
+from src.routes.healthcare.vaccinationAppointment import vaccination_session
 
 
 
