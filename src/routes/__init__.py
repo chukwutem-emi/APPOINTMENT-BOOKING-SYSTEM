@@ -1,13 +1,13 @@
-from src.routes.authentication import auth_bp
+from routes.authentication import auth_bp
 from flask import Blueprint
-from src.routes.user import user_bp
-from src.routes.educationAndTutoring import edu_bp
-from src.routes.healthcare import health_bp
-from src.routes.professionalServices import pro_service_bp
-from src.routes.technicalAndRepairServices import technical_bp
-from src.routes.appointment_activities import appointment_act_bp
-from src.routes.payment import payment_bp
-from src.routes.utils import book_app_bp
+from routes.user import user_bp
+from routes.educationAndTutoring import edu_bp
+from routes.healthcare import health_bp
+from routes.professionalServices import pro_service_bp
+from routes.technicalAndRepairServices import technical_bp
+from routes.appointment_activities import appointment_act_bp
+from routes.payment import payment_bp
+from routes.utils import book_app_bp
 
 bp = Blueprint("api", __name__)
 

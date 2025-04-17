@@ -1,12 +1,12 @@
 from flask import request, jsonify
-from src.flaskFile import app
-from src.routes.authentication.accessToken import token_required
-from src.tables.dbModels import db
+from flaskFile import app
+from routes.authentication.accessToken import token_required
+from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from sqlalchemy import text as t
 from datetime import datetime
-from src.mail.sendMail import send_mail
-from src.routes.utils.appointmentGoogleCalender import book_appointment
+from mail.sendMail import send_mail
+from routes.utils.appointmentGoogleCalender import book_appointment
 
 @app.route(rule="/update_user_appointment", methods=["PUT"])
 @token_required

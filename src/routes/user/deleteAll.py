@@ -1,9 +1,9 @@
 from flask import jsonify
-from src.flaskFile import app
-from src.tables.dbModels import db
+from flaskFile import app
+from tables.dbModels import db
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError 
-from src.routes.authentication.accessToken import token_required
+from routes.authentication.accessToken import token_required
 
 
 @app.route(rule="/delete_all", methods=["DELETE"])

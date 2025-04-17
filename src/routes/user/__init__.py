@@ -1,10 +1,10 @@
 from flask import Blueprint
-from src.routes.user.getAUser import get_user
-from src.routes.user.getAllUsers import get_users
-from src.routes.user.updateUser import update_user
-from src.routes.user.deleteUser import delete_user
-from src.routes.user.promoteUser import promote_user
-from src.routes.user.deleteAll import delete_all_users
+from routes.user.getAUser import get_user
+from routes.user.getAllUsers import get_users
+from routes.user.updateUser import update_user
+from routes.user.deleteUser import delete_user
+from routes.user.promoteUser import promote_user
+from routes.user.deleteAll import delete_all_users
 
 user_bp = Blueprint(name="a_user_bp", import_name=__name__)
 

@@ -1,6 +1,6 @@
 from flask import Blueprint
-from src.routes.authentication.login import sign_in
-from src.routes.authentication.register import sign_up
+from routes.authentication.login import sign_in
+from routes.authentication.register import sign_up
 
 auth_bp = Blueprint("auth", __name__)
 

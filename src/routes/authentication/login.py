@@ -1,15 +1,15 @@
-from src.flaskFile import app
+from flaskFile import app
 from werkzeug.security import check_password_hash
 import uuid
 from flask import jsonify, request
-from src.tables.dbModels import db
+from tables.dbModels import db
 from sqlalchemy import text as t
 import jwt
 import datetime
 import os
 from dotenv import load_dotenv
 from sqlalchemy.exc import SQLAlchemyError
-from src.mail.sendMail import send_mail
+from mail.sendMail import send_mail
 
 load_dotenv()
 

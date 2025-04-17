@@ -1,4 +1,4 @@
-from src.flaskFile import app
+from flaskFile import app
 from dotenv import load_dotenv
 import os
 from flask_mysqldb import MySQL

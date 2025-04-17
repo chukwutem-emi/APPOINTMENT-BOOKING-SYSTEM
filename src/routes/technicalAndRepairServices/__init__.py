@@ -1,6 +1,6 @@
 from flask import Blueprint
-from src.routes.technicalAndRepairServices.electronicsRepair import electrical_repair
-from src.routes.technicalAndRepairServices.homeService import home_service
+from routes.technicalAndRepairServices.electronicsRepair import electrical_repair
+from routes.technicalAndRepairServices.homeService import home_service
 
 
 

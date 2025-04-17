@@ -1,4 +1,4 @@
-from src.routes.utils.oauth2Callback import oauth2callback
+from routes.utils.oauth2Callback import oauth2callback
 from flask import Blueprint
 
 

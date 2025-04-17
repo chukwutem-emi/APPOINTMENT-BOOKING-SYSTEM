@@ -1,7 +1,7 @@
 from flask import Blueprint
-from src.routes.educationAndTutoring.academicAdvising import academic_advising
-from src.routes.educationAndTutoring.careerCounseling import career_counseling
-from src.routes.educationAndTutoring.oneOnOneTutoringSessions import one_on_one_tutoring
+from routes.educationAndTutoring.academicAdvising import academic_advising
+from routes.educationAndTutoring.careerCounseling import career_counseling
+from routes.educationAndTutoring.oneOnOneTutoringSessions import one_on_one_tutoring
 
 edu_bp = Blueprint(name="/education_bp", import_name=__name__)
 

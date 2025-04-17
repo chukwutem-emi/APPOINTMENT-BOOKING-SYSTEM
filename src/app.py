@@ -1,7 +1,7 @@
-from src.flaskFile import app
-from src.tables.dbModels import db
+from flaskFile import app
+from tables.dbModels import db
 from flask_migrate import Migrate
-from src.routes import bp
+from routes import bp
 from flask import jsonify
 from flask_cors import CORS
 import os
