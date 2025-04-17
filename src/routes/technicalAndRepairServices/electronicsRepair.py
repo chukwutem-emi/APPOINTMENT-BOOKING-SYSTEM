@@ -1,5 +1,4 @@
 from flask import request, jsonify
-from flaskFile import app
 from routes.authentication.accessToken import token_required
 from tables.dbModels import db, AppointmentTypes
 from datetime import datetime, timedelta
@@ -16,8 +15,6 @@ load_dotenv()
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 
-
-@app.route(rule="/electrical", methods=["POST"])
 @token_required
 def electrical_repair(current_user):
     try:

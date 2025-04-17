@@ -1,12 +1,10 @@
 from flask import jsonify
-from flaskFile import app
 from tables.dbModels import db
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError 
 from routes.authentication.accessToken import token_required
 
 
-@app.route(rule="/delete_all", methods=["DELETE"])
 @token_required
 def delete_all_users(current_user):
     try:

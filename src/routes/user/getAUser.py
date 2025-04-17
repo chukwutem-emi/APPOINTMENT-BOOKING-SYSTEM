@@ -1,11 +1,9 @@
 from routes.authentication.accessToken import token_required
-from flaskFile import  app
 from flask import jsonify, abort
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
 
 
-@app.route(rule="/user", methods=["GET"])
 @token_required
 def get_user(current_user):
     try:

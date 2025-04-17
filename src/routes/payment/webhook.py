@@ -1,5 +1,4 @@
 from flask import request, jsonify
-from flaskFile import app
 import os
 import hashlib
 import hmac
@@ -9,7 +8,6 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY=os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/webhook", methods=["POST"])
 def paystack_webhook():
     # getting the payment signature fro the headers
     paystack_signature =request.headers.get("x-paystack-signature")

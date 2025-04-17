@@ -1,6 +1,5 @@
 from flask import request, jsonify
 import requests
-from flaskFile import app
 from tables.dbModels import db, User, Appointment, AppointmentTypes
 import os
 from datetime import datetime, timedelta
@@ -16,7 +15,6 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/tutoring", methods=["POST"])
 @token_required
 def one_on_one_tutoring(current_user):
     try:

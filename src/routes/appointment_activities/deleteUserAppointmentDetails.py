@@ -1,12 +1,10 @@
 from flask import request, jsonify
-from flaskFile import app
 from tables.dbModels import db
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
 
 
-@app.route(rule="/delete_appointment", methods=["DELETE"])
 @token_required
 def delete_user_appointment_details(current_user):
     try:

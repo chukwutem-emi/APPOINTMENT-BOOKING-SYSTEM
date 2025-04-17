@@ -1,4 +1,3 @@
-from flaskFile import app
 from flask import request, redirect
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -11,7 +10,6 @@ SCOPE = [SCOPE]
 if not GOOGLE_CREDENTIALS_JSON:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables.")
 
-@app.route(rule="/oauth2callback")
 def oauth2callback(json_file):
     flow = InstalledAppFlow.from_client_secrets_file(
         client_secrets_file=GOOGLE_CREDENTIALS_JSON, 

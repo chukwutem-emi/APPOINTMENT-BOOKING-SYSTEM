@@ -1,5 +1,4 @@
 from flask import request, jsonify as J
-from flaskFile import app
 from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError
 from routes.authentication.accessToken import token_required
@@ -11,7 +10,6 @@ load_dotenv()
 
 access_code = os.getenv("ACCESS_CODE")
 
-@app.route(rule="/promote", methods=["PUT"])
 @token_required
 def promote_user(current_user):
     try:

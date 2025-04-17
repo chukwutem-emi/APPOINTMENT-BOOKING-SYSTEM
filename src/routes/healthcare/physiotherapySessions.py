@@ -1,4 +1,3 @@
-from flaskFile import app
 from flask import request, jsonify
 import requests
 from tables.dbModels import AppointmentTypes, db
@@ -15,7 +14,6 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/physiotherapy", methods=["POST"])
 @token_required
 def physiotherapy_session(current_user):
     try:

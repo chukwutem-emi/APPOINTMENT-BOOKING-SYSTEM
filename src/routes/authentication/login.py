@@ -15,8 +15,6 @@ load_dotenv()
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-
-@app.route("/login", methods=["POST"])
 def sign_in():
     try:
         data = request.get_json()

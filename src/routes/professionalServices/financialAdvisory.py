@@ -1,5 +1,4 @@
 from flask import request, jsonify
-from flaskFile import app
 from tables.dbModels import db, AppointmentTypes
 from routes.authentication.accessToken import token_required
 from routes.utils.constants import PAYSTACK_PAYMENT_API
@@ -17,7 +16,6 @@ load_dotenv()
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 
-@app.route(rule="/financial", methods=["POST"])
 @token_required
 def financial_advisory(current_user):
     try:

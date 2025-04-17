@@ -1,4 +1,3 @@
-from flaskFile import app
 from flask import request, jsonify
 import requests
 from tables.dbModels import AppointmentTypes, db
@@ -15,7 +14,7 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/consult", methods=["POST"])
+
 @token_required
 def consultation_session(current_user):
     try:

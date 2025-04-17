@@ -1,7 +1,6 @@
 import requests
 from flask import request, jsonify
 from tables.dbModels import User, db, Appointment, AppointmentTypes
-from flaskFile import app
 from routes.authentication.accessToken import token_required
 from dotenv import load_dotenv
 import os
@@ -15,7 +14,6 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/academic", methods=["POST"])
 @token_required
 def academic_advising(current_user):
     try:

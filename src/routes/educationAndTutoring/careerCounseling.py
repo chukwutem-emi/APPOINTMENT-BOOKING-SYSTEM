@@ -1,6 +1,5 @@
 from flask import request, jsonify
 from sqlalchemy.exc import SQLAlchemyError as dbError
-from flaskFile import app
 from tables.dbModels import User, Appointment, AppointmentTypes, db
 import requests
 from routes.authentication.accessToken import token_required
@@ -16,7 +15,6 @@ load_dotenv()
 
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
-@app.route(rule="/career", methods=["POST"])
 @token_required
 def career_counseling(current_user):
     try:

@@ -1,11 +1,9 @@
 from flask import jsonify
-from flaskFile import app
 from tables.dbModels import db
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError 
 
-@app.route(rule="/users", methods=["GET"])
 @token_required
 def get_users(current_user):
     try:

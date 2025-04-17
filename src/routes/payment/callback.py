@@ -1,8 +1,6 @@
 from flask import request, jsonify
-from flaskFile import app
 
 
-@app.route(rule="/callback", methods=["GET"])
 def payment_callback():
     try:
         status = request.args.get("status")

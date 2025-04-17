@@ -43,7 +43,7 @@
 
 ### ***A. Authentication page:***
 #### ***1. Register(signUp):***
-##### ***Endpoint:*** "/register"
+##### ***Endpoint:*** "/api/auth/register"
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -62,7 +62,7 @@
 }
 ```
 #### ***2. Login(signIn):***
-##### ***Endpoint:*** "/login"
+##### ***Endpoint:*** "/api/auth/login"
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -81,7 +81,7 @@
 ```
 ### ***B. User page👥***:
 #### ***I. GetUser***
-##### ***Endpoint:*** "/user"
+##### ***Endpoint:*** "/api/user_bp/user"
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -97,7 +97,7 @@
 }
 ```
 #### ***II. PromoteUser:***
-##### ***Endpoint:*** "/promote"
+##### ***Endpoint:*** "/api/user_bp/promote"
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -114,7 +114,7 @@
 }
 ```
 #### ***III. GetAllUsers:***
-##### ***Endpoint:*** "/users"
+##### ***Endpoint:*** "/api/user_bp/users"
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -143,7 +143,7 @@
 }
 ```
 #### ***IV. UpdateUser:***
-##### ***Endpoint:*** "/update"
+##### ***Endpoint:*** "/api/user_bp/update"
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -162,7 +162,7 @@
 }
 ```
 #### ***V. DeleteUser:***
-##### ***Endpoint:*** "/delete"
+##### ***Endpoint:*** "/api/user_bp/delete"
 ##### ***Method:*** DELETE
 ##### ***Response:***
 ```json
@@ -174,7 +174,7 @@
 ### ***C. Landing page(It includes the various types appointment and their categories)*** 🛬:
 #### ***a. HealthCare Appointments*** 🧑‍⚕️:
 ##### ***I. Doctor consultations(general checking, specialist):***
-##### ***Endpoint:*** /consult
+##### ***Endpoint:*** /api/healthcare/consult
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -202,7 +202,7 @@
 }
 ```
 ##### ***II. counseling Sessions:***
-##### ***Endpoint:*** /counseling
+##### ***Endpoint:*** /api/healthcare/counseling
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -231,7 +231,7 @@
 }
 ```
 ##### ***III. Dental Appointment:***
-##### ***Endpoint:*** /dental
+##### ***Endpoint:*** /api/healthcare/dental
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -260,7 +260,7 @@
 }
 ```
 ##### ***IV. Physiotherapy Session:***
-##### ***Endpoint:*** /physiotherapy
+##### ***Endpoint:*** /api/healthcare/physiotherapy
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -289,7 +289,7 @@
 }
 ```
 ##### ***V. Vaccination Appointment:***
-##### ***Endpoint:*** /vaccination
+##### ***Endpoint:*** /api/healthcare/vaccination
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -319,7 +319,7 @@
 ```
 #### ***b. Professional Services🧑‍🏫:***
 ##### ***I. Business Consultations:***
-##### ***Endpoint:*** /business
+##### ***Endpoint:*** /api/professional/business
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -348,7 +348,7 @@
 }
 ```
 ##### ***II. Financial Advisory:***
-##### ***Endpoint:*** /financial
+##### ***Endpoint:*** /api/professional/financial
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -377,7 +377,7 @@
 }
 ```
 ##### ***III. Real Estate Agent Appointment:***
-##### ***Endpoint:*** /real_estate
+##### ***Endpoint:*** /api/professional/real_estate
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -407,7 +407,7 @@
 ```
 #### ***c. Education And Tutoring🧑‍🏫:***
 ##### ***I. Academic Advising:***
-##### ***Endpoint:*** /academic
+##### ***Endpoint:*** /api/education_bp/academic
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -436,7 +436,7 @@
 }
 ```
 ##### ***II. Career Counseling:***
-##### ***Endpoint:*** /career
+##### ***Endpoint:*** /api/education_bp/career
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -465,7 +465,7 @@
 }
 ```
 ##### ***III. One-On-One-Tutoring-Session:***
-##### ***Endpoint:*** /tutoring
+##### ***Endpoint:*** /api/education_bp/tutoring
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -495,7 +495,7 @@
 ```
 #### ***d. Technical And Repair Service🛠️🪛:***
 ##### ***I. Electronics Repair:***
-##### ***Endpoint:*** /electrical
+##### ***Endpoint:*** /api/technical/electrical
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -524,7 +524,7 @@
 }
 ```
 ##### ***II. Home Service:***
-##### ***Endpoint:*** /home
+##### ***Endpoint:*** /api/technical/home
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -554,7 +554,7 @@
 ```
 ### ***D. Appointment-Operations:***
 #### ***I. Retrieving a user appointment details(GET)***
-##### ***Endpoint:*** /user_appointment
+##### ***Endpoint:*** /api/appointment_act/user_appointment
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -617,7 +617,7 @@
 }
 ```
 #### ***II. Retrieving all users appointment details(GET)***
-##### ***Endpoint:*** /users_appointment
+##### ***Endpoint:*** /api/appointment_act/users_appointment
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -718,7 +718,7 @@
 }
 ```
 #### ***III. Updating a user appointment details(PUT)***
-##### ***Endpoint:*** /update_user_appointment
+##### ***Endpoint:*** /api/appointment_act/update_user_appointment
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -745,7 +745,7 @@
 }
 ```
 #### ***IV. Deleting user appointment details(DELETE)***
-##### ***Endpoint:*** /delete_appointment
+##### ***Endpoint:*** /api/appointment_act/delete_appointment
 ##### ***Method:*** DELETE
 ##### ***Response:***
 ```json

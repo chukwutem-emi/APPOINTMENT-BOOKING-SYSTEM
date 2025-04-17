@@ -1,12 +1,10 @@
 from flask import jsonify
-from flaskFile import app
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from tables.dbModels import db 
 from routes.authentication.accessToken import token_required
 from datetime import timedelta, datetime
 
-@app.route(rule="/user_appointment", methods=["GET"])
 @token_required
 def a_user_appointment_details(current_user):
     try:
