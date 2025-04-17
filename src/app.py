@@ -20,7 +20,7 @@ def show_routes():
     return jsonify(routes), 200
 
 
-app.register_blueprint(bp)
+app.register_blueprint(bp, url_prefix="/api")
 
 
 if __name__ == "__main__":
