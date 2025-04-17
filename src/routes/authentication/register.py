@@ -4,11 +4,9 @@ from tables.dbModels import db, User
 import uuid
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
-from flaskFile import app
 from mail.sendMail import send_mail
 
 
-@app.route("/register", methods=["POST"])
 def sign_up():
     try:
         data = request.get_json()
