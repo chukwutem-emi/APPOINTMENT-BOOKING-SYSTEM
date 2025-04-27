@@ -1,27 +1,10 @@
-from flaskFile import app
-from dotenv import load_dotenv
-import os
-from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Boolean
 from sqlalchemy.sql import func
 import enum
 
 
-
-
-load_dotenv()
-
-mysql = MySQL()
-mysql.init_app(app)
-
-base_uri=os.getenv("SQLALCHEMY_DATABASE_URI")
-app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
-
-
-
-db = SQLAlchemy(app=app)
-
+db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)

@@ -1,14 +1,26 @@
-from flaskFile import app
 from tables.dbModels import db
 from flask_migrate import Migrate
-from routes import bp
-from flask import jsonify
+from routes import blue_p
+from flask import jsonify, Flask
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
+from flask_mysqldb import MySQL
 
+load_dotenv()
 
+app = Flask(__name__)
 
 CORS(app=app)
+
+
+base_uri=os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
+
+db.init_app(app=app)
+mysql = MySQL()
+mysql.init_app(app=app)
+
 
 migrate = Migrate(app=app, db=db)
 
@@ -20,7 +32,7 @@ def show_routes():
     return jsonify(routes), 200
 
 
-app.register_blueprint(bp, url_prefix="/api")
+app.register_blueprint(blue_p, url_prefix="/api")
 
 
 if __name__ == "__main__":

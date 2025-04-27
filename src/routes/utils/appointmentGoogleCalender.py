@@ -5,7 +5,6 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
-from flaskFile import app
 from routes.utils.constants import SCOPE
 from routes.utils.startOauth import start_oauth
 from routes.utils.oauth2Callback import oauth2callback

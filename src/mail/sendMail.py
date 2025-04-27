@@ -1,24 +1,25 @@
 from dotenv import load_dotenv
-from flaskFile import app
+from flask import current_app
 from flask_mail import Mail, Message
 import os
 from flask import jsonify
 
 load_dotenv()
 
-app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
-app.config["MAIL_USERNAME"] = "chukwutememi@gmail.com"
-app.config["MAIL_TLS"] = True
-app.config["MAIL_SSL"] = False
-app.config["MAIL_DEFAULT_SENDER"] = "chukwutememi@gmail.com"
-
-
-mail = Mail(app=app)
 
 def send_mail(subject, receiver, body):
     try:
+        with current_app.app_context():
+            current_app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
+            current_app.config["MAIL_PORT"] = 587
+            current_app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+            current_app.config["MAIL_USERNAME"] = "chukwutememi@gmail.com"
+            current_app.config["MAIL_TLS"] = True
+            current_app.config["MAIL_SSL"] = False
+            current_app.config["MAIL_DEFAULT_SENDER"] = "chukwutememi@gmail.com"
+
+            mail = Mail(app=current_app)
+            
         msg = Message(
             subject=subject,
             recipients=[receiver],
