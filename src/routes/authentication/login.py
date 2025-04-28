@@ -31,9 +31,10 @@ def sign_in():
                 user_login=t("SELECT * FROM user WHERE email_address=:email_address")
                 user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
                 user=user_info.first()
-                if not user or not check_password_hash(user.password, password=password):
+                print(f"user { user}")
+                if not user or not check_password_hash(user["password"], password=password):
                     return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
-                token=jwt.encode({"public_id":user.public_id, "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
+                token=jwt.encode({"public_id":user["public_id"], "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
 
                 subject = "Login Alert!"
                 body = f"Hi @{user.username}, You just signed-in into your account!.\n\nPlease if you are not the one that signed-in,\nthen contact-us at: chukwutememi@gmail.com,\n\nBest regard!\nThe Team"
