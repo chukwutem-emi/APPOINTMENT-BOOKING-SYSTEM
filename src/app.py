@@ -31,6 +31,9 @@ def show_routes():
         routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": rule.rule})
     return jsonify(routes), 200
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message":"Welcome to Appointment booking system"}), 200
 
 app.register_blueprint(blue_p, url_prefix="/api")
 
