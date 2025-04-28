@@ -30,8 +30,7 @@ def sign_in():
             with db.engine.connect() as connection:
                 user_login=t("SELECT * FROM user WHERE email_address=:email_address")
                 user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
-                userdata=user_info.first()
-                user = userdata.as_dict() if userdata else None
+                user=user_info.first()
                 print(f"user { user}")
                 if not user or not check_password_hash(user["password"], password=password):
                     return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
