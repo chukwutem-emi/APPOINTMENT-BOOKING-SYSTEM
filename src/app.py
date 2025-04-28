@@ -1,4 +1,4 @@
-from src.tables.dbModels import db
+from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import blue_p
 from flask import jsonify, Flask
