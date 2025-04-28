@@ -32,9 +32,9 @@ def sign_in():
                 user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
                 user=user_info.first()
                 print(f"user { user}")
-                password_hashed=user[2]
-                public_id=user[4]
-                username=user[1]
+                password_hashed=user["password"]
+                public_id=user["public_id"]
+                username=user["username"]
                 if not user or not check_password_hash(pwhash=password_hashed, password=password):
                     return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
                 token=jwt.encode({"public_id":public_id, "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
