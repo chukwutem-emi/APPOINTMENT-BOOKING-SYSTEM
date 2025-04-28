@@ -47,8 +47,5 @@ def sign_up():
         return jsonify({"registration_serverError":f"Database/server error.:{str(dataBaseError)}"}), 500
     except Exception as e:
         return jsonify({"registration_exc":f"An Unexpected error has occurred during the course of your registration.:{str(e)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")         
+         
             
