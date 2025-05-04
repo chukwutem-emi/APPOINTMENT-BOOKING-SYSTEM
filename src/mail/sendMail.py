@@ -17,12 +17,10 @@ def send_async_mail(app, msg, mail):
         
 def send_mail(subject, receiver, body):
     app = current_app._get_current_object()
-    sender=current_app.config["MAIL_DEFAULT_SENDER"]
-    print(f"MAIL_DEFAULT_SENDER type: {type(sender)}, value: {sender}")
     msg = Message(
         subject=subject,
         recipients=[receiver],
         body=body,
-        sender=sender
+        sender="chukwutememi@gmail.com"
     )
     Thread(target=send_async_mail, args=(app, msg, mail)).start()
