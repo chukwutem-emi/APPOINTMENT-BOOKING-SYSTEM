@@ -33,7 +33,7 @@ def sign_in():
             user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
             user=user_info.mappings().first()
 
-            print("Password type:", type(user["password"]), "Value:", user["password"])
+            current_app.logger.info(f"[DEBUG] user: {user} ({type(user)})")
             password_hashed=user["password"]
             public_id=user["public_id"]
             username=user["username"]
