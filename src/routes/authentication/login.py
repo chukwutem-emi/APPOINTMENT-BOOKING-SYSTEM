@@ -29,7 +29,7 @@ def sign_in():
             user_login=t("SELECT * FROM user WHERE email_address=:email_address")
             user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
             user=user_info.first()
-            print(f"user { user}")
+            print("Password type:", type(user["password"]), "Value:", user["password"])
             password_hashed=user[2]
             public_id=user[4]
             username=user[1]
