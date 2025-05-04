@@ -17,6 +17,7 @@ def send_async_mail(app, msg, mail):
         
 def send_mail(subject, receiver, body):
     app = current_app._get_current_object()
+    print("MAIL CONFIG DEBUG:", current_app.config)
     msg = Message(
         subject=subject,
         recipients=[receiver],
