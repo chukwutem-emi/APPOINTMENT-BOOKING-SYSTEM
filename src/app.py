@@ -6,6 +6,7 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
+from extensions import mail
 
 load_dotenv()
 
@@ -16,6 +17,18 @@ CORS(app=app)
 
 base_uri=os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
+
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+app.config["MAIL_USERNAME"] = "chukwutememi@gmail.com"
+app.config["MAIL_TLS"] = True
+app.config["MAIL_SSL"] = False
+app.config["MAIL_DEFAULT_SENDER"] = "chukwutememi@gmail.com"
+
+mail.init_app(app=app)
 
 db.init_app(app=app)
 mysql = MySQL()
