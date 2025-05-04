@@ -7,10 +7,14 @@ import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
 from extensions import mail
+import logging
 
 load_dotenv()
 
 app = Flask(__name__)
+
+if not app.debug:
+    app.logger.setLevel(logging.INFO)
 
 CORS(app=app)
 
