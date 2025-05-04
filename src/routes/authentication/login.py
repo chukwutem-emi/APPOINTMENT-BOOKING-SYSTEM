@@ -37,7 +37,8 @@ def sign_in():
             password_hashed=user["password"]
             public_id=user["public_id"]
             username=user["username"]
-
+            current_app.logger.info(f"[DEBUG] password_hashed: {password_hashed} ({type(password_hashed)})")
+            current_app.logger.info(f"[DEBUG] public_id: {public_id} ({type(public_id)})")
             if not user or not check_password_hash(password_hashed, password):
                 return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
             token=jwt.encode({"public_id":public_id, "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
