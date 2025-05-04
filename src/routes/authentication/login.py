@@ -44,6 +44,9 @@ def sign_in():
             subject = "Login Alert!"
             body = f"Hi @{username}, You just signed-in into your account!.\n\nPlease if you are not the one that signed-in,\nthen contact-us at: chukwutememi@gmail.com,\n\nBest regard!\nThe Team"
             receiver = email_address
+            print(f"[DEBUG] subject: {subject} ({type(subject)})")
+            print(f"[DEBUG] body: {body} ({type(body)})")
+            print(f"[DEBUG] receiver: {receiver} ({type(receiver)})")
             send_mail(subject=subject, body=body, receiver=receiver) 
 
             return({"Login_Verification":"☑️ Successfully Logged-In", "Token":token}), 200
