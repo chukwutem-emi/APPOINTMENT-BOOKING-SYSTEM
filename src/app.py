@@ -13,9 +13,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
-if not app.debug:
-    app.logger.setLevel(logging.INFO)
+# set logging level to INFO
+app.logger.setLevel(logging.INFO)
 
+# Customize the format
+formatter = logging.Formatter(
+    "[%(asctime)s] %(levelName)s in %(module)s: %(message)s"
+    )
+
+# setting up handlers
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+
+#  Avoiding duplicate logs in the console
+if not app.logger.handlers:
+    app.logger.addHandler(console_handler)
+
+app.logger.info("☑️ Flask logger configured and running")
 CORS(app=app)
 
 

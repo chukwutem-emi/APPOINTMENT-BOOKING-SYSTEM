@@ -16,6 +16,7 @@ load_dotenv()
 
 def sign_in():
     try:
+        current_app.logger.info("✅ LOGIN endpoint called")
         data = request.get_json()
         if not data or not data.get("email_address") or not data.get("password"):
             return jsonify({"invalid":"Invalid input"}), 400
