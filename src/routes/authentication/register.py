@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, current_app
 from werkzeug.security import generate_password_hash
 from tables.dbModels import db, User
 import uuid
@@ -9,6 +9,7 @@ from mail.sendMail import send_mail
 
 def sign_up():
     try:
+        current_app.logger.info("✅ REGISTER endpoint hit")  
         data = request.get_json()
         if not data:
             return jsonify({"registration_dataError":f"Invalid input.:{data}"}), 400
