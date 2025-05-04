@@ -4,7 +4,7 @@ from tables.dbModels import db, User
 import uuid
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
-from mail.sendMail import send_mail
+# from mail.sendMail import send_mail
 
 
 def sign_up():
@@ -35,10 +35,10 @@ def sign_up():
                 "password":password, "username":username, "email_address":email_address, "phone_number":phone_number, "public_id":public_id, "admin":admin
                 })
             connection.commit()
-            subject = "Welcome to Our Service"
-            body = f"Hi {username}!,\n\nThank You for registering with us!\n\nBest regard,\nThe Team"
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
+            # subject = "Welcome to Our Service"
+            # body = f"Hi {username}!,\n\nThank You for registering with us!\n\nBest regard,\nThe Team"
+            # receiver = email_address
+            # send_mail(subject=subject, body=body, receiver=receiver)
             
             return jsonify({"success": "☑️ User created and uploaded successfully!"}), 201
     except (KeyError, ValueError) as kvError:

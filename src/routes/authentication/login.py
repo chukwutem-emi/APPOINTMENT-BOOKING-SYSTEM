@@ -18,6 +18,7 @@ def sign_in():
     try:
         with current_app.app_context():
             current_app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+            print(os.getenv("SECRET_KEY"))
             data = request.get_json()
             if not data or not data.get("email_address") or not data.get("password"):
                 return jsonify({"invalid":"Invalid input"}), 400
@@ -50,6 +51,7 @@ def sign_in():
     except SQLAlchemyError as databaseError:
         return jsonify({"login_dbError":f"Database/server error.:{str(databaseError)}"}), 500
     except Exception as e:
+        print(f"Exception occurred: {str(e)}")
         return jsonify({"login_exc":f"An error has occurred!.:{str(e)}"}), 500
     
             

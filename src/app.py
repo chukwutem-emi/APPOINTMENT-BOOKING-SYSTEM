@@ -36,7 +36,7 @@ def home():
     return jsonify({"message":"Welcome to Appointment booking system"}), 200
 
 app.register_blueprint(blue_p, url_prefix="/api")
-
+app
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
