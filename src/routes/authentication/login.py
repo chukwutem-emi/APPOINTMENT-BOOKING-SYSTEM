@@ -20,20 +20,24 @@ def sign_in():
         if not data or not data.get("email_address") or not data.get("password"):
             return jsonify({"invalid":"Invalid input"}), 400
         required_fields=["email_address", "password"]
+
         for field in required_fields:
             if field not in data:
                 return jsonify({"login_fieldError":f"Missing require field.:{field}"}), 400
         email_address=str(data["email_address"])
         password=str(data["password"])
+
         with db.engine.connect() as connection:
             user_login=t("SELECT * FROM user WHERE email_address=:email_address")
             user_info=connection.execute(statement=user_login, parameters={"email_address":email_address})
             user=user_info.first()
+            
             print("Password type:", type(user["password"]), "Value:", user["password"])
-            password_hashed=user[2]
-            public_id=user[4]
-            username=user[1]
-            if not user or not check_password_hash(pwhash=password_hashed, password=password):
+            password_hashed=user["password"]
+            public_id=user["public_id"]
+            username=user["username"]
+
+            if not user or not password_hashed or not check_password_hash(password_hashed, password):
                 return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
             token=jwt.encode({"public_id":public_id, "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
 
