@@ -13,7 +13,7 @@ def send_async_mail(app, msg, mail):
         try:
             mail.send(message=msg)
         except Exception as e:
-            return jsonify({"mail_error":f"An error occurred!. Mail not sent.{str(e)}"}), 500
+            print(f"[MAIL ERROR] An error occurred. Mail not sent: {str(e)}")
         
 def send_mail(subject, receiver, body):
     app = current_app._get_current_object()
