@@ -23,5 +23,4 @@ def send_mail(subject, receiver, body):
         body=body,
         sender=current_app.config["MAIL_DEFAULT_SENDER"],
     )
-    mail.send(message=msg)
     Thread(target=send_async_mail, args=(app, msg, mail)).start()
