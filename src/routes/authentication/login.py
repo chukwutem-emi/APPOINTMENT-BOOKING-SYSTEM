@@ -39,9 +39,12 @@ def sign_in():
             username=user["username"]
             current_app.logger.info(f"[DEBUG] password_hashed: {password_hashed} ({type(password_hashed)})")
             current_app.logger.info(f"[DEBUG] public_id: {public_id} ({type(public_id)})")
+            current_app.logger.info(f"[DEBUG] username: {username} ({type(username)})")
             if not user or not check_password_hash(password_hashed, password):
+                current_app.logger.info(f"[DEBUG] Invalid login attempt for email: {email_address} ({type(email_address)})")
                 return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
             token=jwt.encode({"public_id":public_id, "exp":datetime.datetime.now(tz=datetime.timezone.utc)+datetime.timedelta(minutes=60)}, current_app.config["SECRET_KEY"])
+            current_app.logger.info(f"[DEBUG] token: {token} ({type(token)})")
 
             subject = "Login Alert!"
             body = f"Hi @{username}, You just signed-in into your account!.\n\nPlease if you are not the one that signed-in,\nthen contact-us at: chukwutememi@gmail.com,\n\nBest regard!\nThe Team"
