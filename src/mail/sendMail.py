@@ -11,11 +11,13 @@ load_dotenv()
 def send_async_mail(app, msg, mail):
     with app.app_context():
         try:
+            print("📨 Inside send_async_mail, sending...")
             mail.send(message=msg)
         except Exception as e:
             print(f"[MAIL ERROR] An error occurred. Mail not sent: {str(e)}")
         
 def send_mail(subject, receiver, body):
+    print("📧 send_mail function called")
     app = current_app._get_current_object()
     print("MAIL CONFIG DEBUG:", current_app.config)
     msg = Message(
