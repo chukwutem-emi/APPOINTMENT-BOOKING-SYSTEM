@@ -40,6 +40,7 @@ def sign_in():
             current_app.logger.info(f"[DEBUG] password_hashed: {password_hashed} ({type(password_hashed)})")
             current_app.logger.info(f"[DEBUG] public_id: {public_id} ({type(public_id)})")
             current_app.logger.info(f"[DEBUG] username: {username} ({type(username)})")
+
             if not user or not check_password_hash(password_hashed, password):
                 current_app.logger.info(f"[DEBUG] Invalid login attempt for email: {email_address} ({type(email_address)})")
                 return jsonify({"verification":"We could not verify your details!. Please check your input or signup if you haven't registered"}), 400
@@ -52,7 +53,7 @@ def sign_in():
             current_app.logger.info(f"[DEBUG] subject: {subject} ({type(subject)}, body: {body} ({type(body)}), receiver: {receiver} ({type(receiver)})")  
             send_mail(subject=subject, body=body, receiver=receiver) 
 
-            return({"Login_Verification":"☑️ Successfully Logged-In", "Token":token}), 200
+        return({"Login_Verification":"☑️ Successfully Logged-In", "Token":token}), 200
             
     except (KeyError, ValueError)as kvError:
         return jsonify({"login_kvError":f"Invalid input!.:{str(kvError)}"}), 400
