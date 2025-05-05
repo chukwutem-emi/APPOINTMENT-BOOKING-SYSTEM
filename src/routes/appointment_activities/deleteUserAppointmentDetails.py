@@ -21,7 +21,4 @@ def delete_user_appointment_details(current_user):
         return jsonify({"user_db_appointment_details":f"The database/server encountered an error:{str(s)}"}), 500
     except Exception as e:
         return jsonify({"user_appointment_details_exc":f"An error has occurred during deleting the user-appointment-details:{str(e)}"}), 400
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    

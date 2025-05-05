@@ -39,7 +39,4 @@ def a_user_appointment_details(current_user):
         return jsonify({"a_user_appointment_dbError":f"The server/database encountered an error. Please try again later!:{str(d)}"}), 500
     except Exception as e:
         return jsonify({"a_user_appointment_exc":f"An error has occurred during your fetch a_user_appointment_details request. Please try again later!:{str(e)}"}), 400
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    
