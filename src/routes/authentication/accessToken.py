@@ -24,7 +24,6 @@ def token_required(f):
             return J({"Missing":"Token is missing!, please login to get an access token"}), 401
         try:
             with current_app.app_context():
-                current_app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
                 data = jwt.decode(jwt=token, key=current_app.config["SECRET_KEY"], algorithms=["HS256"])
                 current_user=User.query.filter_by(public_id=data["public_id"]).first()
         except jwt.ExpiredSignatureError:
