@@ -80,7 +80,7 @@ def career_counseling(current_user):
             if not user_data:
                 return jsonify({"careerErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
-
+            user_id = user["id"]
             user_appointment = t("""
                 INSERT INTO appointment(
                     first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, tutor, location, tel, institution_name, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
@@ -108,7 +108,8 @@ def career_counseling(current_user):
                 description=appointment_description,
                 dateTime=dateTime,
                 email=email_address,
-                endDateTime=endDateTime
+                endDateTime=endDateTime,
+                user_id=user_id
             )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")

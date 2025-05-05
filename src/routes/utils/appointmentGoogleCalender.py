@@ -6,9 +6,10 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
 from routes.utils.constants import SCOPE
-from routes.utils.startOauth import start_oauth
-from routes.utils.oauth2Callback import oauth2callback
+
+
 load_dotenv()
+
 ENV = os.getenv("ENV", "development")
 GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS_JSON")
 
@@ -17,9 +18,9 @@ SCOPES = [SCOPE]
 if not GOOGLE_CREDENTIALS_JSON:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
 
-def book_appointment(summary, location, description, dateTime, email, endDateTime):
+def book_appointment(summary, location, description, dateTime, email, endDateTime, user_id):
     creds = None
-    token_path = os.path.join(os.getcwd(), f"token_{ENV}.json")
+    token_path = os.path.join(os.getcwd(), f"token_{user_id}.json")
     temp_credentials_file = None
     try:
         # Write the credentials from the environment variable to a temporary file
@@ -32,27 +33,17 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    client_secrets_file=temp_credentials_file, 
-                    scopes=SCOPES
-                    )
-                if ENV == "development":
-                    # local server for dev.
-                    creds = flow.run_local_server(
-                        port=8000, 
-                        open_browser=True, 
-                        authorization_prompt_message="Please visit this URL to authorize access to your google calendar", 
-                        success_message="Authorization successful!, You may close this window.",
-                        access_type="offline",
-                        prompt="consent"
-                    )
-                elif ENV == "production":
-                    start_oauth()
-                    oauth2callback(json_file=token_path)
+            
+            elif ENV == "development":
+                creds = run_oauth2flow(temp_credentials_file=temp_credentials_file)
+                with open(token_path, "w") as token:
+                    token.write(creds.to_json())
+            elif ENV == "production":
+                return {
+                    "error": f"Missing or invalid credentials for user {user_id}. "
+                             f"User must authenticate via /start-auth?user_id={user_id}"
+                }, 401
 
-            with open(token_path, "w") as token:
-                token.write(creds.to_json())
 
         service = build(serviceName="calendar", version="v3", credentials=creds)
         event = {
@@ -90,3 +81,19 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
     finally:
         if temp_credentials_file and os.path.exists(temp_credentials_file):
             os.remove(temp_credentials_file)
+
+def run_oauth2flow(temp_credentials_file):
+    flow = InstalledAppFlow.from_client_secrets_file(
+        client_secrets_file=temp_credentials_file, 
+        scopes=SCOPES
+        )
+        # local server for dev.
+    creds = flow.run_local_server(
+        port=8000, 
+        open_browser=True, 
+        authorization_prompt_message="Please visit this URL to authorize access to your google calendar", 
+        success_message="Authorization successful!, You may close this window.",
+        access_type="offline",
+        prompt="consent"
+    )
+    return creds
