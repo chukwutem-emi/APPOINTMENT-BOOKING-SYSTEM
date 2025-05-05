@@ -754,3 +754,5 @@
     "user_appointment_details": "User appointment details was deleted successfully!"
 }
 ```
+### ***Base url:***
+https://appointment-booking-system-dgpm.onrender.com
