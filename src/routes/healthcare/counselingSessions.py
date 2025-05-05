@@ -80,6 +80,7 @@ def counseling_session(current_user):
             if not user_data:
                 return jsonify({"counselingErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
+            user_id = user["id"]
 
             user_appointment = t("""
                 INSERT INTO appointment(
@@ -108,7 +109,8 @@ def counseling_session(current_user):
                 description=appointment_description, 
                 dateTime=dateTime, 
                 email=email_address,
-                endDateTime=end_dateTime
+                endDateTime=end_dateTime,
+                user_id=user_id
                 )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
