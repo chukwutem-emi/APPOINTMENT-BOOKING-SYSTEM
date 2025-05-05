@@ -124,7 +124,4 @@ def career_counseling(current_user):
         return jsonify({"careerCounseling_dbError":f"Database/server error: {str(d)}"}), 500
     except Exception as E:
         return jsonify({"careerCounseling_exc": f"An error occurred: {str(E)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    
