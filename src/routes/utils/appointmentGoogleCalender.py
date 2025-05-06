@@ -6,16 +6,21 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
 from routes.utils.constants import SCOPE
+import base64
+import json
 
 
 load_dotenv()
 
 ENV = os.getenv("ENV", "development")
-GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS_JSON")
+b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
+# decode from base64
+decode_json = base64.b64decode(b64_cred).decode("utf-8")
+credentials_dict = json.loads(decode_json)
 
 
 SCOPES = [SCOPE]
-if not GOOGLE_CREDENTIALS_JSON:
+if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
 
 def book_appointment(summary, location, description, dateTime, email, endDateTime, user_id):
@@ -26,7 +31,7 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         # Write the credentials from the environment variable to a temporary file
         temp_credentials_file = "temp_credentials.json"
         with open(temp_credentials_file, "w") as temp_file:
-            temp_file.write(GOOGLE_CREDENTIALS_JSON)
+            temp_file.write(credentials_dict)
 
         if os.path.exists(token_path):
             creds = Credentials.from_authorized_user_file(token_path)
