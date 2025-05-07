@@ -1,4 +1,4 @@
-from flask import request, redirect
+from flask import request, redirect, current_app
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from dotenv import load_dotenv
@@ -19,6 +19,7 @@ if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables.")
 
 def start_oauth(user_id):
+    current_app.logger.info("start_oauth endpoint called")
     with tempfile.NamedTemporaryFile(mode="w+", suffix=".json", delete=False) as temp_file:
         json.dump(credentials_dict, temp_file)
         temp_file_path = temp_file.name
