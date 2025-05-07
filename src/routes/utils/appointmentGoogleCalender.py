@@ -31,7 +31,7 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         # Write the credentials from the environment variable to a temporary file
         temp_credentials_file = "temp_credentials.json"
         with open(temp_credentials_file, "w") as temp_file:
-            temp_file.write(credentials_dict)
+            temp_file.write(json.dumps(credentials_dict))
 
         if os.path.exists(token_path):
             creds = Credentials.from_authorized_user_file(token_path)
