@@ -40,10 +40,12 @@ def oauth2callback():
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
         user = User.query.get(state)
+        current_app.logger.info(user)
         if not user:
              return jsonify({"error":"user not found!"}), 404
         
         user.google_token = creds.to_json()
+        current_app.logger.info(user.google_token)
         db.session.commit()
         return "Authentication successful!, You may close this tab."
     except Exception as e:
