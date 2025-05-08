@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 import requests
 from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
@@ -81,6 +81,9 @@ def counseling_session(current_user):
                 return jsonify({"counselingErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
             user_id = user["id"]
+           
+            if not user or not user.google_token:
+                return redirect(f"/start-auth?user_id={user_id}")
 
             user_appointment = t("""
                 INSERT INTO appointment(

@@ -14,12 +14,13 @@ class User(db.Model):
     public_id=db.Column(db.String(200))
     phone_number=db.Column(db.String(14), unique=True)
     admin=db.Column(Boolean, default=False)
+    google_token=db.Column(db.Text(), nullable=True)
     created_at=db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
 
     def __repr__(self):
-        return f"User(username='{self.username}', password='{self.password}', email_address='{self.email_address}', public_id='{self.public_id}', phone_number='{self.phone_number}', admin='{self.admin}')"
+        return f"User(username='{self.username}', password='{self.password}', email_address='{self.email_address}', public_id='{self.public_id}', phone_number='{self.phone_number}', admin='{self.admin}', google_token='{self.google_token}')"
 
 
 class AppointmentTypes(enum.Enum):

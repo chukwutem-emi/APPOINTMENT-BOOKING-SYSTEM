@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from dotenv import load_dotenv
@@ -6,6 +6,7 @@ import os
 import base64
 import json
 import tempfile
+from tables.dbModels import User, db
 
 load_dotenv()
 
@@ -38,12 +39,16 @@ def oauth2callback():
             )
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
-        token_path = os.path.join(os.getcwd(), f"token_{state}.json")
+        user = User.query.get(state)
+        if not user:
+             return jsonify({"error":"user not found!"}), 404
         
-        with open(token_path, mode="w") as token:
-            token.write(creds.to_json())
-
+        user.google_token = creds.to_json()
+        db.session.commit()
         return "Authentication successful!, You may close this tab."
+    except Exception as e:
+         current_app.logger.exception("auth callback failed!"), 500
+         return jsonify({"error":str(e)}), 500
     finally:
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
