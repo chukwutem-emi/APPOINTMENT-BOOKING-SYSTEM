@@ -14,6 +14,8 @@ b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
 # decode from base64
 decode_json = base64.b64decode(b64_cred).decode("utf-8")
 credentials_dict = json.loads(decode_json)
+print("Decoded credentials dict:", credentials_dict)
+
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables.")

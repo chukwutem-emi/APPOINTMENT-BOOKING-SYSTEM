@@ -44,6 +44,9 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
                 with open(token_path, "w") as token:
                     token.write(creds.to_json())
             elif ENV == "production":
+                print("ENV:", ENV)
+                print("Decoded credentials dict:", credentials_dict)
+
                 return {
                     "error": f"Missing or invalid credentials for user {user_id}. "
                              f"User must authenticate via /start-auth?user_id={user_id}"
