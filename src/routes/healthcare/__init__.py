@@ -7,7 +7,7 @@ from routes.healthcare.vaccinationAppointment import vaccination_session
 
 
 
-health_bp = Blueprint(name="healthcare", import_name=__name__, url_prefix="healthcare")
+health_bp = Blueprint(name="healthcare", import_name=__name__, url_prefix="/healthcare")
 
 
 health_bp.add_url_rule(rule="/consult", endpoint="consult", view_func=consultation_session, methods=["POST"])
