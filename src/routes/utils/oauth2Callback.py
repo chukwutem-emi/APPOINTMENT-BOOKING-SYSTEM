@@ -39,7 +39,13 @@ def oauth2callback():
             )
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
-        user = db.session.query(User).filter(User.id == state).first()
+        try:
+            user_id = int(state)
+        except ValueError:
+            return jsonify({"error": "Invalid user ID in state"}), 400
+
+        user = db.session.query(User).filter(User.id == user_id).first()
+
         current_app.logger.info(user)
         if not user:
              return jsonify({"error":"user not found!"}), 404
