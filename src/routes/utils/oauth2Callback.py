@@ -33,12 +33,9 @@ def oauth2callback():
     if not state or not code:
             return jsonify({"error": "Missing state or code parameters"}), 400
 
-    with tempfile.NamedTemporaryFile(mode="w+", suffix=".json", delete=False) as temp_file:
-        json.dump(credentials_dict, temp_file)
-        temp_file_path = temp_file.name
     try:
         flow = Flow.from_client_secrets_file(
-            client_secrets_file=temp_file_path, 
+            client_secrets_file=credentials_dict, 
             scopes=SCOPE,
             redirect_uri = REDIRECT_URI
             )
@@ -63,6 +60,4 @@ def oauth2callback():
     except Exception as e:
          current_app.logger.exception("auth callback failed!"), 500
          return jsonify({"error":str(e)}), 500
-    finally:
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
+    

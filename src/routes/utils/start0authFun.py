@@ -37,6 +37,8 @@ def oauth_function(user_id):
             include_granted_scopes = "true",
             state = user_id
         )
+        current_app.logger.info(f"Generated Google OAuth URL: {auth_url}")
+
 
         # Redirect the user to the Google OAuth URL
         return redirect(auth_url)
