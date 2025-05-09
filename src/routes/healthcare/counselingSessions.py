@@ -82,7 +82,7 @@ def counseling_session(current_user):
             user = user_data._asdict()
             user_id = user["id"]
            
-            if not user or not user.google_token:
+            if not user or not user.get("google_token"):
                 return redirect(f"/start-auth?user_id={user_id}")
 
             user_appointment = t("""
