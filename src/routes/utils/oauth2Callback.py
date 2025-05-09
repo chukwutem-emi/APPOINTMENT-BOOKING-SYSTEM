@@ -47,13 +47,14 @@ def oauth2callback():
             user_id = int(state)
         except ValueError:
             return jsonify({"error": "Invalid user ID in state"}), 400
+        user = User.query.get(user_id)
+        current_app.logger.info(f"User type: {type(user)} - {user}")
 
-        user = db.session.query(User).filter(User.id == user_id).first()
-
-        current_app.logger.info(user)
         if not user:
-             return jsonify({"error":"user not found!"}), 404
-        
+            return jsonify({"error": "user not found!"}), 404
+
+        if not hasattr(user, "google_token"):
+            return jsonify({"error": "User object has no google_token attribute"}), 500
         user.google_token = creds.to_json()
         current_app.logger.info(user.google_token)
         db.session.commit()
