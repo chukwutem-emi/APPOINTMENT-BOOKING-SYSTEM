@@ -24,6 +24,10 @@ if not credentials_dict:
 def oauth2callback():
     state = request.args.get("state")
     code = request.args.get("code")
+    current_app.logger.info(f"Full request URL: {request.url}")
+    current_app.logger.info(f"State parameter: {state}")
+    current_app.logger.info(f"Code parameter: {code}")
+
 
     if not state or not code:
             return jsonify({"error": "Missing state or code parameters"}), 400
