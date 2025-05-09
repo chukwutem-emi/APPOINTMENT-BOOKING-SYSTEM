@@ -22,6 +22,7 @@ if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables.")
 
 def oauth2callback():
+    current_app.logger.info("oauth2callback function called!")
     state = request.args.get("state")
     code = request.args.get("code")
     current_app.logger.info(f"Full request URL: {request.url}")

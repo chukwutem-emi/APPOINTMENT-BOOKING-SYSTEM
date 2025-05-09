@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from routes.utils.constants import SCOPE
 import base64
 import json
+from flask import current_app
 
 
 load_dotenv()
@@ -24,6 +25,7 @@ if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
 
 def book_appointment(summary, location, description, dateTime, email, endDateTime, user_id):
+    current_app.logger.info("book appointment function called!")
     creds = None
     token_path = os.path.join(os.getcwd(), f"token_{user_id}.json")
     temp_credentials_file = None

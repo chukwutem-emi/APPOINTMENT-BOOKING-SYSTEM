@@ -1,4 +1,4 @@
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, current_app
 import requests
 from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
@@ -17,6 +17,7 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 @token_required
 def counseling_session(current_user):
+    current_app.logger.info("counseling session route called!")
     try:
         if not current_user:
             return({"counseling_error": "Unauthorized to carry out counseling appointment operation. Login required!"}), 401
@@ -119,7 +120,7 @@ def counseling_session(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({
-                    "consultationEventErr":"Failed to create google calendar event", 
+                    "counselingEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
             return jsonify({
@@ -133,7 +134,4 @@ def counseling_session(current_user):
         return jsonify({"Counseling_Exc":f"An error occurred during your counseling booking appointment operation: {str(e)}"}), 500
     except dbError as d:
         return jsonify({"Counseling_DB_error":f"Database/server error: {str(d)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    
