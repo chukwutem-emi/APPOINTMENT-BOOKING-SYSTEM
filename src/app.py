@@ -35,6 +35,8 @@ CORS(app=app)
 
 base_uri=os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
+print("📦 SQLAlchemy DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
+
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
