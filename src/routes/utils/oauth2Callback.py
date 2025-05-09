@@ -34,7 +34,7 @@ def oauth2callback():
             return jsonify({"error": "Missing state or code parameters"}), 400
 
     try:
-        flow = Flow.from_client_secrets_file(
+        flow = Flow.from_client_config(
             client_secrets_file=credentials_dict, 
             scopes=SCOPE,
             redirect_uri = REDIRECT_URI
