@@ -22,12 +22,9 @@ if not credentials_dict:
 
 def oauth_function(user_id):
     current_app.logger.info("start_oauth endpoint called")
-    with tempfile.NamedTemporaryFile(mode="w+", suffix=".json", delete=False) as temp_file:
-        json.dump(credentials_dict, temp_file)
-        temp_file_path = temp_file.name
     try:
-        flow = Flow.from_client_secrets_file(
-            client_secrets_file=temp_file_path,
+        flow = Flow.from_client_config(
+            client_secrets_file=credentials_dict,
             scopes=SCOPE,
             redirect_uri = REDIRECT_URI
             )
@@ -35,13 +32,14 @@ def oauth_function(user_id):
         auth_url, _= flow.authorization_url(
             access_type = "offline",
             include_granted_scopes = "true",
-            state = user_id
+            state = str(user_id),
+            prompt = "consent"
         )
         current_app.logger.info(f"Generated Google OAuth URL: {auth_url}")
 
 
         # Redirect the user to the Google OAuth URL
         return redirect(auth_url)
-    finally:
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
+    except Exception as e:
+        current_app.logger.exception("Failed to start OAuth flow")
+        return {"error": str(e)}, 500
