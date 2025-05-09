@@ -33,7 +33,8 @@ app.logger.info("☑️ Flask logger configured and running")
 CORS(app=app)
 
 
-base_uri=os.getenv("SQLALCHEMY_DATABASE_URI")
+base_uri = os.getenv("SQLALCHEMY_DATABASE_URI").replace(r"\x3a", ":")
+print(f"📦 SQLAlchemy DB URI: {base_uri}")
 app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
 print("📦 SQLAlchemy DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
 

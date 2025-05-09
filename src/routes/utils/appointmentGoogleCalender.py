@@ -9,12 +9,14 @@ from routes.utils.constants import SCOPE
 import base64
 import json
 from flask import current_app
+from tables.dbModels import User
 
 
 load_dotenv()
 
 ENV = os.getenv("ENV", "development")
 b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
+print("B64:", b64_cred)
 # decode from base64
 decode_json = base64.b64decode(b64_cred).decode("utf-8")
 credentials_dict = json.loads(decode_json)
@@ -27,7 +29,6 @@ if not credentials_dict:
 def book_appointment(summary, location, description, dateTime, email, endDateTime, user_id):
     current_app.logger.info("book appointment function called!")
     creds = None
-    token_path = os.path.join(os.getcwd(), f"token_{user_id}.json")
     temp_credentials_file = None
     try:
         # Write the credentials from the environment variable to a temporary file
@@ -35,16 +36,27 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         with open(temp_credentials_file, "w") as temp_file:
             temp_file.write(json.dumps(credentials_dict))
 
-        if os.path.exists(token_path):
-            creds = Credentials.from_authorized_user_file(token_path)
+        user = User.query.get(user_id)
+        if not user or not user.google_token:
+            return {
+                "error": f"Missing or invalid credentials for user {user_id}. "
+                        f"User must authenticate via /start-auth?user_id={user_id}"
+            }, 401
+        stored_token = json.loads(user.google_token)
+        creds = Credentials(
+            token=stored_token["token"],
+            refresh_token=stored_token.get("refresh_token"),
+            token_uri=stored_token["token_uri"],
+            client_id=stored_token["client_id"],
+            client_secret=stored_token["client_secret"],
+            scopes=stored_token["scopes"]
+        )
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             
             elif ENV == "development":
                 creds = run_oauth2flow(temp_credentials_file=temp_credentials_file)
-                with open(token_path, "w") as token:
-                    token.write(creds.to_json())
             elif ENV == "production":
                 print("ENV:", ENV)
                 print("Decoded credentials dict:", credentials_dict)
