@@ -24,7 +24,7 @@ def oauth_function(user_id):
     current_app.logger.info("start_oauth endpoint called")
     try:
         flow = Flow.from_client_config(
-            client_secrets_file=credentials_dict,
+            client_config=credentials_dict,
             scopes=SCOPE,
             redirect_uri = REDIRECT_URI
             )

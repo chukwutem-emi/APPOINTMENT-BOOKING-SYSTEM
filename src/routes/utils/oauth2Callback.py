@@ -35,12 +35,13 @@ def oauth2callback():
 
     try:
         flow = Flow.from_client_config(
-            client_secrets_file=credentials_dict, 
+            client_config=credentials_dict, 
             scopes=SCOPE,
             redirect_uri = REDIRECT_URI
             )
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
+        print("CREDS:", creds)
         try:
             user_id = int(state)
         except ValueError:
