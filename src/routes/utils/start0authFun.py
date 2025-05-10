@@ -1,24 +1,16 @@
 from flask import request, redirect, current_app
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
-from dotenv import load_dotenv
+from routes.utils.loadGoogleCred import load_google_credentials
 import os
 import base64
 import json
 import tempfile
 
-load_dotenv()
 
-SCOPE = [SCOPE]
-b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
-# decode from base64
-decode_json = base64.b64decode(b64_cred).decode("utf-8")
-credentials_dict = json.loads(decode_json)
-print("Decoded credentials dict:", credentials_dict)
-
+credentials_dict = load_google_credentials()
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
-if not credentials_dict:
-    raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables.")
+
 
 def oauth_function(user_id):
     current_app.logger.info("start_oauth endpoint called")
