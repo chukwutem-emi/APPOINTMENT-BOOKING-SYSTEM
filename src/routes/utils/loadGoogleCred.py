@@ -20,10 +20,10 @@ def load_google_credentials():
         raise ValueError(f"Failed to decode or parse credentials: {e}")
 
     required_fields = ["client_id", "client_secret", "auth_uri", "token_uri"]
-    if "installed" not in credentials_dict:
+    if "web" not in credentials_dict:
         raise ValueError(f"Missing 'installed' key in credentials JSON: {credentials_dict}")
     for field in required_fields:
-        if field not in credentials_dict["installed"]:
+        if field not in credentials_dict["web"]:
             raise ValueError(f"Missing required field in credentials: {field}")
 
     return credentials_dict
