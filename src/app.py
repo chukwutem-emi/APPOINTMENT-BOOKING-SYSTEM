@@ -69,6 +69,12 @@ def show_routes():
 def home():
     return jsonify({"message":"Welcome to Appointment booking system"}), 200
 
+
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "pong"
+
+
 app.register_blueprint(blue_p, url_prefix="/api")
 app
 
