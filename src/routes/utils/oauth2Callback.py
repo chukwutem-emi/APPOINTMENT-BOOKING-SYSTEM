@@ -59,6 +59,6 @@ def oauth2callback():
         db.session.commit()
         return "Authentication successful!, You may close this tab."
     except Exception as e:
-         current_app.logger.exception("auth callback failed!"), 500
+         current_app.logger.exception("auth callback failed!")
          return jsonify({"error":str(e)}), 500
     
