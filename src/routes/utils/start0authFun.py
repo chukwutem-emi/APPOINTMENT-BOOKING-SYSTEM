@@ -1,4 +1,4 @@
-from flask import request, redirect, current_app
+from flask import request, jsonify, current_app
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from routes.utils.loadGoogleCred import load_google_credentials
@@ -31,7 +31,7 @@ def oauth_function(user_id):
 
 
         # Redirect the user to the Google OAuth URL
-        return redirect(auth_url)
+        return jsonify({"Authentication_url":auth_url})
     except Exception as e:
         current_app.logger.exception("Failed to start OAuth flow")
         return {"error": str(e)}, 500
