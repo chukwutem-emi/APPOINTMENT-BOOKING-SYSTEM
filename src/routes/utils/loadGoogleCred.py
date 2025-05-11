@@ -14,7 +14,6 @@ def load_google_credentials():
 
     try:
         decode_json = base64.b64decode(b64_cred).decode("utf-8")
-        print("Decoded JSON string:", decode_json)  # Optional for debugging only
         credentials_dict = json.loads(decode_json)
     except Exception as e:
         raise ValueError(f"Failed to decode or parse credentials: {e}")

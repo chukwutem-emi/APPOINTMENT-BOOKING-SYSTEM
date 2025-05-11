@@ -34,9 +34,7 @@ CORS(app=app)
 
 
 base_uri = os.getenv("SQLALCHEMY_DATABASE_URI").replace(r"\x3a", ":")
-print(f"📦 SQLAlchemy DB URI: {base_uri}")
 app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
-print("📦 SQLAlchemy DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
 
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -58,13 +56,6 @@ mysql.init_app(app=app)
 
 migrate = Migrate(app=app, db=db)
 
-@app.route("/debug/routes", methods=["GET"])
-def show_routes():
-    routes = []
-    for rule in app.url_map.iter_rules():
-        routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": rule.rule})
-    return jsonify(routes), 200
-
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message":"Welcome to Appointment booking system"}), 200
@@ -76,7 +67,14 @@ def ping():
 
 
 app.register_blueprint(blue_p, url_prefix="/api")
-app
+
+@app.route("/debug/routes", methods=["GET"])
+def show_routes():
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({"endpoint": rule.endpoint, "methods": list(rule.methods), "url": rule.rule})
+    return jsonify(routes), 200
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))

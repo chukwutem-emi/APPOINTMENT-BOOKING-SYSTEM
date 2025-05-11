@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 import requests
 from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
@@ -79,6 +79,9 @@ def vaccination_session(current_user):
             if not user_data:
                 return jsonify({"vaccinationErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
+            user_id = user["id"]
+            if not user or not user.get("google_token"):
+                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
 
             user_appointment = t("""
                 INSERT INTO appointment(
@@ -109,7 +112,8 @@ def vaccination_session(current_user):
                 description=appointment_description, 
                 dateTime=dateTime, 
                 email=email_address,
-                endDateTime=endDateTime
+                endDateTime=endDateTime,
+                user_id=user_id
                 )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
@@ -129,7 +133,4 @@ def vaccination_session(current_user):
         return jsonify({"vaccination_Exc":f"An error occurred during your vaccination booking appointment operation: {str(e)}"}), 500
     except dbError as d:
         return jsonify({"Vaccination_DB_error":f"Database/server error: {str(d)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    

@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 import requests
 from tables.dbModels import db, User, Appointment, AppointmentTypes
 import os
@@ -80,6 +80,9 @@ def one_on_one_tutoring(current_user):
             if not user_data:
                 return jsonify({"tutorErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
+            user_id = user["id"]
+            if not user or not user.get("google_token"):
+                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
 
             user_appointment = t("""
                 INSERT INTO appointment(
@@ -109,7 +112,8 @@ def one_on_one_tutoring(current_user):
                 description=appointment_description,
                 dateTime=dateTime,
                 email=email_address,
-                endDateTime=endDateTime
+                endDateTime=endDateTime,
+                user_id=user_id
             )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
@@ -126,7 +130,4 @@ def one_on_one_tutoring(current_user):
         return jsonify({"tutor_dbError":f"Database/server error: {str(d)}"}), 500
     except Exception as E:
         return jsonify({"tutor_exc": f"An error occurred: {str(E)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    

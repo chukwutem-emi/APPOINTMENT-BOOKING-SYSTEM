@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 from tables.dbModels import db, AppointmentTypes
 from routes.authentication.accessToken import token_required
 from routes.utils.constants import PAYSTACK_PAYMENT_API
@@ -82,6 +82,9 @@ def financial_advisory(current_user):
             if not user_data:
                 return jsonify({"financialAdvisoryErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
+            user_id = user["id"]
+            if not user or not user.get("google_token"):
+                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
 
             user_appointment = t("""
                 INSERT INTO appointment(
@@ -111,7 +114,8 @@ def financial_advisory(current_user):
                 description=appointment_description, 
                 dateTime=dateTime, 
                 email=email_address,
-                endDateTime=endDateTime
+                endDateTime=endDateTime,
+                user_id=user_id
                 )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
@@ -131,7 +135,4 @@ def financial_advisory(current_user):
         return jsonify({"financial_advisory_Exc":f"An error occurred during your financial advisory booking appointment operation: {str(e)}"}), 500
     except dbError as d:
         return jsonify({"financial_advisory_DB_error":f"Database/server error: {str(d)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+    

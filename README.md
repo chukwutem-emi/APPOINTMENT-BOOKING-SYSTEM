@@ -756,3 +756,6 @@
 ```
 ### ***Base url:***
 https://appointment-booking-system-dgpm.onrender.com
+
+### ***Endpoint to get all the routes:***
+https://appointment-booking-system-dgpm.onrender.com/debug/routes

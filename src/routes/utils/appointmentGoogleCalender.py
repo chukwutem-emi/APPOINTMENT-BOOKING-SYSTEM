@@ -16,7 +16,6 @@ load_dotenv()
 
 ENV = os.getenv("ENV", "development")
 b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
-print("B64:", b64_cred)
 # decode from base64
 decode_json = base64.b64decode(b64_cred).decode("utf-8")
 credentials_dict = json.loads(decode_json)
@@ -31,11 +30,6 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
     creds = None
     temp_credentials_file = None
     try:
-        # Write the credentials from the environment variable to a temporary file
-        temp_credentials_file = "temp_credentials.json"
-        with open(temp_credentials_file, "w") as temp_file:
-            temp_file.write(json.dumps(credentials_dict))
-
         user = User.query.get(user_id)
         if not user or not user.google_token:
             return {
@@ -100,9 +94,6 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
     except HttpError as error:
         print("An error occurred:", error)
         return({"error":str(error)}), 500
-    finally:
-        if temp_credentials_file and os.path.exists(temp_credentials_file):
-            os.remove(temp_credentials_file)
 
 def run_oauth2flow(temp_credentials_file):
     flow = InstalledAppFlow.from_client_secrets_file(

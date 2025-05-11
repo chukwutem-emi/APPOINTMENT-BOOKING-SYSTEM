@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 import requests
 from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
@@ -80,7 +80,9 @@ def consultation_session(current_user):
             if not user_data:
                 return jsonify({"careerErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
-
+            user_id = user["id"]
+            if not user or not user.get("google_token"):
+                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
             user_appointment = t("""
                 INSERT INTO appointment(
                     first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, doctor, location, tel, hospital, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
@@ -108,7 +110,8 @@ def consultation_session(current_user):
                 description=appointment_description, 
                 dateTime=dateTime, 
                 email=email_address,
-                endDateTime=end_dateTime
+                endDateTime=end_dateTime,
+                user_id=user_id
                 )
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
@@ -128,7 +131,4 @@ def consultation_session(current_user):
         return jsonify({"Consultation_Exc":f"An error occurred during your consultation booking appointment operation: {str(e)}"}), 500
     except dbError as d:
         return jsonify({"Consultation_DB_error":f"Database error. This error is coming from the database/server: {str(d)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
+   
