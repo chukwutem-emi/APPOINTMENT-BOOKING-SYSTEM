@@ -53,7 +53,7 @@ def sign_in():
             current_app.logger.info(f"[DEBUG] subject: {subject} ({type(subject)}, body: {body} ({type(body)}), receiver: {receiver} ({type(receiver)})")  
             send_mail(subject=subject, body=body, receiver=receiver) 
 
-            return({"Login_Verification":"☑️ Successfully Logged-In", "Token":token}), 200
+            return({"Token":token}), 200
             
     except (KeyError, ValueError)as kvError:
         return jsonify({"login_kvError":f"Invalid input!.:{str(kvError)}"}), 400

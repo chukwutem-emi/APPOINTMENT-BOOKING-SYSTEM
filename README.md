@@ -75,7 +75,6 @@
 ```json
 "Status": 200
 {
-    "Login_Verification": "☑️ Successfully Logged-In",
     "Token": ""
 }
 ```
