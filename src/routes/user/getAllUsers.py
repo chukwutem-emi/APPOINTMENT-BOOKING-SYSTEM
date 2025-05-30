@@ -18,6 +18,7 @@ def get_users(current_user):
             for user in users:
                 if user not in users_list:
                     users_dict = {
+                        "id":user.id,
                         "username":user.username,
                         "public_id":user.public_id,
                         "email_address":user.email_address,
