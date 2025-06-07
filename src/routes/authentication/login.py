@@ -48,7 +48,7 @@ def sign_in():
             current_app.logger.info(f"[DEBUG] token: {token} ({type(token)})")
 
             subject = "Login Alert!"
-            body = f"Hi {username}, \n\nYou logged into your APPOINTMENT-BOOKING-SYSTEM account.\n\nPlease if this login did not originate from you, \nthen let us know by sending an email to:chukwutememi@gmail.com.\nAlternatively, you can call 07025347067 immediately.\nBest regard!\nThe Team"
+            body = f"Hi {username}, \n\nYou logged into your APPOINTMENT-BOOKING-SYSTEM account.\nPlease if this login did not originate from you, \nthen let us know by sending an email to chukwutememi@gmail.com.\nAlternatively, you can call 07025347067 immediately.\nBest regard!\nThe Team"
             receiver = email_address
             current_app.logger.info(f"[DEBUG] subject: {subject} ({type(subject)}, body: {body} ({type(body)}), receiver: {receiver} ({type(receiver)})")  
             send_mail(subject=subject, body=body, receiver=receiver) 
