@@ -13,6 +13,14 @@ load_dotenv()
 
 app = Flask(__name__)
 
+CORS(
+    app=app,
+    origins=["http://locahost:1234"],
+    supports_credentials=True,
+    methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"]
+)
+
 # set logging level to INFO
 app.logger.setLevel(logging.INFO)
 
@@ -30,7 +38,7 @@ if not app.logger.handlers:
     app.logger.addHandler(console_handler)
 
 app.logger.info("☑️ Flask logger configured and running")
-CORS(app=app)
+
 
 
 base_uri = os.getenv("SQLALCHEMY_DATABASE_URI").replace(r"\x3a", ":")
