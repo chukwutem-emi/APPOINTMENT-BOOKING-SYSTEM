@@ -2,7 +2,6 @@ from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import blue_p
 from flask import jsonify, Flask
-from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
@@ -13,13 +12,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-CORS(
-    app=app,
-    origins=["http://locahost:1234"],
-    supports_credentials=True,
-    methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"]
-)
+
 
 # set logging level to INFO
 app.logger.setLevel(logging.INFO)
