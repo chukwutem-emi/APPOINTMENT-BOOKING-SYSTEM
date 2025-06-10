@@ -12,7 +12,7 @@ CORS(
     origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"]
+    allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
 edu_bp.add_url_rule(rule="/academic", endpoint="academic", view_func=academic_advising, methods=["POST"])

@@ -13,7 +13,7 @@ CORS(
     origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"]
+    allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 appointment_act_bp.add_url_rule(rule="/users_appointment", endpoint="users_appointment", view_func=users_appointment_details, methods=["GET"])
 appointment_act_bp.add_url_rule(rule="/update_user_appointment", endpoint="update_user_appointment", view_func=update_user_appointment_details, methods=["PUT"])

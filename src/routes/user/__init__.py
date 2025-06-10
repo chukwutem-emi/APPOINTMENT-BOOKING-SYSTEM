@@ -14,7 +14,7 @@ CORS(
     origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"]
+    allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
 user_bp.add_url_rule(rule="/user", endpoint="user", view_func=get_user, methods=["GET"])

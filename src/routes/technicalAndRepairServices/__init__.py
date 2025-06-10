@@ -11,7 +11,7 @@ CORS(
     origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"]
+    allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
 technical_bp.add_url_rule(rule="/electrical", endpoint="electrical", view_func=electrical_repair, methods=["POST"])
