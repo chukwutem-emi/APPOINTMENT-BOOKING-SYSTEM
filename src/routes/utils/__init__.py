@@ -2,11 +2,12 @@ from routes.utils.oauth2Callback import oauth2callback
 from flask import Blueprint
 from routes.utils.startOauth import start_oauth
 from flask_cors import CORS
+from routes.utils.constants import FRONT_END_URL
 
 book_app_bp = Blueprint(name="bookApp", import_name=__name__, url_prefix="/bookApp")
 CORS(
     book_app_bp,
-    origins=["http://localhost:1234"],
+    origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"]
