@@ -43,7 +43,7 @@ def counseling_session(current_user):
         appointment_time_str = str(data["appointment_time"])
         appointment_time = datetime.strptime(appointment_time_str, "%H:%M").time()
         appointment_date_str = str(data["appointment_date"])
-        appointment_date = datetime.strptime(appointment_date_str, "%m-%d-%Y").date()
+        appointment_date = datetime.strptime(appointment_date_str, "%Y-%m-%d").date()
 
 
         duration=60
