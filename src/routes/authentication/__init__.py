@@ -8,7 +8,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 CORS(
     auth_bp,
-    origins=[FRONT_END_URL],
+    origins=["http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"]
