@@ -9,7 +9,7 @@ edu_bp = Blueprint(name="/education_bp", import_name=__name__, url_prefix="educa
 
 CORS(
     edu_bp,
-    origins=[FRONT_END_URL],
+    origins=["http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]
