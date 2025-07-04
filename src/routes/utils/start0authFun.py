@@ -17,7 +17,7 @@ def oauth_function(user_id):
     try:
         flow = Flow.from_client_config(
             client_config=credentials_dict,
-            scopes=SCOPE,
+            scopes=[SCOPE],
             redirect_uri = REDIRECT_URI
             )
         # Generate the authorization URL
