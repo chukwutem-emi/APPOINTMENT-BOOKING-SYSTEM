@@ -27,8 +27,11 @@ def oauth2callback():
         flow = Flow.from_client_config(
             client_config=credentials_dict, 
             scopes=[SCOPE],
-            redirect_uri = [REDIRECT_URI]
+            redirect_uris = [REDIRECT_URI]
             )
+        print("Flow scopes:", flow.client_config["installed"]["redirect_uris"])
+        print("Flow.scopes:", flow.scopes)
+
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
         print("SAVED CREDS JSON:", creds.to_json())

@@ -18,8 +18,11 @@ def oauth_function(user_id):
         flow = Flow.from_client_config(
             client_config=credentials_dict,
             scopes=[SCOPE],
-            redirect_uri = [REDIRECT_URI]
+            redirect_uris = [REDIRECT_URI]
             )
+        print("Flow scopes:", flow.client_config["installed"]["redirect_uris"])
+        print("Flow.scopes:", flow.scopes)
+
         # Generate the authorization URL
         auth_url, _= flow.authorization_url(
             access_type = "offline",
