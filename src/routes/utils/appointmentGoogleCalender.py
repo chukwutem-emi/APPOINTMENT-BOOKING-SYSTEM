@@ -22,6 +22,8 @@ credentials_dict = json.loads(decode_json)
 
 
 SCOPES = [SCOPE]
+print("SCOPES being used:", SCOPE)
+
 if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
 

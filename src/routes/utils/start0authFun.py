@@ -22,6 +22,8 @@ def oauth_function(user_id):
             )
         print("Flow scopes:", flow.client_config["installed"]["redirect_uris"])
         print("Flow.scopes:", flow.scopes)
+        print("SCOPES being used:", [SCOPE])
+
 
         # Generate the authorization URL
         auth_url, _= flow.authorization_url(
