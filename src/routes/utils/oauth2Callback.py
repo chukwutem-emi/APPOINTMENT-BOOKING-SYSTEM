@@ -26,7 +26,7 @@ def oauth2callback():
     try:
         flow = Flow.from_client_config(
             client_config=credentials_dict, 
-            scopes=SCOPE,
+            scopes=[SCOPE],
             redirect_uri = REDIRECT_URI
             )
         flow.fetch_token(authorization_response=request.url)
