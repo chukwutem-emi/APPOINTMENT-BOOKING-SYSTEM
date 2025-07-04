@@ -82,12 +82,14 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
                     current_app.logger.info("✅ Google token refreshed and saved.")
                 except RefreshError as e:
                     current_app.logger.warning(f"Refresh failed: {e}")
+                    traceback.print_exc()
                     return {
                         "error": "Google credentials expired or revoked. "
                                  "Please re‑authenticate via /start-auth."
                     }, 401
                 except Exception as e:
                     current_app.logger.error(f"Unexpected refresh error: {e}")
+                    traceback.print_exc()
                     return {
                         "error": "Token refresh failed. Please re‑authenticate."
                     }, 401
