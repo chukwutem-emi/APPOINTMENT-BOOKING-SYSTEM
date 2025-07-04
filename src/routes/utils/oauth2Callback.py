@@ -7,9 +7,10 @@ import base64
 import json
 import tempfile
 from tables.dbModels import User, db
+from routes.utils.constants import GOOGLE_REDIRECT_URI
 
 credentials_dict = load_google_credentials()
-REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+REDIRECT_URI = [GOOGLE_REDIRECT_URI]
 
 def oauth2callback():
     print("oauth2callback function called!")

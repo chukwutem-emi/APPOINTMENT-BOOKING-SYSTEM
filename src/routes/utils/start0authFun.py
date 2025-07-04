@@ -2,6 +2,7 @@ from flask import request, jsonify, current_app
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from routes.utils.loadGoogleCred import load_google_credentials
+from routes.utils.constants import GOOGLE_REDIRECT_URI
 import os
 import base64
 import json
@@ -9,7 +10,7 @@ import tempfile
 
 
 credentials_dict = load_google_credentials()
-REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+REDIRECT_URI = [GOOGLE_REDIRECT_URI]
 
 
 def oauth_function(user_id):
