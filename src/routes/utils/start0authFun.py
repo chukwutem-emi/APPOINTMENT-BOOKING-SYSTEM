@@ -18,8 +18,8 @@ def oauth_function(user_id):
         flow = Flow.from_client_config(
             client_config=credentials_dict,
             scopes=[SCOPE],
-            redirect_uris = [REDIRECT_URI]
             )
+        flow.redirect_uri = REDIRECT_URI
         print("Flow scopes:", flow.client_config["installed"]["redirect_uris"])
         print("Flow.scopes:", flow.scopes)
         print("SCOPES being used:", [SCOPE])
