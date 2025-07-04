@@ -29,7 +29,6 @@ def oauth2callback():
             scopes=[SCOPE],
             )
         flow.redirect_uri = REDIRECT_URI
-        print("Flow scopes:", flow.client_config["installed"]["redirect_uris"])
         print("Flow.scopes:", flow.scopes)
         print("SCOPES being used:", [SCOPE])
 
@@ -60,7 +59,6 @@ def oauth2callback():
         except ValueError:
             return jsonify({"error": "Invalid user ID in state"}), 400
 
-        user = User.query.get(user_id)
         if not user:
             return jsonify({"error": "User not found!"}), 404
 
