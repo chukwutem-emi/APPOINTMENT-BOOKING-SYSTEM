@@ -55,6 +55,11 @@ def oauth2callback():
             token_json["scopes"] = [token_json["scopes"]]
 
         user.google_token = json.dumps(token_json)
+        for user in User.query.filter(User.google_token.isnot(None)).all():
+            tok = json.loads(user.google_token)
+            if isinstance(tok.get("scopes"), str):
+                tok["scopes"] = [tok["scopes"]]
+        user.google_token = json.dumps(tok)
         db.session.commit()
 
         return "Authentication successful!, You may close this tab."
