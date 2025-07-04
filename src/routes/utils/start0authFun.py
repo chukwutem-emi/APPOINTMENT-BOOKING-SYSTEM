@@ -28,7 +28,7 @@ def oauth_function(user_id):
         # Generate the authorization URL
         auth_url, _= flow.authorization_url(
             access_type = "offline",
-            include_granted_scopes = "true",
+            include_granted_scopes = True,
             state = str(user_id),
             prompt = "consent"
         )
