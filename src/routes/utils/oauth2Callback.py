@@ -49,8 +49,14 @@ def oauth2callback():
 
         if not hasattr(user, "google_token"):
             return jsonify({"error": "User object has no google_token attribute"}), 500
-        user.google_token = creds.to_json()
+        token_json = json.loads(creds.to_json())
+#        🔧 guarantee a list
+        if isinstance(token_json.get("scopes"), str):
+            token_json["scopes"] = [token_json["scopes"]]
+
+        user.google_token = json.dumps(token_json)
         db.session.commit()
+
         return "Authentication successful!, You may close this tab."
     except Exception as e:
          current_app.logger.exception("auth callback failed!")
