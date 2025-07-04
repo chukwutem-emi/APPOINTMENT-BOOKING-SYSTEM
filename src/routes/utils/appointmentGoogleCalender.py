@@ -98,7 +98,7 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
 def run_oauth2flow(temp_credentials_file):
     flow = InstalledAppFlow.from_client_secrets_file(
         client_secrets_file=temp_credentials_file, 
-        scopes=SCOPES
+        scopes=[SCOPES]
         )
         # local server for dev.
     creds = flow.run_local_server(
