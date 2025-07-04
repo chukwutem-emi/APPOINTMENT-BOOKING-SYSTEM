@@ -44,6 +44,8 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
                         f"User must authenticate via /start-auth?user_id={user_id}"
             }, 401
         stored_token = json.loads(user.google_token)
+        print("💥 Stored Token:", stored_token)
+
         print("💥 Stored token scopes value:", stored_token["scopes"])
         print("💥 Type of stored scopes:", type(stored_token["scopes"]))
         scopes = stored_token["scopes"]
