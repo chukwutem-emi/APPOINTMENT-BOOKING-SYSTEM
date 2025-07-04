@@ -22,7 +22,11 @@ credentials_dict = json.loads(decode_json)
 
 
 SCOPES = [SCOPE]
-print("SCOPES being used:", SCOPE)
+print("DEBUG SCOPES:", SCOPES)
+print("Type of SCOPES:", type(SCOPES))
+if isinstance(SCOPES, list):
+    print("First item:", SCOPES[0], "| type:", type(SCOPES[0]))
+
 
 if not credentials_dict:
     raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
