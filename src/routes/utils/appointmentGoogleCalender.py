@@ -11,6 +11,7 @@ import json
 from flask import current_app
 from tables.dbModels import User, db
 import traceback
+from google.auth.exceptions import RefreshError
 
 
 load_dotenv()
@@ -64,18 +65,32 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         )
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())                    # ✓ refresh token
-                    # ✓  save the fresh token & new expiry back to DB
-                user.google_token = json.dumps({
-                    "token":          creds.token,
-                    "refresh_token":  creds.refresh_token,
-                    "token_uri":      creds.token_uri,
-                    "client_id":      creds.client_id,
-                    "client_secret":  creds.client_secret,
-                    "scopes":         creds.scopes,
-                    "expiry":         creds.expiry.isoformat() if creds.expiry else None
-                })
-                db.session.commit()
+                try:
+                    creds.refresh(Request())                         # refresh
+
+                    # store fresh token + expiry back to DB
+                    user.google_token = json.dumps({
+                        "token":          creds.token,
+                        "refresh_token":  creds.refresh_token,
+                        "token_uri":      creds.token_uri,
+                        "client_id":      creds.client_id,
+                        "client_secret":  creds.client_secret,
+                        "scopes":         creds.scopes,
+                        "expiry":         creds.expiry.isoformat() if creds.expiry else None
+                    })
+                    db.session.commit()
+                    current_app.logger.info("✅ Google token refreshed and saved.")
+                except RefreshError as e:
+                    current_app.logger.warning(f"Refresh failed: {e}")
+                    return {
+                        "error": "Google credentials expired or revoked. "
+                                 "Please re‑authenticate via /start-auth."
+                    }, 401
+                except Exception as e:
+                    current_app.logger.error(f"Unexpected refresh error: {e}")
+                    return {
+                        "error": "Token refresh failed. Please re‑authenticate."
+                    }, 401
             
             elif ENV == "development":
                 creds = run_oauth2flow(temp_credentials_file=temp_credentials_file)

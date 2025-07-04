@@ -50,17 +50,24 @@ def oauth2callback():
         if not hasattr(user, "google_token"):
             return jsonify({"error": "User object has no google_token attribute"}), 500
         token_json = json.loads(creds.to_json())
-#        🔧 guarantee a list
+
+        # 🔧 Ensure scopes are stored as a list
         if isinstance(token_json.get("scopes"), str):
             token_json["scopes"] = [token_json["scopes"]]
 
+        try:
+            user_id = int(state)
+        except ValueError:
+            return jsonify({"error": "Invalid user ID in state"}), 400
+
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"error": "User not found!"}), 404
+
         user.google_token = json.dumps(token_json)
-        for user in User.query.filter(User.google_token.isnot(None)).all():
-            tok = json.loads(user.google_token)
-            if isinstance(tok.get("scopes"), str):
-                tok["scopes"] = [tok["scopes"]]
-        user.google_token = json.dumps(tok)
         db.session.commit()
+
+
 
         return "Authentication successful!, You may close this tab."
     except Exception as e:
