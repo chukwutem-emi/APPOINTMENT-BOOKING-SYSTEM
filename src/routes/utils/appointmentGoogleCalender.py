@@ -10,6 +10,7 @@ import base64
 import json
 from flask import current_app
 from tables.dbModels import User
+import traceback
 
 
 load_dotenv()
@@ -98,6 +99,7 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
             "eventLink":event.get("htmlLink")
         }), 201
     except HttpError as error:
+        traceback.print_exc()
         print("An error occurred:", error)
         return({"error":str(error)}), 500
 
