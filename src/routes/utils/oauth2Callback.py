@@ -7,10 +7,9 @@ import base64
 import json
 import tempfile
 from tables.dbModels import User, db
-from routes.utils.constants import GOOGLE_REDIRECT_URI
 
 credentials_dict = load_google_credentials()
-REDIRECT_URI = [GOOGLE_REDIRECT_URI]
+REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 
 def oauth2callback():
     print("oauth2callback function called!")
@@ -28,7 +27,7 @@ def oauth2callback():
         flow = Flow.from_client_config(
             client_config=credentials_dict, 
             scopes=[SCOPE],
-            redirect_uri = REDIRECT_URI
+            redirect_uri = [REDIRECT_URI]
             )
         flow.fetch_token(authorization_response=request.url)
         creds = flow.credentials
