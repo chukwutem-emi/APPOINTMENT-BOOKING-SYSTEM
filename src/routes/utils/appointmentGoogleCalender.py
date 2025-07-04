@@ -44,13 +44,19 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
                         f"User must authenticate via /start-auth?user_id={user_id}"
             }, 401
         stored_token = json.loads(user.google_token)
+        scopes = stored_token["scopes"]
+        print("💥 Stored token scopes value:", stored_token["scopes"])
+        print("💥 Type of stored scopes:", type(stored_token["scopes"]))
+
+        if isinstance(scopes, str):
+            scopes = [scopes] 
         creds = Credentials(
             token=stored_token["token"],
             refresh_token=stored_token.get("refresh_token"),
             token_uri=stored_token["token_uri"],
             client_id=stored_token["client_id"],
             client_secret=stored_token["client_secret"],
-            scopes=stored_token["scopes"]
+            scopes=scopes
         )
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
