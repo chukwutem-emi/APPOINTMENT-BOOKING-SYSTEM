@@ -9,7 +9,7 @@ from routes.utils.constants import SCOPE
 import base64
 import json
 from flask import current_app
-from tables.dbModels import User
+from tables.dbModels import User, db
 import traceback
 
 
@@ -64,7 +64,18 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         )
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
+                creds.refresh(Request())                    # ✓ refresh token
+                    # ✓  save the fresh token & new expiry back to DB
+                user.google_token = json.dumps({
+                    "token":          creds.token,
+                    "refresh_token":  creds.refresh_token,
+                    "token_uri":      creds.token_uri,
+                    "client_id":      creds.client_id,
+                    "client_secret":  creds.client_secret,
+                    "scopes":         creds.scopes,
+                    "expiry":         creds.expiry.isoformat() if creds.expiry else None
+                })
+                db.session.commit()
             
             elif ENV == "development":
                 creds = run_oauth2flow(temp_credentials_file=temp_credentials_file)
