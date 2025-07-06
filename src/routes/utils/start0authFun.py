@@ -38,7 +38,7 @@ def oauth_function(user_id):
 
 
         # Redirect the user to the Google OAuth URL
-        return jsonify({"Authentication_url":auth_url})
+        return jsonify({"Authentication_url":auth_url}), 201
     except Exception as e:
         traceback.print_exc()
         current_app.logger.exception("Failed to start OAuth flow")
