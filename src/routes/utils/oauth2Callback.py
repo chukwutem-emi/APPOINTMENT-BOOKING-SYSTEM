@@ -29,7 +29,6 @@ def oauth2callback():
             scopes=[SCOPE],
             )
         flow.redirect_uri = REDIRECT_URI
-        print("Flow.scopes:", flow.scopes)
         print("SCOPES being used:", [SCOPE])
 
 
