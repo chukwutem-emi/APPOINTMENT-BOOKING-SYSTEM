@@ -26,4 +26,4 @@ def load_google_credentials():
         if field not in web_cred:
             raise ValueError(f"Missing required field in credentials: {field}")
 
-    return web_cred
+    return credentials_dict
