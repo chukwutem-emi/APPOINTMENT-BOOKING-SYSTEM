@@ -32,7 +32,7 @@ def oauth_function(user_id):
             access_type = "offline",
             include_granted_scopes = "true",
             state = str(user_id),
-            prompt = "consent"
+            prompt = "consent select_account"
         )
         current_app.logger.info(f"Generated Google OAuth URL: {auth_url}")
 
