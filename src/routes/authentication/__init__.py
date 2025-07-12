@@ -13,5 +13,5 @@ CORS(
     allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
-auth_bp.add_url_rule("/login", view_func=sign_in, methods=["POST"])
-auth_bp.add_url_rule("/register", view_func=sign_up, methods=["POST"])
+auth_bp.add_url_rule("/login", view_func=sign_in, methods=["POST", "OPTIONS"])
+auth_bp.add_url_rule("/register", view_func=sign_up, methods=["POST", "OPTIONS"])
