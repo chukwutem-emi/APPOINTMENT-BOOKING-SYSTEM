@@ -80,7 +80,7 @@ def academic_advising(current_user):
             user = user_data._asdict()
             user_id = user["id"]
             if not user or not user.get("google_token"):
-                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
+                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}"), 301
 
             user_appointment = t("""
                 INSERT INTO appointment(
