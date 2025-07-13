@@ -17,13 +17,6 @@ CORS(
     supports_credentials=True,
     resources={r"/api/*":{"origins":"http://localhost:1234"}}
 )
-# This ensures CORS headers are always returned, especially on preflight failures:
-@app.after_request
-def after_request(response):
-    response.headers.add("Access-Control-Allow-Credentials", "true")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization,access-token")
-    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
-    return response
 
 
 # set logging level to INFO

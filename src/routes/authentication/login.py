@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash
 import uuid
-from flask import jsonify, request, current_app
+from flask import jsonify, request, current_app, make_response
 from tables.dbModels import db
 from sqlalchemy import text as t
 import jwt
@@ -15,6 +15,8 @@ load_dotenv()
 
 
 def sign_in():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         current_app.logger.info("✅ LOGIN endpoint called")
         data = request.get_json()
