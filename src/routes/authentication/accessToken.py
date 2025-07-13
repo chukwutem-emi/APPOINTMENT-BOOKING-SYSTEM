@@ -13,6 +13,8 @@ load_dotenv()
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
+        if request.method == "OPTIONS":
+            return f(*args, **kwargs)
         token=None
         if "access-token" in request.headers:
             token=request.headers["access-token"]
