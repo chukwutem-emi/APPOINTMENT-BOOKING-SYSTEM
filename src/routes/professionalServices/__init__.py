@@ -13,6 +13,6 @@ CORS(
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "AuthoriZation", "access-token"]
 )
-pro_service_bp.add_url_rule(rule="/business", endpoint="business", view_func=business_consultation, methods=["POST"])
-pro_service_bp.add_url_rule(rule="/financial", endpoint="financial", view_func=financial_advisory, methods=["POST"])
-pro_service_bp.add_url_rule(rule="/real_estate", endpoint="real_estate", view_func=real_estate_agent, methods=["POST"])
+pro_service_bp.add_url_rule(rule="/business", endpoint="business", view_func=business_consultation, methods=["POST", "OPTIONS"])
+pro_service_bp.add_url_rule(rule="/financial", endpoint="financial", view_func=financial_advisory, methods=["POST", "OPTIONS"])
+pro_service_bp.add_url_rule(rule="/real_estate", endpoint="real_estate", view_func=real_estate_agent, methods=["POST", "OPTIONS"])

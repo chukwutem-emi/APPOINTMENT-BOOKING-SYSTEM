@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request, make_response
 from tables.dbModels import db
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError 
@@ -7,6 +7,8 @@ from routes.authentication.accessToken import token_required
 
 @token_required
 def delete_all_users(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user.admin:
             return jsonify({"permission_denied": "⚠️ Hey!, keep off. You are not allowed!."}), 403

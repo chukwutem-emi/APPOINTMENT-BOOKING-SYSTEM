@@ -13,5 +13,5 @@ CORS(
     allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
-technical_bp.add_url_rule(rule="/electrical", endpoint="electrical", view_func=electrical_repair, methods=["POST"])
-technical_bp.add_url_rule(rule="/home", endpoint="home", view_func=home_service, methods=["POST"])
+technical_bp.add_url_rule(rule="/electrical", endpoint="electrical", view_func=electrical_repair, methods=["POST", "OPTIONS"])
+technical_bp.add_url_rule(rule="/home", endpoint="home", view_func=home_service, methods=["POST", "OPTIONS"])

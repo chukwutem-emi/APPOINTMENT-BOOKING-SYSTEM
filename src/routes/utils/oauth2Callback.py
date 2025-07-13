@@ -1,4 +1,4 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, make_response
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from routes.utils.loadGoogleCred import load_google_credentials
@@ -12,6 +12,8 @@ credentials_dict = load_google_credentials()
 REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 
 def oauth2callback():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     print("oauth2callback function called!")
     state = request.args.get("state")
     code = request.args.get("code")

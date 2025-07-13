@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request, make_response
 from tables.dbModels import db
 from sqlalchemy import text as t
 from routes.authentication.accessToken import token_required
@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 
 @token_required
 def users_appointment_details(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user.admin:
             return jsonify({"admin_users_only":"Unauthorized!. You are not permitted to perform this request, it is meant for only admin users."}), 401

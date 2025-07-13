@@ -1,5 +1,5 @@
 import requests
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, make_response
 from tables.dbModels import User, db, Appointment, AppointmentTypes
 from routes.authentication.accessToken import token_required
 from dotenv import load_dotenv
@@ -16,6 +16,8 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 @token_required
 def academic_advising(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return({"Login_required": "Unauthorized!"}), 401

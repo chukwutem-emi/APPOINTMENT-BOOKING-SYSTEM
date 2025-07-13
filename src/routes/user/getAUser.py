@@ -1,11 +1,13 @@
 from routes.authentication.accessToken import token_required
-from flask import jsonify, abort
+from flask import jsonify, abort, request, make_response
 from sqlalchemy import text as t
 from sqlalchemy.exc import SQLAlchemyError
 
 
 @token_required
 def get_user(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return jsonify({"Unauthorized": "⚠️ You are not Authorized to perform this operation. please login!"}), 401

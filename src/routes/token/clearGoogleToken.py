@@ -1,10 +1,12 @@
 from routes.authentication.accessToken import token_required
-from flask import jsonify, current_app
+from flask import jsonify, current_app, make_response, request
 from tables.dbModels import db
 from sqlalchemy import text as t
 
 @token_required
 def clear_google_token(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return jsonify({"Google token err": "You are not allowed to perform this operation. Login required"}), 403

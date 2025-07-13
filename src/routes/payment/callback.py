@@ -1,7 +1,9 @@
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 
 
 def payment_callback():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         status = request.args.get("status")
 

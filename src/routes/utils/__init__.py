@@ -12,5 +12,5 @@ CORS(
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]
 )
-book_app_bp.add_url_rule(rule="/oauth2callback", endpoint="oauth2callback", view_func=oauth2callback, methods=["GET"])
-book_app_bp.add_url_rule(rule="/start-Oauth", endpoint="start-Oauth", view_func=start_oauth, methods=["GET"])
+book_app_bp.add_url_rule(rule="/oauth2callback", endpoint="oauth2callback", view_func=oauth2callback, methods=["GET", "OPTIONS"])
+book_app_bp.add_url_rule(rule="/start-Oauth", endpoint="start-Oauth", view_func=start_oauth, methods=["GET", "OPTIONS"])

@@ -11,4 +11,4 @@ CORS(
     supports_credentials=True
 )
 
-token_bp.add_url_rule(rule="/clear-token", endpoint="/clear-token", view_func=clear_google_token, methods=["PUT"])
+token_bp.add_url_rule(rule="/clear-token", endpoint="/clear-token", view_func=clear_google_token, methods=["PUT", "OPTIONS"])

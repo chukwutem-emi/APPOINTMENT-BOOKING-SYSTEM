@@ -15,6 +15,6 @@ CORS(
     allow_headers=["Content-Type", "Authorization", "access-token"]
 )
 
-edu_bp.add_url_rule(rule="/academic", endpoint="academic", view_func=academic_advising, methods=["POST"])
-edu_bp.add_url_rule(rule="/career", endpoint="career", view_func=career_counseling, methods=["POST"])
-edu_bp.add_url_rule(rule="/tutoring", endpoint="tutoring", view_func=one_on_one_tutoring, methods=["POST"])
+edu_bp.add_url_rule(rule="/academic", endpoint="academic", view_func=academic_advising, methods=["POST", "OPTIONS"])
+edu_bp.add_url_rule(rule="/career", endpoint="career", view_func=career_counseling, methods=["POST", "OPTIONS"])
+edu_bp.add_url_rule(rule="/tutoring", endpoint="tutoring", view_func=one_on_one_tutoring, methods=["POST", "OPTIONS"])

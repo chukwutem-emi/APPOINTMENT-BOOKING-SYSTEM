@@ -1,4 +1,4 @@
-from flask import request, jsonify as J
+from flask import request, jsonify as J, make_response
 from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError
 from routes.authentication.accessToken import token_required
@@ -12,6 +12,8 @@ access_code = os.getenv("ACCESS_CODE")
 
 @token_required
 def promote_user(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return J({"Access_denied":"⚠️ You don't have the permission to carry out this request. Unauthorized!"}), 401

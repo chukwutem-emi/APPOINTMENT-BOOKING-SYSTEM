@@ -1,4 +1,4 @@
-from flask import request, jsonify as J
+from flask import request, jsonify as J, make_response
 from tables.dbModels import db
 from werkzeug.security import generate_password_hash
 from routes.authentication.accessToken import token_required
@@ -8,6 +8,8 @@ from mail.sendMail import send_mail
 
 @token_required
 def update_user(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return({"Request Error": "⚠️ You are not Authorized to carry out this task. Please you have to login for verification, thank you!"}), 401

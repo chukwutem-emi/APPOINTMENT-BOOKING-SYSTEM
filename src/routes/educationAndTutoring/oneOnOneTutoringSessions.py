@@ -1,4 +1,4 @@
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, make_response
 import requests
 from tables.dbModels import db, User, Appointment, AppointmentTypes
 import os
@@ -17,6 +17,8 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 @token_required
 def one_on_one_tutoring(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return jsonify({"Msg": "You are not permitted to perform this operation without login. Login required!"}), 401

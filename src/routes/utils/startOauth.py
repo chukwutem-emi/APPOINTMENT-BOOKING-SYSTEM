@@ -1,8 +1,10 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, make_response
 from routes.utils.start0authFun import oauth_function
 
 
 def start_oauth():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         user_id = request.args.get("user_id")
         if not user_id:

@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from tables.dbModels import db
 from routes.authentication.accessToken import token_required
 from sqlalchemy import text as t
@@ -7,6 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 @token_required
 def delete_user_appointment_details(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user.admin:
             return jsonify({"Unauthorized_user":"You are not authorized to perform this operation. Access denied!"}), 401

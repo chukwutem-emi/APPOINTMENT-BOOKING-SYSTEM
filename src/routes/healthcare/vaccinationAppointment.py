@@ -1,4 +1,4 @@
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, make_response
 import requests
 from tables.dbModels import AppointmentTypes, db
 from sqlalchemy import text as t
@@ -16,6 +16,8 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 @token_required
 def vaccination_session(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try: 
         if not current_user:
             return({"vaccination_error": "Unauthorized to carry out vaccination appointment operation. Login required!"}), 401

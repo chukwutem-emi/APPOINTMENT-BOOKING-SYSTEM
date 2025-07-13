@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from routes.authentication.accessToken import token_required
 from tables.dbModels import db
 from sqlalchemy.exc import SQLAlchemyError as dbError
@@ -9,6 +9,8 @@ from routes.utils.appointmentGoogleCalender import book_appointment
 
 @token_required
 def update_user_appointment_details(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return jsonify({"appointment_update_not_allowed":"Unauthorized!. You can't perform this operation, login required. Please login!"}), 401

@@ -1,4 +1,4 @@
-from flask import jsonify, request, current_app
+from flask import jsonify, request, current_app, make_response
 from werkzeug.security import generate_password_hash
 from tables.dbModels import db, User
 import uuid
@@ -8,6 +8,8 @@ from mail.sendMail import send_mail
 
 
 def sign_up():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         current_app.logger.info("✅ REGISTER endpoint hit")  
         data = request.get_json()

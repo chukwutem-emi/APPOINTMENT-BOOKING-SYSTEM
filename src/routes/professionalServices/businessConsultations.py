@@ -1,4 +1,4 @@
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, make_response
 from tables.dbModels import db, AppointmentTypes
 from routes.authentication.accessToken import token_required
 from routes.utils.constants import PAYSTACK_PAYMENT_API
@@ -17,6 +17,8 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 
 @token_required
 def business_consultation(current_user):
+    if request.method == "OPTIONS":
+        return make_response("", 204)
     try:
         if not current_user:
             return jsonify({"business_error": "Unauthorized to carry out business consultation appointment operation. Login required!"}), 400
