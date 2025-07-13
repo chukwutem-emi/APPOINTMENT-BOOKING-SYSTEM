@@ -1,4 +1,4 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, redirect
 from routes.utils.constants import SCOPE
 from google_auth_oauthlib.flow import Flow
 from routes.utils.loadGoogleCred import load_google_credentials
@@ -35,7 +35,9 @@ def oauth_function(user_id):
             prompt = "consent select_account"
         )
         current_app.logger.info(f"Generated Google OAuth URL: {auth_url}")
-
+        # If request came from browser (not from fetch/AJAX), redirect
+        if "text/html" in request.headers.get("Accept", ""):
+            return redirect(auth_url)
 
         # Redirect the user to the Google OAuth URL
         return jsonify({"Authentication_url":auth_url}), 201
