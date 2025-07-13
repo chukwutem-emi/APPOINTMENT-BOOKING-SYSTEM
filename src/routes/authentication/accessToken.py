@@ -1,6 +1,6 @@
 from functools import wraps
 from tables.dbModels import User
-from flask import request, jsonify as J
+from flask import request, jsonify as J, make_response
 import jwt
 import os
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if request.method == "OPTIONS":
-            return f(*args, **kwargs)
+            return make_response("", 204)
         token=None
         if "access-token" in request.headers:
             token=request.headers["access-token"]
