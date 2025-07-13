@@ -14,7 +14,8 @@ app = Flask(__name__)
 
 CORS(
     app,
-    supports_credentials=True
+    supports_credentials=True,
+    resources={r"/api/*":{"origins":"http://localhost:1234"}}
 )
 # This ensures CORS headers are always returned, especially on preflight failures:
 @app.after_request
