@@ -117,6 +117,11 @@ def physiotherapy_session(current_user):
                 endDateTime=end_date_time,
                 user_id=user_id
                 )
+            if status_code == 401:
+                return jsonify({
+                    "error": "Google token invalid or expired. Re-authentication required.",
+                    "re_auth_url": f"/api/bookApp/start-Oauth?user_id={user_id}"
+                }), 401
             if status_code == 201:
                 html_link = appointment_response.get("eventLink")
             else:
