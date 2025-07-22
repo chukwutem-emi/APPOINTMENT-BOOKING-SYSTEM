@@ -83,8 +83,7 @@ def career_counseling(current_user):
                 return jsonify({"careerErrorMessage":"user not found!"}), 404
             user = user_data._asdict()
             user_id = user["id"]
-            if not user or not user.get("google_token"):
-                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
+            
             
             user_appointment = t("""
                 INSERT INTO appointment(
