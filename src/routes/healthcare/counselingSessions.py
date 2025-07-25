@@ -85,8 +85,6 @@ def counseling_session(current_user):
             user = user_data._asdict()
             user_id = user["id"]
            
-            if not user or not user.get("google_token"):
-                return redirect(f"/api/bookApp/start-Oauth?user_id={user_id}")
             user_appointment = t("""
                 INSERT INTO appointment(
                     first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, doctor, location, tel, hospital, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime
