@@ -15,4 +15,4 @@ CORS(
 )
 pro_service_bp.add_url_rule(rule="/business", endpoint="business", view_func=business_consultation, methods=["POST", "OPTIONS"])
 pro_service_bp.add_url_rule(rule="/financial", endpoint="financial", view_func=financial_advisory, methods=["POST", "OPTIONS"])
-pro_service_bp.add_url_rule(rule="/real_estate", endpoint="real_estate", view_func=real_estate_agent, methods=["POST", "OPTIONS"])
+pro_service_bp.add_url_rule(rule="/real-estate", endpoint="real-estate", view_func=real_estate_agent, methods=["POST", "OPTIONS"])

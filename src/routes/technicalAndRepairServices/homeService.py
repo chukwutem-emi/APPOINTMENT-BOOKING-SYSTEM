@@ -21,7 +21,7 @@ def home_service(current_user):
         return make_response("", 204)
     try:
         if not current_user:
-            return jsonify({"home_service_error": "Unauthorized to carry out home service appointment operation. Login required!"}), 400
+            return jsonify({"home_service_error": "Unauthorized to carry out home service appointment operation. Login required!"}), 401
         
         data = request.get_json()
         if not data:

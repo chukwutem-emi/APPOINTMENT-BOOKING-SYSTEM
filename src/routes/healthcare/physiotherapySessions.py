@@ -124,7 +124,7 @@ def physiotherapy_session(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({
-                    "consultationEventErr":"Failed to create google calendar event", 
+                    "PhysiotherapyEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
             return jsonify({

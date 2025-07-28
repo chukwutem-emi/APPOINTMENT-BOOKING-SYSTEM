@@ -21,7 +21,7 @@ def business_consultation(current_user):
         return make_response("", 204)
     try:
         if not current_user:
-            return jsonify({"business_error": "Unauthorized to carry out business consultation appointment operation. Login required!"}), 400
+            return jsonify({"business_error": "Unauthorized to carry out business consultation appointment operation. Login required!"}), 401
         data = request.get_json()
 
         if not data:
@@ -125,7 +125,7 @@ def business_consultation(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({
-                    "consultationEventErr":"Failed to create google calendar event", 
+                    "BusinessEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
             return jsonify({

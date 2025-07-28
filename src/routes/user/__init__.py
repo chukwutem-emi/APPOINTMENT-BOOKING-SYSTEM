@@ -7,7 +7,7 @@ from routes.user.promoteUser import promote_user
 from routes.user.deleteAll import delete_all_users
 from flask_cors import CORS
 
-user_bp = Blueprint(name="a_user_bp", import_name=__name__, url_prefix="user_bp")
+user_bp = Blueprint(name="a_user_bp", import_name=__name__, url_prefix="user-bp")
 CORS(
     user_bp,
     origins=["http://localhost:1234"],
@@ -21,4 +21,4 @@ user_bp.add_url_rule(rule="/users", endpoint="users", view_func=get_users, metho
 user_bp.add_url_rule(rule="/update", endpoint="update", view_func=update_user, methods=["PUT", "OPTIONS"])
 user_bp.add_url_rule(rule="/delete", endpoint="delete", view_func=delete_user, methods=["DELETE", "OPTIONS"])
 user_bp.add_url_rule(rule="/promote", endpoint="promote", view_func=promote_user, methods=["PUT", "OPTIONS"])
-user_bp.add_url_rule(rule="/delete_all", endpoint="delete_all", view_func=delete_all_users, methods=["DELETE", "OPTIONS"])
+user_bp.add_url_rule(rule="/delete-all", endpoint="delete-all", view_func=delete_all_users, methods=["DELETE", "OPTIONS"])

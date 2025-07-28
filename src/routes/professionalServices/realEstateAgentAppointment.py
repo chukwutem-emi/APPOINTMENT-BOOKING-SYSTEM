@@ -21,7 +21,7 @@ def real_estate_agent(current_user):
         return make_response("", 204)
     try:
         if not current_user:
-            return jsonify({"real_estate_error": "Unauthorized to carry out real-estate-agent appointment operation. Login required!"}), 400
+            return jsonify({"real_estate_error": "Unauthorized to carry out real-estate-agent appointment operation. Login required!"}), 401
         data = request.get_json()
 
         if not data:

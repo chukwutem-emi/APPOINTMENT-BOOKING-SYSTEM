@@ -22,7 +22,7 @@ def financial_advisory(current_user):
         return make_response("", 204)
     try:
         if not current_user:
-            return jsonify({"financial_adv_error": "Unauthorized to carry out financial advisory appointment operation. Login required!"}), 400
+            return jsonify({"financial_adv_error": "Unauthorized to carry out financial advisory appointment operation. Login required!"}), 401
         data = request.get_json()
 
         if not data:
@@ -126,7 +126,7 @@ def financial_advisory(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({
-                    "consultationEventErr":"Failed to create google calendar event", 
+                    "FinancialEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
             return jsonify({

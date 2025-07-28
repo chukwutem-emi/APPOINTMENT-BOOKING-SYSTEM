@@ -124,7 +124,7 @@ def vaccination_session(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({
-                    "consultationEventErr":"Failed to create google calendar event", 
+                    "VaccinationEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
             return jsonify({

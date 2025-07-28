@@ -5,7 +5,7 @@ from routes.educationAndTutoring.oneOnOneTutoringSessions import one_on_one_tuto
 from flask_cors import CORS
 from routes.utils.constants import FRONT_END_URL
 
-edu_bp = Blueprint(name="/education_bp", import_name=__name__, url_prefix="education_bp")
+edu_bp = Blueprint(name="/education_bp", import_name=__name__, url_prefix="education-bp")
 
 CORS(
     edu_bp,

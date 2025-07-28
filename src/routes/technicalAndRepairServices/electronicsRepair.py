@@ -21,7 +21,7 @@ def electrical_repair(current_user):
         return make_response("", 204)
     try:
         if not current_user:
-            return jsonify({"electrical_repair_error": "Unauthorized to carry out electrical repair appointment operation. Login required!"}), 400
+            return jsonify({"electrical_repair_error": "Unauthorized to carry out electrical repair appointment operation. Login required!"}), 401
         
         data = request.get_json()
         if not data:
