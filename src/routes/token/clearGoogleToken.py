@@ -7,9 +7,9 @@ from sqlalchemy import text as t
 def clear_google_token(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return jsonify({"Google token err": "You are not allowed to perform this operation. Login required"}), 403
     try:
-        if not current_user:
-            return jsonify({"Google token err": "You are not allowed to perform this operation. Login required"}), 403
         with db.engine.connect() as connection:
             clear_token = t("UPDATE `user` SET google_token = NULL WHERE public_id=:public_id")
             affected_column = connection.execute(statement=clear_token, parameters={"public_id":current_user.public_id})

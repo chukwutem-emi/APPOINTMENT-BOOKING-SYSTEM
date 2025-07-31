@@ -18,9 +18,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def academic_advising(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return({"Login_required": "Unauthorized!"}), 401
     try:
-        if not current_user:
-            return({"Login_required": "Unauthorized!"}), 401
         data = request.get_json()
         if not data:
             return jsonify({"Err":"Invalid input"}), 400

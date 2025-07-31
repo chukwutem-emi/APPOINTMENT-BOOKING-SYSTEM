@@ -18,10 +18,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def physiotherapy_session(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return({"physiotherapy_error": "Unauthorized to carry out physiotherapy appointment operation. Login required!"}), 401
-        
+    if not current_user:
+        return({"physiotherapy_error": "Unauthorized to carry out physiotherapy appointment operation. Login required!"}), 401
+    try:    
         data = request.get_json()
         if not data:
             return jsonify({"physiotherapy_data_error":"Invalid input!"}), 400

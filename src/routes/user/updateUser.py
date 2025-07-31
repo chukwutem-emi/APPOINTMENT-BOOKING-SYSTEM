@@ -10,10 +10,9 @@ from mail.sendMail import send_mail
 def update_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return({"Request Error": "⚠️ You are not Authorized to carry out this task. Please you have to login for verification, thank you!"}), 401
-        
+    if not current_user:
+        return({"Request Error": "⚠️ You are not Authorized to carry out this task. Please you have to login for verification, thank you!"}), 401
+    try:    
         data = request.get_json()
         if not data:
             return J({"update_dataError":"Invalid Input!"}), 400
@@ -59,9 +58,5 @@ def update_user(current_user):
         return J({"update_dbError":f"Database Error. The database encountered an error: {str(dbError)}"}), 500
     except Exception as E:
         return J({"update_exc":f"An error has occurred during the course of Your update. please try again later!: {str(E)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
         
 

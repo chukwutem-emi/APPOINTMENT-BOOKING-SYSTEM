@@ -9,10 +9,9 @@ from datetime import timedelta, datetime
 def a_user_appointment_details(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return jsonify({"get_user_appointment_denied":"Unauthorized!. You are not allowed to perform this operation. Please login"}), 401
-        
+    if not current_user:
+        return jsonify({"get_user_appointment_denied":"Unauthorized!. You are not allowed to perform this operation. Please login"}), 401
+    try:      
         with db.engine.connect() as connection:
             get_a_user_appointment_details = t("SELECT * FROM appointment WHERE user_id=:user_id")
 

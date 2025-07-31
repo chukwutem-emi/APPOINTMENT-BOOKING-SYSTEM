@@ -8,9 +8,9 @@ from sqlalchemy.exc import SQLAlchemyError
 def get_users(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user.admin:
+        return jsonify({"Not_an_admin": "⚠️ You are not Authorized to perform this operation!. This operation is meant for Admin users only"}), 401
     try:
-        if not current_user.admin:
-            return jsonify({"Not_an_admin": "⚠️ You are not Authorized to perform this operation!. This operation is meant for Admin users only"}), 401
         with db.engine.connect() as connection:
             get_all_users = t("SELECT * FROM user")
             users=connection.execute(get_all_users)
@@ -37,7 +37,3 @@ def get_users(current_user):
 
     except Exception as E:
         return jsonify({"getUsers_exc":f"An error has occurred during the course of Your fetch-all Users operation. Please try again later, thank you!.:{E}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")

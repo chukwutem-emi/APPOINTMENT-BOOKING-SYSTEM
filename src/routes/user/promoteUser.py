@@ -14,10 +14,9 @@ access_code = os.getenv("ACCESS_CODE")
 def promote_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return J({"Access_denied":"⚠️ You don't have the permission to carry out this request. Unauthorized!"}), 401
     try:
-        if not current_user:
-            return J({"Access_denied":"⚠️ You don't have the permission to carry out this request. Unauthorized!"}), 401
-        
         data = request.get_json()
         required_field_for_promotion = ["email_address", "code"]
 
@@ -54,8 +53,4 @@ def promote_user(current_user):
 
     except Exception as Exp:
         return J({"promotion_exc":f"An error has occurred from the Promotion request: {str(Exp)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("The database connection as been closed!")
         

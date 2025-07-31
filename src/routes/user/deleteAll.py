@@ -9,10 +9,9 @@ from routes.authentication.accessToken import token_required
 def delete_all_users(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user.admin:
-            return jsonify({"permission_denied": "⚠️ Hey!, keep off. You are not allowed!."}), 403
-        
+    if not current_user.admin:
+        return jsonify({"permission_denied": "⚠️ Hey!, keep off. You are not allowed!."}), 403
+    try: 
         with db.engine.connect() as connection:
             delete_all_users_data = t("DELETE FROM user")
             users=connection.execute(delete_all_users_data)
@@ -25,7 +24,3 @@ def delete_all_users(current_user):
         return jsonify({"deleting_all_user_exc":f"An error has occurred during your request to delete-all-user-information from the database:{str(e)}"}), 400
     except SQLAlchemyError as s:
         return jsonify({"delete_all_s=user_dbError":f"The server encountered an error. Please try again later!.:{str(s)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")

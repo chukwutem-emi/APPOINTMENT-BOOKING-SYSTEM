@@ -20,9 +20,9 @@ def counseling_session(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
     current_app.logger.info("counseling session route called!")
+    if not current_user:
+        return({"counseling_error": "Unauthorized to carry out counseling appointment operation. Login required!"}), 401
     try:
-        if not current_user:
-            return({"counseling_error": "Unauthorized to carry out counseling appointment operation. Login required!"}), 401
         data = request.get_json()
         if not data:
             return jsonify({"counseling_data_error":"Invalid input!"}), 400

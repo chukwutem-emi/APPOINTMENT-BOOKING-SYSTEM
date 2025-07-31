@@ -19,9 +19,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def consultation_session(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return({"consultation": "Unauthorized to carry out consultation appointment operation. Login required!"}), 401
     try:
-        if not current_user:
-            return({"consultation": "Unauthorized to carry out consultation appointment operation. Login required!"}), 401
         data = request.get_json()
         if not data:
             return jsonify({"Data_error":"Invalid input!"}), 400

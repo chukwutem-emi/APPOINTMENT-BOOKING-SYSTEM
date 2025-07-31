@@ -9,10 +9,9 @@ from sqlalchemy.exc import SQLAlchemyError
 def delete_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user.admin:
-            return J({"Not_permitted":"⚠️ You are Unauthorized to make this request"}), 401
-        
+    if not current_user.admin:
+        return J({"Not_permitted":"⚠️ You are Unauthorized to make this request"}), 401
+    try:  
         with db.engine.connect() as connection:
             delete_user_info = t("DELETE FROM user WHERE public_id=:public_id")
             user_details = connection.execute(statement=delete_user_info, parameters={"public_id":current_user.public_id})
@@ -27,9 +26,4 @@ def delete_user(current_user):
         return J({"deleteUser_dbError":f"Database/server error.:{str(Error)}"}), 500
     except Exception as Exp:
         return J({"deleteUser_exc":f"An error occurred!.:{str(Exp)}"}), 500
-    finally:
-        if connection:
-            connection.close()
-            print("Database connection as been closed!")
-
         

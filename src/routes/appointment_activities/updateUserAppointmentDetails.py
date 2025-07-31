@@ -11,10 +11,9 @@ from routes.utils.appointmentGoogleCalender import book_appointment
 def update_user_appointment_details(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return jsonify({"appointment_update_not_allowed":"Unauthorized!. You can't perform this operation, login required. Please login!"}), 401
-        
+    if not current_user:
+        return jsonify({"appointment_update_not_allowed":"Unauthorized!. You can't perform this operation, login required. Please login!"}), 401
+    try:     
         data=request.get_json()
         if not data:
             return jsonify({"appointment_update_input_error":"Invalid input!"}), 400

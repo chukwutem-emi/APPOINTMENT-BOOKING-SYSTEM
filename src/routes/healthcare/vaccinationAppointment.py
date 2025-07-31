@@ -18,10 +18,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def vaccination_session(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try: 
-        if not current_user:
-            return({"vaccination_error": "Unauthorized to carry out vaccination appointment operation. Login required!"}), 401
-        
+    if not current_user:
+        return({"vaccination_error": "Unauthorized to carry out vaccination appointment operation. Login required!"}), 401
+    try:     
         data = request.get_json()
         if not data:
             return jsonify({"vaccination_data_error":"Invalid input!"}), 400

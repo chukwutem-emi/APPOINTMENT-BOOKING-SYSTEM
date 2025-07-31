@@ -19,10 +19,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def career_counseling(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return jsonify({"Msg": "You are not permitted to perform this operation without login. Login required!"}), 401
-        
+    if not current_user:
+        return jsonify({"Msg": "You are not permitted to perform this operation without login. Login required!"}), 401
+    try:       
         data = request.get_json()
         if not data:
             return jsonify({"Data":"Invalid input!"}), 400

@@ -9,10 +9,9 @@ from datetime import datetime, timedelta
 def users_appointment_details(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user.admin:
-            return jsonify({"admin_users_only":"Unauthorized!. You are not permitted to perform this request, it is meant for only admin users."}), 401
-        
+    if not current_user.admin:
+        return jsonify({"admin_users_only":"Unauthorized!. You are not permitted to perform this request, it is meant for only admin users."}), 401
+    try: 
         with db.engine.connect() as connection:
             get_all_users_appointment = t("SELECT * FROM appointment")
             appointments_data = connection.execute(get_all_users_appointment).fetchall()

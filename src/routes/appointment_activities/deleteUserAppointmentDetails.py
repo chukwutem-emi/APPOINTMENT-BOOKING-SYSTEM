@@ -9,9 +9,9 @@ from sqlalchemy.exc import SQLAlchemyError
 def delete_user_appointment_details(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user.admin:
+        return jsonify({"Unauthorized_user":"You are not authorized to perform this operation. Access denied!"}), 401
     try:
-        if not current_user.admin:
-            return jsonify({"Unauthorized_user":"You are not authorized to perform this operation. Access denied!"}), 401
         with db.engine.connect() as connection:
             delete_a_user_appointment_details = t("DELETE FROM appointment WHERE user_id=:user_id")
             connection.execute(delete_a_user_appointment_details, {"user_id":current_user.id})

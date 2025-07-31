@@ -18,10 +18,9 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def dental_session(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    try:
-        if not current_user:
-            return({"dental_error": "Unauthorized to carry out dental appointment operation. Login required!"}), 401
-        
+    if not current_user:
+        return({"dental_error": "Unauthorized to carry out dental appointment operation. Login required!"}), 401
+    try:   
         data = request.get_json()
         if not data:
             return jsonify({"dental_data_error":"Invalid input!"}), 400

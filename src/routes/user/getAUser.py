@@ -8,9 +8,9 @@ from sqlalchemy.exc import SQLAlchemyError
 def get_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return jsonify({"Unauthorized": "⚠️ You are not Authorized to perform this operation. please login!"}), 401
     try:
-        if not current_user:
-            return jsonify({"Unauthorized": "⚠️ You are not Authorized to perform this operation. please login!"}), 401
         user_data = {
             "username":current_user.username,
             "email_address":current_user.email_address,

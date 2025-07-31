@@ -20,11 +20,10 @@ PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 def financial_advisory(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
+    if not current_user:
+        return jsonify({"financial_adv_error": "Unauthorized to carry out financial advisory appointment operation. Login required!"}), 401
+    data = request.get_json()
     try:
-        if not current_user:
-            return jsonify({"financial_adv_error": "Unauthorized to carry out financial advisory appointment operation. Login required!"}), 401
-        data = request.get_json()
-
         if not data:
             return jsonify({"financial_adv_data": "Invalid input!"}), 400
         
