@@ -36,8 +36,8 @@ def promote_user(current_user):
             user_smt = connection.execute(statement=check_user_smt, parameters={"email_address":email_address}).fetchone()
             result = user_smt._asdict()
             userResult = result["admin"]
-            
-            if not result:
+
+            if not user_smt:
                 return J({"Promotion_error":"User not found or the user does not exist!"}), 404
             if userResult == True:
                 return J({"AlreadyAdmin": "User is already an admin"}), 400
