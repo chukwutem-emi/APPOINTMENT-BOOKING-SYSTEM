@@ -29,7 +29,7 @@ def promote_user(current_user):
         
         provided_code = str(data["code"])
         if provided_code != access_code:
-            return({"Code_Error":"⚠️ Access denied!"}), 401
+            return({"Code_Error":"⚠️ Access denied!. You provide an invalid code."}), 401
 
         with db.engine.connect() as connection:
             promote_user_to_admin_user = t("UPDATE user SET admin=:admin WHERE email_address=:email_address")
