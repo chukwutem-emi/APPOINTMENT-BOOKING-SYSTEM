@@ -35,10 +35,13 @@ def promote_user(current_user):
             promote_user_to_admin_user = t("UPDATE user SET admin=:admin WHERE email_address=:email_address")
             user_promotion = connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "email_address":email_address})
 
+            adminUser = user_promotion["admin"]
+
             user = user_promotion
             if user.rowcount == 0:
                 return J({"Promotion_error":"User not found or the user does not exist!"}), 404
-            
+            elif adminUser == True:
+                return J({"AlreadyAdmin": "User is already an admin"}), 400
             connection.commit()
 
             subject = "Promotion"
