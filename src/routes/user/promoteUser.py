@@ -32,16 +32,18 @@ def promote_user(current_user):
             return({"Code_Error":"⚠️ Access denied!. You provide an invalid code."}), 401
 
         with db.engine.connect() as connection:
+            check_user_smt = t("SELECT * FROM user WHERE email_address=:email_address")
+            user_smt = connection.execute(statement=check_user_smt, parameters={"email_address":email_address}).fetchone()
+            result = user_smt._asdict()
+            userResult = result["admin"]
+            
+            if not result:
+                return J({"Promotion_error":"User not found or the user does not exist!"}), 404
+            if userResult == True:
+                return J({"AlreadyAdmin": "User is already an admin"}), 400
+            
             promote_user_to_admin_user = t("UPDATE user SET admin=:admin WHERE email_address=:email_address")
             user_promotion = connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "email_address":email_address})
-
-            adminUser = user_promotion["admin"]
-
-            user = user_promotion
-            if user.rowcount == 0:
-                return J({"Promotion_error":"User not found or the user does not exist!"}), 404
-            elif adminUser == True:
-                return J({"AlreadyAdmin": "User is already an admin"}), 400
             connection.commit()
 
             subject = "Promotion"
