@@ -128,7 +128,7 @@ def consultation_session(current_user):
             return jsonify({
                 "Consultation":"☑️ Consultation appointment was booked successfully!",
                 "googleCalendarLink":html_link
-                }), 200
+                }), 201
         
     except (KeyError, ValueError) as vkError:
         return jsonify({"Consultation_keyValueError":f"Invalid input:{str(vkError)}"}), 400
