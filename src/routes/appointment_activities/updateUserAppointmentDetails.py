@@ -50,7 +50,7 @@ def update_user_appointment_details(current_user):
             connection.commit()
 
             subject = "Appointment update!"
-            body = f"Hi {last_name}!,\n\nYour academic advising appointment was booked successfully!,\ntime:{appointment_time},\ndate:{appointment_date},\n\nThanks for using our service\nBest regard!\nThe Team"
+            body = f"HI {last_name}!,\n\nYour appointment details was updated successfully!,\ntime:{appointment_time},\ndate:{appointment_date},\n\nThanks for using our service\nBest regard!\nThe Team"
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
 

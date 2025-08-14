@@ -41,7 +41,7 @@ def update_user(current_user):
                 "username":username, "password":password, "email_address":email_address, "phone_number":phone_number, "public_id":current_user.public_id})
 
             user_data = user
-            if user_data is None:
+            if user_data.rowcount ==0:
                 return J({"UserData_Not_Found":"Your details is not found in the database"}), 404
             connection.commit()
             

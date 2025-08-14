@@ -15,6 +15,8 @@ def users_appointment_details(current_user):
         with db.engine.connect() as connection:
             get_all_users_appointment = t("SELECT * FROM appointment")
             appointments_data = connection.execute(get_all_users_appointment).fetchall()
+            if len(appointments_data) == 0:
+                return jsonify({"message":"The database is empty or it does not contain any appointment."}), 404
             appointments_list = []
             for appointment in appointments_data:
                 if appointment not in appointments_list:

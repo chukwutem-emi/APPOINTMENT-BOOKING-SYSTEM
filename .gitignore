@@ -3,5 +3,4 @@ env/
 config/
 __pycache__/
 migrations/
-src/token_development.json
-credentials.json
+calendar-service-account.json

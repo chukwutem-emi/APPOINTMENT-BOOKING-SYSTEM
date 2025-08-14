@@ -14,7 +14,9 @@ def delete_user_appointment_details(current_user):
     try:
         with db.engine.connect() as connection:
             delete_a_user_appointment_details = t("DELETE FROM appointment WHERE user_id=:user_id")
-            connection.execute(delete_a_user_appointment_details, {"user_id":current_user.id})
+            delete_app = connection.execute(delete_a_user_appointment_details, {"user_id":current_user.id})
+            if delete_app.rowcount == 0:
+                return jsonify({"message":"The Appointment does not exist or the appointment has already been deleted from the database"}), 404
             connection.commit()
 
             return jsonify({"user_appointment_details":"User appointment details was deleted successfully!"}), 200

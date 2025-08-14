@@ -44,7 +44,7 @@ def promote_user(current_user):
                 return J({"AlreadyAdmin": "User is already an admin"}), 400
             
             promote_user_to_admin_user = t("UPDATE user SET admin=:admin WHERE email_address=:email_address")
-            user_promotion = connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "email_address":email_address})
+            connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "email_address":email_address})
             connection.commit()
 
             subject = "Promotion"

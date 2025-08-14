@@ -41,6 +41,13 @@
 - *Updating a user appointment details(PUT)*
 - *Deleting user appointment details(DELETE)*
 
+### ***E. Personnel CRUD operations like:***
+- *Uploading list of personnel for all the different kinds of appointments(POST)*
+- *Retrieving personnel details from database(GET)*
+- *Retrieving all the personnel and their details from database(GET)*
+- *Updating personnel information in database(PUT)*
+- *Deleting of personnel that is no longer available(DELETE)
+
 ### ***A. Authentication page:***
 #### ***1. Register(signUp):***
 ##### ***Endpoint:*** "/api/auth/register"
@@ -80,7 +87,7 @@
 ```
 ### ***B. User page👥***:
 #### ***I. GetUser***
-##### ***Endpoint:*** "/api/user_bp/user"
+##### ***Endpoint:*** "/api/user-bp/user"
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -96,7 +103,7 @@
 }
 ```
 #### ***II. PromoteUser:***
-##### ***Endpoint:*** "/api/user_bp/promote"
+##### ***Endpoint:*** "/api/user-bp/promote"
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -113,7 +120,7 @@
 }
 ```
 #### ***III. GetAllUsers:***
-##### ***Endpoint:*** "/api/user_bp/users"
+##### ***Endpoint:*** "/api/user-bp/users"
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -142,7 +149,7 @@
 }
 ```
 #### ***IV. UpdateUser:***
-##### ***Endpoint:*** "/api/user_bp/update"
+##### ***Endpoint:*** "/api/user-bp/update"
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -161,7 +168,7 @@
 }
 ```
 #### ***V. DeleteUser:***
-##### ***Endpoint:*** "/api/user_bp/delete"
+##### ***Endpoint:*** "/api/user-bp/delete"
 ##### ***Method:*** DELETE
 ##### ***Response:***
 ```json
@@ -376,7 +383,7 @@
 }
 ```
 ##### ***III. Real Estate Agent Appointment:***
-##### ***Endpoint:*** /api/professional/real_estate
+##### ***Endpoint:*** /api/professional/real-estate
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -406,7 +413,7 @@
 ```
 #### ***c. Education And Tutoring🧑‍🏫:***
 ##### ***I. Academic Advising:***
-##### ***Endpoint:*** /api/education_bp/academic
+##### ***Endpoint:*** /api/education-bp/academic
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -435,7 +442,7 @@
 }
 ```
 ##### ***II. Career Counseling:***
-##### ***Endpoint:*** /api/education_bp/career
+##### ***Endpoint:*** /api/education-bp/career
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -464,7 +471,7 @@
 }
 ```
 ##### ***III. One-On-One-Tutoring-Session:***
-##### ***Endpoint:*** /api/education_bp/tutoring
+##### ***Endpoint:*** /api/education-bp/tutoring
 ##### ***Method:*** POST
 ##### ***Payload:***
 ```json
@@ -553,7 +560,7 @@
 ```
 ### ***D. Appointment-Operations:***
 #### ***I. Retrieving a user appointment details(GET)***
-##### ***Endpoint:*** /api/appointment_act/user_appointment
+##### ***Endpoint:*** /api/appointment-act/user-appointment
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -616,7 +623,7 @@
 }
 ```
 #### ***II. Retrieving all users appointment details(GET)***
-##### ***Endpoint:*** /api/appointment_act/users_appointment
+##### ***Endpoint:*** /api/appointment-act/users-appointment
 ##### ***Method:*** GET
 ##### ***Response:***
 ```json
@@ -717,7 +724,7 @@
 }
 ```
 #### ***III. Updating a user appointment details(PUT)***
-##### ***Endpoint:*** /api/appointment_act/update_user_appointment
+##### ***Endpoint:*** /api/appointment-act/update-user-appointment
 ##### ***Method:*** PUT
 ##### ***Payload:***
 ```json
@@ -744,13 +751,109 @@
 }
 ```
 #### ***IV. Deleting user appointment details(DELETE)***
-##### ***Endpoint:*** /api/appointment_act/delete_appointment
+##### ***Endpoint:*** /api/appointment-act/delete-appointment
 ##### ***Method:*** DELETE
 ##### ***Response:***
 ```json
 "Status":200
 {
     "user_appointment_details": "User appointment details was deleted successfully!"
+}
+```
+#### ***E. Personnel CRUD operations***:
+- *Uploading of personnel into the database*:
+##### ***Endpoint:*** /api/personnel-bp/personnel
+##### ***Methods:*** POST
+##### ***Payloads:***
+```json
+{
+    "name":"",
+    "role":"",
+    "specialization":"",
+    "organization":"",
+    "email": "",
+    "phone_number":""
+}
+```
+##### ***Response:***
+```json
+"Status":201,
+{
+    "success": "Personnel created and uploaded successfully"
+}
+```
+- *Get a personnel from database*:
+##### ***Endpoint:*** /api/personnel-bp/one-personnel
+##### ***Methods:*** GET
+##### ***Payload:***
+```json
+{
+    "email":""
+}
+```
+##### ***Response:***
+```json
+"Status":200,
+{
+    "one-personnel": {
+        "email": "",
+        "name": "",
+        "organization": "",
+        "phone_number": "",
+        "role": "",
+        "specialization": ""
+    }
+}
+```
+- *Get all personnel from database*
+##### ***Endpoint:*** /api/personnel-bp/all-personnel
+##### ***Methods:*** GET
+##### ***Response:***
+```json
+"Status":200
+{
+    "all-personnel": [
+        {
+            "email": "",
+            "id": ,
+            "name": "",
+            "organization": "",
+            "phone_number": "",
+            "role": "",
+            "specialization": ""
+        }
+    ]
+}
+```
+- *Updated personnel information*:
+##### ***Endpoint:*** /api/personnel-bp/update-personnel
+##### ***Methods:*** PUT
+##### ***Payload:***
+```json
+{
+    "name":"",
+    "role":"",
+    "specialization":"",
+    "organization":"",
+    "email": "",
+    "phone_number":""
+}
+```
+##### ***Response:***
+```json
+"Status":200
+{
+    "updated": "Personnel information was updated successfully!."
+}
+```
+- *Delete personnel from database*:
+##### ***Endpoint:***/api/personnel-bp/delete-personnel
+##### ***Methods:*** DELETE
+##### ***Response:***
+```json
+"status":200
+{
+    "deleted": "The deletion of personnel was successful"
 }
 ```
 ### ***Base url:***

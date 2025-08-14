@@ -7,8 +7,7 @@ from routes.professionalServices import pro_service_bp
 from routes.technicalAndRepairServices import technical_bp
 from routes.appointment_activities import appointment_act_bp
 from routes.payment import payment_bp
-from routes.utils import book_app_bp
-from routes.token import token_bp
+from routes.personnel import personnel_bp
 
 blue_p = Blueprint("api", __name__)
 
@@ -20,5 +19,4 @@ blue_p.register_blueprint(pro_service_bp)
 blue_p.register_blueprint(technical_bp)
 blue_p.register_blueprint(appointment_act_bp)
 blue_p.register_blueprint(payment_bp)
-blue_p.register_blueprint(book_app_bp)
-blue_p.register_blueprint(token_bp)
+blue_p.register_blueprint(personnel_bp)
