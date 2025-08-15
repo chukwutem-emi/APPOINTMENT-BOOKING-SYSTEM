@@ -82,7 +82,7 @@ class Personnel(db.Model):
     specialization       = db.Column(db.String(200), nullable=False)
     organization         = db.Column(db.String(200), nullable=False)
     organization_address = db.Column(db.String(300), nullable=False)
-    email                = db.Column(db.String(200), nullable=False)
+    email                = db.Column(db.String(200), unique=True, nullable=False)
     phone_number         = db.Column(db.String(200), nullable=False)
     created_at           = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at           = db.Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
