@@ -4,3 +4,4 @@ config/
 __pycache__/
 migrations/
 calendar-service-account.json
+credentials.json

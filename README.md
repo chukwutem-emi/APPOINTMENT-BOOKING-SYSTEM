@@ -771,6 +771,7 @@
     "role":"",
     "specialization":"",
     "organization":"",
+    "organization_address":"",
     "email": "",
     "phone_number":""
 }
@@ -799,6 +800,7 @@
         "email": "",
         "name": "",
         "organization": "",
+        "organization_address": "",
         "phone_number": "",
         "role": "",
         "specialization": ""
@@ -818,6 +820,7 @@
             "id": ,
             "name": "",
             "organization": "",
+            "organization_address": "",
             "phone_number": "",
             "role": "",
             "specialization": ""
@@ -835,6 +838,7 @@
     "role":"",
     "specialization":"",
     "organization":"",
+    "organization_address":"",
     "email": "",
     "phone_number":""
 }
