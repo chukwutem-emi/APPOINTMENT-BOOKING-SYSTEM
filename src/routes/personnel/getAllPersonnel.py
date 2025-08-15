@@ -27,13 +27,14 @@ def get_all_personnel(current_user):
             for personnel in all_personnel_data:
                 if personnel not in personnel_list:
                     personnel_dict = {
-                        "id":personnel.id,
-                        "name":personnel.name,
-                        "email":personnel.email,
-                        "role":personnel.role,
-                        "specialization":personnel.specialization,
-                        "organization":personnel.organization,
-                        "phone_number":personnel.phone_number,
+                        "id"                   :personnel.id,
+                        "name"                 :personnel.name,
+                        "email"                :personnel.email,
+                        "role"                 :personnel.role,
+                        "specialization"       :personnel.specialization,
+                        "organization_address" : personnel.organization_address,
+                        "organization"         :personnel.organization,
+                        "phone_number"         :personnel.phone_number,
                     }
                 personnel_list.append(personnel_dict) 
 

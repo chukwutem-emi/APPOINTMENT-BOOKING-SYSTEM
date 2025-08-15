@@ -1,46 +1,50 @@
 import os
 from googleapiclient.discovery import build
-from google.oauth2 import service_account
-from dotenv import load_dotenv
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from routes.utils.constants import SCOPE
-import base64
+from flask import jsonify
 import json
-from flask import current_app, jsonify
+from flask import current_app
 from tables.dbModels import User, db
-from google.auth.exceptions import RefreshError
 
 
-load_dotenv()
-
-ENV = os.getenv("ENV", "development")
-b64_cred = os.getenv("GOOGLE_CREDENTIALS_B64")
-# decode from base64
-decode_json = base64.b64decode(b64_cred).decode("utf-8")
-credentials_dict = json.loads(decode_json)
-
-
-SCOPES = [SCOPE]
-print("DEBUG SCOPES:", SCOPES)
-print("Type of SCOPES:", type(SCOPES))
-if isinstance(SCOPES, list):
-    print("First item:", SCOPES[0], "| type:", type(SCOPES[0]))
-
-
-if not credentials_dict:
-    raise ValueError("Missing GOOGLE_CREDENTIALS_JSON in environment variables")
-
-def book_appointment(summary, location, description, dateTime, email, endDateTime, personnel_email):
+def book_appointment(summary, location, description, dateTime, email, endDateTime, personnel_email, user_id):
     current_app.logger.info("book appointment function called!")
+    # 1. Get the user's saved token from DB
+    user = User.query.get(user_id)
+    if not user or not user.google_token:
+        return jsonify({
+                    "error": "User not authenticated with google",
+                    "re_auth_url": f"/api/bookApp/start-Oauth?user_id={user_id}"
+                }), 401
     try:
-        credential = service_account.Credentials.from_service_account_info(
-            credentials_dict,
-            scopes=SCOPES
-        )
+        token_data = json.loads(user.google_token)
+        creds = Credentials.from_authorized_user_info(token_data)
+
+        if creds or (creds.expired and not creds.refresh_token):
+            return jsonify({
+                    "error": "Google token invalid or expired. Re-authentication required.",
+                    "re_auth_url": f"/api/bookApp/start-Oauth?user_id={user_id}"
+                }), 401
+
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+            user.google_token = creds.to_json()
+            db.session.commit()
+
     except Exception as e:
-        current_app.logger.error(f"FAILED to load google credentials. {e}")
-        return jsonify({"message":"Internal server error: Failed to authenticate with google calender"}), 500
+        current_app.logger.error(f"Failed to load user credentials.{str(e)}")
+        return jsonify({
+                    "error": "Google token invalid or expired. Re-authentication required.",
+                    "re_auth_url": f"/api/bookApp/start-Oauth?user_id={user_id}"
+                }), 401
     
-    service = build(serviceName="calendar", version="v3", credentials=credential)
+    
+    # 2. Build the Calendar API client
+    service = build(serviceName="calendar", version="v3", credentials=creds)
+
+    # 3. Create the event body
     event_body = {
         "summary":summary,
         "location":location,
@@ -66,13 +70,14 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
             ]
         }
     }
+    # 4. Insert event into user's primary calendar
     try:
         event = service.events().insert(calendarId="primary", body=event_body).execute()
     except Exception as E:
         current_app.logger.error(f"FAILED to create calendar event")
-        return jsonify({"eventError": "Failed to create google calendar event"}), 500
+        return{"eventError": f"Failed to create google calendar event{str(E)}"}, 500
     
-    return({
+    return{
         "message":"Event created successfully!",
         "eventLink":event.get("htmlLink")
-    }), 201
+    }, 201

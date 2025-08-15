@@ -26,17 +26,18 @@ def update_personnel(current_user):
                 return jsonify({"missing":f"Missing required field. {field}"}), 400
             
 
-        specialization = str(data["specialization"])
-        organization   = str(data["organization"])
-        phone_number   = str(data["phone_number"])
-        email          = str(data["email"])
-        name           = str(data["name"])
-        role           = str(data["role"])
+        specialization       = str(data["specialization"]).capitalize()
+        organization_address = str(data["organization_address"]).capitalize()
+        organization         = str(data["organization"]).capitalize()
+        phone_number         = str(data["phone_number"])
+        email                = str(data["email"])
+        name                 = str(data["name"]).capitalize()
+        role                 = str(data["role"]).capitalize()
         with db.engine.connect() as connection:
             update_personnel_info = text("""
-                    UPDATE personnel SET specialization=:specialization, organization=:organization, phone_number=:phone_number, email=:email, name=:name, role=:role WHERE email=:email
+                    UPDATE personnel SET specialization=:specialization, organization=:organization, organization_address=:organization_address, phone_number=:phone_number, email=:email, name=:name, role=:role WHERE email=:email
             """)
-            update_personnel_data = connection.execute(statement=update_personnel_info, parameters={"specialization":specialization, "organization":organization, "phone_number":phone_number, "email":email, "name":name, "role":role})
+            update_personnel_data = connection.execute(statement=update_personnel_info, parameters={"specialization":specialization, "organization":organization, "organization_address":organization_address, "phone_number":phone_number, "email":email, "name":name, "role":role})
             if update_personnel_data.rowcount == 0 :
                 return jsonify({"message":"Personnel does not exist or  He/She could have been deleted from the database"}), 404
             connection.commit()

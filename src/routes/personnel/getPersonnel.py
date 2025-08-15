@@ -35,12 +35,13 @@ def get_personnel(current_user):
                 return jsonify({"message":"This particular personnel you are looking for is not found or does not exist in the database."}), 404
             
             personnel_dict = {
-                "name":personnel_info.name,
-                "email":personnel_info.email,
-                "role":personnel_info.role,
-                "organization":personnel_info.organization,
-                "specialization":personnel_info.specialization,
-                "phone_number":personnel_info.phone_number
+                "name"                 : personnel_info.name,
+                "email"                : personnel_info.email,
+                "role"                 : personnel_info.role,
+                "organization"         : personnel_info.organization,
+                "organization_address" : personnel_info.organization_address,
+                "specialization"       : personnel_info.specialization,
+                "phone_number"         : personnel_info.phone_number
             }
             return jsonify({"one-personnel": personnel_dict}), 200
         

@@ -15,22 +15,22 @@ def create_personnel(current_user):
     
 
     try:
-        data = request.get_json("name")
+        data = request.get_json()
         if not data or not data.get("name") or not data.get("role") or not data.get("specialization") or not data.get("organization")or not data.get("organization_address") or not data.get("email") or not data.get("phone_number"):
             return jsonify({"dataError":"Invalid request."}), 400
         
 
-        required_fields = ["name", "role", "specialization", "organization", "organization_address" "email", "phone_number"]
+        required_fields = ["name", "role", "specialization", "organization", "organization_address", "email", "phone_number"]
         for field in required_fields:
             if field not in data:
                 return jsonify({"missing":f"Missing required field.{field}"}), 400
             
 
         name                 = str(data["name"]).capitalize()
-        role                 = str(data["role"])
-        specialization       = str(data["specialization"])
-        organization         = str(data["organization"])
-        organization_address = str(data["organization_address"])
+        role                 = str(data["role"]).capitalize()
+        specialization       = str(data["specialization"]).capitalize()
+        organization         = str(data["organization"]).capitalize()
+        organization_address = str(data["organization_address"]).capitalize()
         email                = str(data["email"])
         phone_number          = str(data["phone_number"])
 
@@ -40,7 +40,7 @@ def create_personnel(current_user):
                 INSERT INTO personnel(
                     name, role, specialization, organization, organization_address, email, phone_number
                 ) VALUES(
-                    :name, :role, :specialization, :organization, :email, :phone_number
+                    :name, :role, :specialization, :organization, :organization_address, :email, :phone_number
                 )
             """)
             connection.execute(statement=personnel_info, parameters={"name":name, "role":role, "specialization":specialization, "organization":organization, "organization_address":organization_address, "email":email, "phone_number":phone_number})
