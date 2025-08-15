@@ -22,7 +22,7 @@ def book_appointment(summary, location, description, dateTime, email, endDateTim
         token_data = json.loads(user.google_token)
         creds = Credentials.from_authorized_user_info(token_data)
 
-        if creds or (creds.expired and not creds.refresh_token):
+        if not creds or (creds.expired and not creds.refresh_token):
             return jsonify({
                     "error": "Google token invalid or expired. Re-authentication required.",
                     "re_auth_url": f"/api/bookApp/start-Oauth?user_id={user_id}"
