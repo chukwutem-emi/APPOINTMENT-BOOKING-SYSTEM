@@ -14,7 +14,7 @@ class User(db.Model):
     public_id     = db.Column(db.String(200))
     phone_number  = db.Column(db.String(14), unique=True)
     admin         = db.Column(Boolean, default=False)
-    google_token  = db.Column(db.String(1000), nullable=False)
+    google_token  = db.Column(db.String(1000), nullable=True)
     created_at    = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at    = db.Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -24,19 +24,19 @@ class User(db.Model):
 
 
 class AppointmentTypes(enum.Enum):
-    CONSULTATION        = "Consultation(HealthcareAppointment)"
-    COUNSELING          = "Counseling(HealthcareAppointment)"
-    DENTAL              = "Dental(HealthcareAppointment)"
-    PHYSIOTHERAPY       = "PhysiotherapySession(HealthcareAppointment)"
-    VACCINATION         = "Vaccination(HealthcareAppointment)"
-    REAL_ESTATE         = "RealEstateAgentAppointment(ProfessionalServices)"
-    BUSINESS            = "BusinessConsultation(ProfessionalServices)"
-    FINANCIAL_ADVISORY  = "FinancialAdvisory(ProfessionalServices)"
-    TUTORING_ONE_ON_ONE = "OneOnOneSession(EducationAndTutoring)"
-    ACADEMIC_ADVISING   = "AcademicAdvising(EducationAndTutoring)"
-    CAREER_COUNSELING   = "CareerCounseling(EducationAndTutoring)"
-    ELECTRONICS_REPAIR  = "ElectronicsRepair(phones, laptop)(TechnicalAndRepairServices)"
-    HOME_SERVICES       = "HomeServices(plumbing, electrical)-(TechnicalAndRepairServices)"
+    CONSULTATION        = "Consultation (Healthcare Appointment)"
+    COUNSELING          = "Counseling (Healthcare Appointment)"
+    DENTAL              = "Dental (Healthcare Appointment)"
+    PHYSIOTHERAPY       = "Physiotherapy-Session (Healthcare Appointment)"
+    VACCINATION         = "Vaccination (Healthcare Appointment)"
+    REAL_ESTATE         = "RealEstate-Agent-Appointment (Professional Services)"
+    BUSINESS            = "Business-Consultation (Professional Services)"
+    FINANCIAL_ADVISORY  = "Financial-Advisory (Professional Services)"
+    TUTORING_ONE_ON_ONE = "OneOnOne-Session (Education And Tutoring)"
+    ACADEMIC_ADVISING   = "Academic-Advising (Education And Tutoring)"
+    CAREER_COUNSELING   = "Career-Counseling (Education And Tutoring)"
+    ELECTRONICS_REPAIR  = "Electronics-Repair (phones, laptop)(Technical And Repair-Services)"
+    HOME_SERVICES       = "Home-Services (plumbing, electrical)-(Technical And Repair-Services)"
 
 class Appointment(db.Model):
     __tablename__ = "appointment"
