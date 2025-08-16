@@ -1,15 +1,11 @@
-import requests
-from flask import request, jsonify, redirect, make_response
-from tables.dbModels import User, db, Appointment, AppointmentTypes
+from flask import request, jsonify, make_response
+from tables.dbModels import db, AppointmentTypes
 from routes.authentication.accessToken import token_required
-from dotenv import load_dotenv
-import os
 from sqlalchemy import text as t
 from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError as dbError
 from mail.sendMail import send_mail
 from routes.utils.appointmentGoogleCalender import book_appointment
-load_dotenv()
 
 
 @token_required
@@ -23,14 +19,12 @@ def academic_advising(current_user):
         if not data:
             return jsonify({"Err":"Invalid input"}), 400
         
-        required_fields = ["first_name", "last_name", "gender", "address", "next_of_kin", "next_of_kin_phone_number", "next_of_kin_address", "appointment_time", "appointment_date", "name"]
+        required_fields = ["gender", "address", "next_of_kin", "next_of_kin_phone_number", "next_of_kin_address", "appointment_description", "appointment_time", "appointment_date", "name"]
 
         for field in required_fields:
             if field not in data:
                 return jsonify({"academicAdv_fieldError":f"Missing data.:{field}"}), 400
 
-        first_name               = str(data["first_name"])
-        last_name                = str(data["last_name"])
         gender                   = str(data["gender"])
         address                  = str(data["address"])
         next_of_kin              = str(data["next_of_kin"])
@@ -42,8 +36,8 @@ def academic_advising(current_user):
         appointment_time         = datetime.strptime(appointment_time_str, "%H:%M").time()
         appointment_date_str     = str(data["appointment_date"])
         appointment_date         = datetime.strptime(appointment_date_str, "%Y-%m-%d").date()
-        duration = 90
-        price = 40000
+        duration                 = 90
+        price                    = 40000
 
         end_time = (datetime.combine(date=appointment_date, time=appointment_time)+timedelta(minutes=duration)).time()
 
@@ -57,11 +51,12 @@ def academic_advising(current_user):
             user_id       = user["id"]
             email_address = user["email_address"]
             phone_number  = user["phone_number"]
+            username      = user["username"]
 
             get_personnel_info = t("SELECT * FROM personnel WHERE name=:name")
             personnel_data = connection.execute(statement=get_personnel_info, parameters={"name":name}).fetchone()
             if len(personnel_data) == 0:
-                return jsonify({"personnelMsg":"The personnel you choose doesn't exist or might have been deleted from database."}), 404
+                return jsonify({"personnelMsg":"The academic-advisory personnel you selected doesn't exist or he/she might have been deleted from database."}), 404
             personnel_dict = personnel_data._asdict()
 
             personnel_role       = personnel_dict["role"]
@@ -74,24 +69,24 @@ def academic_advising(current_user):
 
             user_appointment = t("""
                 INSERT INTO appointment(
-                    first_name, last_name, gender, user_phone_number, address, email_address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, personnel_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, organization_name, organization_address, personnel_tel
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, personnel_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, organization_name, organization_address, personnel_tel, username
                     ) VALUES(
-                    :first_name, :last_name, :gender, :user_phone_number, :address, :email_address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :personnel_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :organization_name, :organization_address, :personnel_tel
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :personnel_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :organization_name, :organization_address, :personnel_tel, :username
                     )
             """)
 
             connection.execute(statement=user_appointment, parameters={
-                "first_name":first_name, "last_name":last_name, "gender":gender, "user_phone_number":phone_number, "address":address, "email_address":email_address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.ACADEMIC_ADVISING.value, "user_id":user_id, "personnel_id":personnel_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel  
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.ACADEMIC_ADVISING.value, "user_id":user_id, "personnel_id":personnel_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username 
                 })
             connection.commit()
 
-            subject = "ChemSten University"
-            body = f"Hi {last_name}!,\n\nYour academic advising appointment was booked successfully!,\ntime:{appointment_time},\ndate:{appointment_date},\nduration:{duration},\n\nThanks for using our service\nBest regard!\nChemSten University Team"
+            subject = f"CHEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nYour academic advising appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address}\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service\nBest regard!\nCHEMSTEN =>{organization_name} Team."
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
         
-            summary = f"This is an appointment for: {AppointmentTypes.ACADEMIC_ADVISING.value}"
-            dateTime = f"{appointment_date}T{appointment_time}+01:00"
+            summary     = f"This is an appointment for: {AppointmentTypes.ACADEMIC_ADVISING.value}"
+            dateTime    = f"{appointment_date}T{appointment_time}+01:00"
             endDateTime = f"{appointment_date}T{end_time}+01:00"
             # Capturing response from book_appointment
             appointment_response, status_code = book_appointment(
@@ -125,4 +120,3 @@ def academic_advising(current_user):
        return jsonify({"academicAdv_dbError":f"Database/server error.:{str(d)}"}), 500
     except Exception as e:
         return jsonify({"academicAdv_exc":f"An error occurred: {str(e)}"}), 500
-    
