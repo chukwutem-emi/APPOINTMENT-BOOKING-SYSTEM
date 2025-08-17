@@ -30,7 +30,7 @@ def check_maintenance():
     if MAINTENANCE_MODE:
         # client_ip = request.remote_addr
         # if client_ip not in ALLOW_IPS:
-        return send_file("maintenance.html")
+        return send_file("maintenance.html"), 503
 
 CORS(
     app,
