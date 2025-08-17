@@ -21,11 +21,11 @@ def str_to_bool(value:str) -> bool:
 
 app = Flask(__name__)
 
-MAINTENANCE_MODE = str_to_bool(os.getenv("MAINTENANCE_MODE", "False"))
+MAINTENANCE_MODE = str_to_bool(os.getenv(key="MAINTENANCE_MODE", default="False"))
 
-ATTACK_MODE = str_to_bool(os.getenv("ATTACK_MODE", "False"))
+ATTACK_MODE = str_to_bool(os.getenv(key="ATTACK_MODE", default="False"))
 
-ALLOW_IPS = ["127.0.0.1", "192.168.0.174"]
+ALLOW_IPS = os.getenv(key="ALLOW_IPS", default="127:0:0:1").split(",")
 
 @app.before_request
 def check_maintenance():
