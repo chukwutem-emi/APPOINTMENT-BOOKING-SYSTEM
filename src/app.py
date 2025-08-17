@@ -23,14 +23,14 @@ app = Flask(__name__)
 
 MAINTENANCE_MODE = str_to_bool(os.getenv("MAINTENANCE_MODE", "False"))
 
-# ALLOW_IPS = ["127.0.0.1", "192.168.0.174"]
+ALLOW_IPS = ["127.0.0.1", "192.168.0.174"]
 
 @app.before_request
 def check_maintenance():
     if MAINTENANCE_MODE:
-        # client_ip = request.remote_addr
-        # if client_ip not in ALLOW_IPS:
-        return render_template("maintenance.html"), 503
+        client_ip = request.remote_addr
+        if client_ip not in ALLOW_IPS:
+            return render_template("maintenance.html"), 503
 
 CORS(
     app,
