@@ -67,23 +67,7 @@ def career_counseling(current_user):
             personnel_tel        = personnel_dict["phone_number"]
             personnel_id         = personnel_dict["id"]
             personnel_email      = personnel_dict["email"]
-            
-            user_appointment = t("""
-                INSERT INTO appointment(
-                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_id, personnel_role, organization_name, organization_address, personnel_tel, username 
-                    ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_id, :personnel_role, :organization_name , :organization_address, :personnel_tel, :username  
-                    )
-            """)
 
-            connection.execute(statement=user_appointment, parameters={
-                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.CAREER_COUNSELING.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_id":personnel_id, "personnel_role":personnel_role, "organization_name": organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username
-                })
-            connection.commit()
-            subject = f"ChEMSTEN => {organization_name}"
-            body    = f"HI {username}!,\n\nCareer counseling appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
 
             summary     = f"This is an appointment for: \n{AppointmentTypes.CAREER_COUNSELING.value}"
             dateTime    = f"{appointment_date}T{appointment_time}+01:00"
@@ -108,10 +92,30 @@ def career_counseling(current_user):
                 html_link = appointment_response.get("eventLink")
             else:
                 return jsonify({"careerErr":"Failed to create calender event"}), 500
+            
+            
+            user_appointment = t("""
+                INSERT INTO appointment(
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_id, personnel_role, organization_name, organization_address, personnel_tel, username 
+                    ) VALUES(
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_id, :personnel_role, :organization_name , :organization_address, :personnel_tel, :username  
+                    )
+            """)
+
+            connection.execute(statement=user_appointment, parameters={
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.CAREER_COUNSELING.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_id":personnel_id, "personnel_role":personnel_role, "organization_name": organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username
+                })
+            connection.commit()
+
+            subject = f"ChEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nCareer counseling appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
 
             return jsonify({"Career_counseling":"☑️ Career counseling appointment was booked successfully!",
                             "googleCalenderEvent":html_link
                             }), 201
+        
     except (KeyError, ValueError) as kvError:
         return jsonify({"careerCounseling_kvError":f"Invalid input!.:{str(kvError)}"}), 400
     except dbError as d:

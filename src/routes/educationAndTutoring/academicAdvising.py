@@ -66,25 +66,6 @@ def academic_advising(current_user):
             personnel_id         = personnel_dict["id"]
             personnel_email      = personnel_dict["email"]
 
-
-            user_appointment = t("""
-                INSERT INTO appointment(
-                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, personnel_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, organization_name, organization_address, personnel_tel, username
-                    ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :personnel_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :organization_name, :organization_address, :personnel_tel, :username
-                    )
-            """)
-
-            connection.execute(statement=user_appointment, parameters={
-                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.ACADEMIC_ADVISING.value, "user_id":user_id, "personnel_id":personnel_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username 
-                })
-            connection.commit()
-
-            subject = f"CHEMSTEN => {organization_name}"
-            body    = f"HI {username}!,\n\nYour academic advising appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address}\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service\nBest regard!\nCHEMSTEN =>{organization_name} Team."
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
-        
             summary     = f"This is an appointment for: {AppointmentTypes.ACADEMIC_ADVISING.value}"
             dateTime    = f"{appointment_date}T{appointment_time}+01:00"
             endDateTime = f"{appointment_date}T{end_time}+01:00"
@@ -111,9 +92,28 @@ def academic_advising(current_user):
                                 "details":appointment_response
                                 }), 500
 
+            user_appointment = t("""
+                INSERT INTO appointment(
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, personnel_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, organization_name, organization_address, personnel_tel, username
+                    ) VALUES(
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :personnel_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :organization_name, :organization_address, :personnel_tel, :username
+                    )
+            """)
+
+            connection.execute(statement=user_appointment, parameters={
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price,  "appointment_types":AppointmentTypes.ACADEMIC_ADVISING.value, "user_id":user_id, "personnel_id":personnel_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username 
+                })
+            connection.commit()
+
+            subject = f"CHEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nYour academic advising appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address}\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service\nBest regard!\nCHEMSTEN =>{organization_name} Team."
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
+
             return jsonify({"Academic_advising":"☑️ Academic advising appointment was booked successfully!",
                             "googleCalenderEvent":html_link
                             }), 201
+        
     except (KeyError, ValueError) as kvError:
         return jsonify({"academicAdv_kvError":f"Invalid input!.:{str(kvError)}"}), 400
     except dbError as d:

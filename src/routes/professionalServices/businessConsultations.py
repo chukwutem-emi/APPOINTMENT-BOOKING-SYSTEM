@@ -66,24 +66,7 @@ def business_consultation(current_user):
             personnel_id         = personnel_dict["id"]
             personnel_email      = personnel_dict["email"]
 
-            user_appointment = t("""
-                INSERT INTO appointment(
-                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, personnel_id, organization_name, organization_address, personnel_tel, username
-                    ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :personnel_id, :organization_name, :organization_address, personnel_tel, :username
-                    )
-            """)
-
-            connection.execute(statement=user_appointment, parameters={
-                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "appointment_types":AppointmentTypes.BUSINESS.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "personnel_id":personnel_id, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username
-                })
-            connection.commit()
-
-            subject = f"CHEMSTEN => {organization_name}"
-            body    = f"HI {username}!,\n\nBusiness consultation appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
-
+            
             summary     = f"This is an appointment for:\n{AppointmentTypes.BUSINESS.value}"
             dateTime    = f"{appointment_date}T{appointment_time}+01:00"
             endDateTime = f"{appointment_date}T{end_time}+01:00"
@@ -110,6 +93,25 @@ def business_consultation(current_user):
                     "BusinessEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
+
+            user_appointment = t("""
+                INSERT INTO appointment(
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_role, personnel_id, organization_name, organization_address, personnel_tel, username
+                    ) VALUES(
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_role, :personnel_id, :organization_name, :organization_address, personnel_tel, :username
+                    )
+            """)
+
+            connection.execute(statement=user_appointment, parameters={
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "appointment_types":AppointmentTypes.BUSINESS.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "appointment_endTime":end_time, "personnel_role":personnel_role, "personnel_id":personnel_id, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel, "username":username
+                })
+            connection.commit()
+
+            subject = f"CHEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nBusiness consultation appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
+
             return jsonify({
                 "business_consultation":"☑️ Business consultation appointment was booked successfully!",
                 "googleCalendarLink":html_link

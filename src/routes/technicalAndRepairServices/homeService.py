@@ -67,24 +67,7 @@ def home_service(current_user):
             personnel_id         = personnel_dict["id"]
             personnel_email      = personnel_dict["email"]
 
-            user_appointment = t("""
-                INSERT INTO appointment(
-                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, phone_repair_price, price, laptop_repair_price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, duration, appointment_endTime, username, personnel_role, organization_name, personnel_tel, personnel_id, organization_address
-                    ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :phone_repair_price, :price, :laptop_repair_price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :duration, :appointment_endTime, :username, :personnel_role, :organization_name, :personnel_tel, :personnel_id, :organization_address
-                    )
-            """)
-
-            connection.execute(statement=user_appointment, parameters={
-                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "phone_repair_price":phone_repair_price, "price":price, "laptop_repair_price":laptop_repair_price, "appointment_types":AppointmentTypes.HOME_SERVICES.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "duration":duration, "appointment_endTime":end_time, "username":username, "personnel_role":personnel_role, "organization_name":organization_name, "personnel_tel":personnel_tel, "personnel_id":personnel_id, "organization_address":organization_address
-                })
-            connection.commit()
-
-            subject = f"CHEMSTEN => {organization_name}"
-            body    = f"HI {username}!,\n\nHome service appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration},\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
-
+            
             summary     = f"This is an appointment for:\n{AppointmentTypes.ELECTRONICS_REPAIR.value}"
             dateTime    = f"{appointment_date}T{appointment_time}+01:00"
             endDateTime = f"{appointment_date}T{end_time}+01:00"
@@ -110,6 +93,25 @@ def home_service(current_user):
                 return jsonify({"HomeServiceErr": "Failed to create google calender event",
                         "Details":appointment_response
                         }), 500
+
+            user_appointment = t("""
+                INSERT INTO appointment(
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, phone_repair_price, price, laptop_repair_price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, duration, appointment_endTime, username, personnel_role, organization_name, personnel_tel, personnel_id, organization_address
+                    ) VALUES(
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :phone_repair_price, :price, :laptop_repair_price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :duration, :appointment_endTime, :username, :personnel_role, :organization_name, :personnel_tel, :personnel_id, :organization_address
+                    )
+            """)
+
+            connection.execute(statement=user_appointment, parameters={
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "phone_repair_price":phone_repair_price, "price":price, "laptop_repair_price":laptop_repair_price, "appointment_types":AppointmentTypes.HOME_SERVICES.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description, "duration":duration, "appointment_endTime":end_time, "username":username, "personnel_role":personnel_role, "organization_name":organization_name, "personnel_tel":personnel_tel, "personnel_id":personnel_id, "organization_address":organization_address
+                })
+            connection.commit()
+
+            subject = f"CHEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nHome service appointment was booked successfully!,\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration},\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
+
 
             return jsonify({"home_service":"☑️ Home service appointment was booked successfully!",
                             "googleCalenderEvent":html_link

@@ -59,7 +59,7 @@ def oauth2callback():
         user.google_token = json.dumps(token_json)
         db.session.commit()
 
-        return "Authentication successful!, You may close this tab."
+        return "Authentication successful!, You may close this tab, go back and continue with your appointment booking."
     except Exception as e:
          current_app.logger.exception("auth callback failed!")
          return jsonify({"error":str(e)}), 500

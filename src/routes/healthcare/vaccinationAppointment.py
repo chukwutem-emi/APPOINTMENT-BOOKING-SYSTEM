@@ -66,25 +66,7 @@ def vaccination_session(current_user):
             personnel_id         = personnel_dict["id"]
             personnel_email      = personnel_dict["email"]
 
-            user_appointment = t("""
-                INSERT INTO appointment(
-                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, username, personnel_role, personnel_id, organization_name, organization_address, personnel_tel
-                    ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, username, :personnel_role, :personnel_id, :organization_name, :organization_address, :personnel_tel
-                    )
-            """)
-
-            connection.execute(statement=user_appointment, parameters={
-                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "appointment_types":AppointmentTypes.VACCINATION.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description,
-                "appointment_endTime":end_time, "username":username, "personnel_role":personnel_role, "personnel_id":personnel_id, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel
-                })
-            connection.commit()
-
-            subject = f"CHEMSTEN => {organization_name}"
-            body    = f"HI {username}!,\n\nVaccination appointment was booked successfully!,\n\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
-            receiver = email_address
-            send_mail(subject=subject, body=body, receiver=receiver)
-
+            
             summary     = f"This is an appointment for:\n{AppointmentTypes.VACCINATION.value}"
             dateTime    = f"{appointment_date}T{appointment_time}+01:00"
             endDateTime = f"{appointment_date}T{end_time}+01:00"
@@ -111,6 +93,26 @@ def vaccination_session(current_user):
                     "VaccinationEventErr":"Failed to create google calendar event", 
                     "details":appointment_response
                     }), 500
+
+            user_appointment = t("""
+                INSERT INTO appointment(
+                    gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, username, personnel_role, personnel_id, organization_name, organization_address, personnel_tel
+                    ) VALUES(
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, username, :personnel_role, :personnel_id, :organization_name, :organization_address, :personnel_tel
+                    )
+            """)
+
+            connection.execute(statement=user_appointment, parameters={
+                "gender":gender, "user_phone_number":phone_number, "address":address, "next_of_kin":next_of_kin, "next_of_kin_phone_number":next_of_kin_phone_number, "next_of_kin_address":next_of_kin_address, "duration":duration, "price":price, "appointment_types":AppointmentTypes.VACCINATION.value, "user_id":user_id, "appointment_time":appointment_time, "appointment_date":appointment_date, "appointment_description":appointment_description,
+                "appointment_endTime":end_time, "username":username, "personnel_role":personnel_role, "personnel_id":personnel_id, "organization_name":organization_name, "organization_address":organization_address, "personnel_tel":personnel_tel
+                })
+            connection.commit()
+
+            subject = f"CHEMSTEN => {organization_name}"
+            body    = f"HI {username}!,\n\nVaccination appointment was booked successfully!,\n\nTime:{appointment_time},\nDate:{appointment_date},\nDuration:{duration}minutes,\nEndtime:{end_time},\nAddress:{organization_address},\nPersonnel-tel:{personnel_tel},\n\nThanks for using our service,\nBest regard,\nCHEMSTEN => {organization_name} Team."
+            receiver = email_address
+            send_mail(subject=subject, body=body, receiver=receiver)
+
             return jsonify({
                 "vaccination":"☑️ Vaccination appointment was booked successfully!",
                 "googleCalendarLink":html_link
