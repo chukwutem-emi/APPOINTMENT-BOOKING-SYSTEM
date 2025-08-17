@@ -1,7 +1,7 @@
 from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import blue_p
-from flask import jsonify, Flask, request
+from flask import jsonify, Flask, request, send_file
 import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
@@ -10,8 +10,27 @@ import logging
 from flask_cors import CORS
 load_dotenv()
 
+def str_to_bool(value:str) -> bool:
+    """
+    convert common string representations of truthy/false value to boolean.
+    Accept true/false, yes/no, 1/0, on/off (case insensitive)
+    """
+    if not value:
+        return False
+    return value.strip().lower() in ("true", "1", "yes", "on")
+
 app = Flask(__name__)
 
+MAINTENANCE_MODE = str_to_bool(os.getenv("MAINTENANCE_MODE", "False"))
+
+# ALLOW_IPS = ["127.0.0.1", "192.168.0.174"]
+
+@app.before_request
+def check_maintenance():
+    if MAINTENANCE_MODE:
+        # client_ip = request.remote_addr
+        # if client_ip not in ALLOW_IPS:
+        return send_file("maintenance.html")
 
 CORS(
     app,
