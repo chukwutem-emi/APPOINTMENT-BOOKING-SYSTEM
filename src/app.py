@@ -1,7 +1,7 @@
 from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import blue_p
-from flask import jsonify, Flask
+from flask import jsonify, Flask, request
 import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
@@ -12,11 +12,16 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
 CORS(
     app,
     supports_credentials=True,
     # resources={r"/api/*":{"origins":"http://localhost:1234"}}
 )
+@app.route("/my-ip")
+def my_ip():
+    return {"flask_detected_ip":request.remote_addr}
+
 
 
 # set logging level to INFO
