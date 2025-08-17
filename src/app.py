@@ -37,7 +37,9 @@ def check_maintenance():
 @app.before_request
 def check_attack():
     if ATTACK_MODE:
-        return render_template("attack.html"), 503
+        ip_address = request.remote_addr
+        if ip_address not in ALLOW_IPS:
+            return render_template("attack.html"), 503        
 
 CORS(
     app,
