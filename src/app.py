@@ -1,7 +1,7 @@
 from tables.dbModels import db
 from flask_migrate import Migrate
 from routes import blue_p
-from flask import jsonify, Flask, request, send_file
+from flask import jsonify, Flask, request, render_template
 import os
 from dotenv import load_dotenv
 from flask_mysqldb import MySQL
@@ -30,7 +30,7 @@ def check_maintenance():
     if MAINTENANCE_MODE:
         # client_ip = request.remote_addr
         # if client_ip not in ALLOW_IPS:
-        return send_file("maintenance.html"), 503
+        return render_template("maintenance.html"), 503
 
 CORS(
     app,
