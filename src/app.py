@@ -78,6 +78,10 @@ base_uri = os.getenv("SQLALCHEMY_DATABASE_URI").replace(r"\x3a", ":")
 app.config["SQLALCHEMY_DATABASE_URI"] = base_uri
 
 
+# That r in front of the string makes it a raw string literal in Python.
+
+
+
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
