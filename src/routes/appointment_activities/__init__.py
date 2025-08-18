@@ -4,12 +4,13 @@ from .updateUserAppointmentDetails import update_user_appointment_details
 from .getUserAppointmentDetails import a_user_appointment_details
 from .deleteUserAppointmentDetails import delete_user_appointment_details
 from flask_cors import CORS
+from routes.utils.constants import FRONT_END_URL
 
 appointment_act_bp = Blueprint(name="appointment_act", import_name=__name__, url_prefix="/appointment-act")
 
 CORS(
     appointment_act_bp,
-    origins=["http://localhost:1234"],
+    origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

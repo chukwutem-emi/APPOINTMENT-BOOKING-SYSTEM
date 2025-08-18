@@ -5,12 +5,13 @@ from routes.healthcare.dentalAppointment import dental_session
 from routes.healthcare.physiotherapySessions import physiotherapy_session
 from routes.healthcare.vaccinationAppointment import vaccination_session
 from flask_cors import CORS
+from routes.utils.constants import FRONT_END_URL
 
 
 health_bp = Blueprint(name="healthcare", import_name=__name__, url_prefix="/healthcare")
 CORS(
     health_bp,
-    origins=["http://localhost:1234"],
+    origins=[FRONT_END_URL],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

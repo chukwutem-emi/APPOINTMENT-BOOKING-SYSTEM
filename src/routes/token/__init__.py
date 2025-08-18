@@ -1,11 +1,12 @@
 from flask import Blueprint
 from routes.token.clearGoogleToken import clear_google_token
 from flask_cors import CORS
+from routes.utils.constants import FRONT_END_URL
 
 token_bp = Blueprint("token", __name__, url_prefix="/token")
 CORS(
     token_bp,
-    origins=["http://localhost:1234"],
+    origins=[FRONT_END_URL],
     methods=["POST", "GET", "DELETE", "PUT", "OPTIONS"],
     allow_headers=["Authorization", "access-token", "Content-Type"],
     supports_credentials=True

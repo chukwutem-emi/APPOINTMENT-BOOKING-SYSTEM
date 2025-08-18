@@ -17,8 +17,9 @@ def a_user_appointment_details(current_user):
 
             user_appointments = connection.execute(statement=get_a_user_appointment_details, parameters={"user_id":current_user.id})
             user = user_appointments.fetchall()
-            if not user:
+            if len(user) == 0:
                 return jsonify({"user_appointment_not found":"The user appointment details that You are trying to access is not found!"}), 404
+            
             appointment_list = []
             for appointment in user:
                 cleaned_row = {}
