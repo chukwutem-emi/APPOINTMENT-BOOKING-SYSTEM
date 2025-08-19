@@ -57,7 +57,7 @@ def electrical_repair(current_user):
 
             get_personnel_info = t("SELECT * FROM personnel WHERE name=:name")
             personnel_data = connection.execute(statement=get_personnel_info, parameters={"name":name}).fetchone()
-            if len(personnel_data) == 0:
+            if not personnel_data:
                 return jsonify({"message":"The electronics-repair personnel you selected doesn't exist, or he/she might have been deleted from the database."}), 404
             personnel_dict = personnel_data._asdict()
 

@@ -57,7 +57,7 @@ def career_counseling(current_user):
 
             get_personnel_data = t("SELECT * FROM personnel WHERE name=:name")
             personnel_info = connection.execute(statement=get_personnel_data, parameters={"name":name}).fetchone()
-            if len(personnel_info) ==0:
+            if not personnel_info:
                 return jsonify({"careerPersonnel":"The career-counseling personnel you selected doesn't exist or he/she might have been deleted from the database."}), 404
             personnel_dict  = personnel_info._asdict()
 

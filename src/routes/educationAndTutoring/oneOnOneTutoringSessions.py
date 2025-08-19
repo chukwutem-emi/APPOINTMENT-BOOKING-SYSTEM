@@ -55,7 +55,7 @@ def one_on_one_tutoring(current_user):
 
             get_personnel_info = t("SELECT * FROM personnel WHERE name=:name")
             get_personnel_data = connection.execute(statement=get_personnel_info, parameters={"name":name}).fetchone()
-            if len(get_personnel_data) == 0:
+            if not get_personnel_data:
                 return jsonify({"message":"The one-on-one-tutoring personnel you selected doesn't exist or he/she might have been deleted from the database."}), 404
             personnel_dict = get_personnel_data._asdict()
 
