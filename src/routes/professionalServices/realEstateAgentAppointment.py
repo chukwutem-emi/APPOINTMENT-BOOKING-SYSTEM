@@ -112,7 +112,7 @@ def real_estate_agent(current_user):
 
 
             return jsonify({"real_estate_agent":"☑️ Real estate agent appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                             }), 201
 
     except (KeyError, ValueError) as KvError:

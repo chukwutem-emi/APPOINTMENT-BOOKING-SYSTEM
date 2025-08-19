@@ -111,7 +111,7 @@ def one_on_one_tutoring(current_user):
 
 
             return jsonify({"one_one_tutoring":"☑️ One_on_one tutoring appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                         }), 201
         
     except (KeyError, ValueError) as kvError:

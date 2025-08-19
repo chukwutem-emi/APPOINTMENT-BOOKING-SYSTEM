@@ -115,7 +115,7 @@ def electrical_repair(current_user):
 
 
             return jsonify({"electronics_repair":"☑️ Electrical repair appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                             }), 201
 
     except (KeyError, ValueError) as KvError:

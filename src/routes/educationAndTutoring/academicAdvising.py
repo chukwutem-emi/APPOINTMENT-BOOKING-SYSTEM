@@ -111,7 +111,7 @@ def academic_advising(current_user):
             send_mail(subject=subject, body=body, receiver=receiver)
 
             return jsonify({"Academic_advising":"☑️ Academic advising appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                             }), 201
         
     except (KeyError, ValueError) as kvError:

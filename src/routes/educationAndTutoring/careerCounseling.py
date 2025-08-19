@@ -113,7 +113,7 @@ def career_counseling(current_user):
             send_mail(subject=subject, body=body, receiver=receiver)
 
             return jsonify({"Career_counseling":"☑️ Career counseling appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                             }), 201
         
     except (KeyError, ValueError) as kvError:

@@ -1,5 +1,5 @@
 # ***Appointment booking system*** 🚀
-
+## ***I used Blueprint routing and not app level routing👌✍️***
 
 ## ***Features***:
 
@@ -185,16 +185,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -213,16 +209,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -242,16 +234,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -271,16 +259,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -300,16 +284,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -330,16 +310,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -359,16 +335,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -388,16 +360,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -418,16 +386,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -447,16 +411,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -476,16 +436,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -506,16 +462,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -535,16 +487,12 @@
 ##### ***Payload:***
 ```json
 {
-    "first_name":"",
-    "last_name":"",
     "gender":"",
-    "user_phone_number":"",
+    "name":"",
     "address":"",
-    "email_address":"",
     "next_of_kin":"",
     "next_of_kin_phone_number":"",
     "next_of_kin_address":"",
-    "amount":,
     "appointment_description":"",
     "appointment_time":"",
     "appointment_date":""
@@ -860,6 +808,9 @@
     "deleted": "The deletion of personnel was successful"
 }
 ```
+## ***I also created some features that i will use to lock the APP in situations when the APP is undergoing maintenance or if the APP is under cyber attack. These features are found in App.py file***
+
+
 ### ***Base url:***
 https://appointment-booking-system-dgpm.onrender.com
 

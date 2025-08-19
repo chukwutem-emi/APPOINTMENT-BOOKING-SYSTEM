@@ -114,7 +114,7 @@ def home_service(current_user):
 
 
             return jsonify({"home_service":"☑️ Home service appointment was booked successfully!",
-                            "googleCalenderEvent":html_link
+                            "googleCalendarEvent":html_link
                             }), 201
 
     except (KeyError, ValueError) as KvError:
