@@ -514,33 +514,66 @@
 ```json
 "Status":200
 {
-    "user_appointments": [
+    "user_appointments": {
+        "address": "",
+        "appointment_date": "",
+        "appointment_description": "",
+        "appointment_endTime": "",
+        "appointment_time": "",
+        "appointment_types": "",
+        "created_at": "",
+        "duration":,
+        "gender": "",
+        "id": ,
+        "next_of_kin": "",
+        "next_of_kin_address": "",
+        "next_of_kin_phone_number": "",
+        "organization_address": "",
+        "organization_name": "",
+        "personnel_id": ,
+        "personnel_role": "",
+        "personnel_tel": "",
+        "price":,
+        "update_at": "",
+        "user_id": ,
+        "user_phone_number": "",
+        "username": ""
+    }
+}
+```
+#### ***II. Retrieving all users appointment details(GET)***
+##### ***Endpoint:*** /api/appointment-act/users-appointment
+##### ***Method:*** GET
+##### ***Response:***
+```json
+"Status":200
+{
+    "All_appointments": [
         {
-            "address": "55c community road, obadore",
-            "appointment_date": "Tue, 09 Sep 2025 00:00:00 GMT",
-            "appointment_description": "dental appointment",
-            "appointment_endTime": "10:30:00",
-            "appointment_time": "3:00:00",
-            "appointment_types": "AcademicAdvising(EducationAndTutoring)",
-            "created_at": "2025-08-16T22:43:06",
-            "duration": 90,
-            "gender": "male",
-            "id": 1,
-            "next_of_kin": "ekene",
-            "next_of_kin_address": "30c community road, obadore",
-            "next_of_kin_phone_number": "07045637823",
-            "organization_address": "55c, community road, off lasu-ishere road, lagos state",
-            "organization_name": "Healthdpro",
-            "personnel_id": 2,
-            "personnel_role": "Dentist",
-            "personnel_tel": "07034969842",
-            "price": 40000.0,
-            "update_at": "2025-08-16T22:43:06",
-            "user_id": 1,
-            "user_phone_number": "07025347099",
-            "username": "CHUKWUTEM EMI"
-        },
-        
+            "address": "",
+            "appointment_date": "",
+            "appointment_description": "",
+            "appointment_endTime": "",
+            "appointment_time": "",
+            "appointment_types": "",
+            "created_at": "",
+            "duration": ,
+            "gender": "",
+            "id": ,
+            "next_of_kin": "",
+            "next_of_kin_address": "",
+            "next_of_kin_phone_number": "",
+            "organization_address": "",
+            "organization_name": "",
+            "personnel_id":,
+            "personnel_role": "",
+            "personnel_tel": "",
+            "price": ,
+            "update_at": "",
+            "user_id":,
+            "user_phone_number": "",
+            "username": ""
+        }
     ]
 }
 ```
