@@ -43,7 +43,7 @@ def update_user_appointment_details(current_user):
             user_id       = user["id"]
             email_address = user["email_address"]
             phone_number  = user["phone_number"]
-            username      = user ["username"]
+            username      = user["username"]
 
             update_a_user_appointment_details = t("UPDATE appointment SET gender=:gender, user_phone_number=:user_phone_number, address=:address, next_of_kin=:next_of_kin, next_of_kin_phone_number=:next_of_kin_phone_number, next_of_kin_address=:next_of_kin_address, appointment_description=:appointment_description, appointment_time=:appointment_time, appointment_date=:appointment_date, user_id=:user_id WHERE user_id=:user_id")
 
