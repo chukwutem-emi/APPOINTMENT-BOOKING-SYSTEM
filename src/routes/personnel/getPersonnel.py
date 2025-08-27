@@ -43,7 +43,7 @@ def get_personnel(current_user):
                 "specialization"       : personnel_info.specialization,
                 "phone_number"         : personnel_info.phone_number
             }
-            return jsonify({"one-personnel": personnel_dict}), 200
+            return jsonify({"one_personnel": personnel_dict}), 200
         
     except (KeyError, ValueError) as kv:
         return jsonify({"keyValErr":f"Missing data or you entered a wrong input. {str(kv)}"}), 400

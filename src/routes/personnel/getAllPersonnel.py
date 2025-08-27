@@ -39,7 +39,7 @@ def get_all_personnel(current_user):
                 personnel_list.append(personnel_dict) 
 
 
-            return jsonify({"all-personnel": personnel_list}), 200
+            return jsonify({"all_personnel": personnel_list}), 200
         
     except Exception as e:
         return jsonify({"exception":f"An error has occurred. {str(e)}"}), 500
