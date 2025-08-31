@@ -18,5 +18,5 @@ CORS(
 
 personnel_bp.add_url_rule(rule="/personnel", endpoint="personnel", view_func=create_personnel, methods=["POST", "OPTIONS"])
 personnel_bp.add_url_rule(rule="/delete-personnel", endpoint="/delete-personnel", view_func=delete_personnel, methods=["DELETE", "OPTIONS"])
-personnel_bp.add_url_rule(rule="/all-personnel", endpoint="all-personnel", view_func=get_all_personnel, methods={"GET", "OPTIONS"})
+personnel_bp.add_url_rule(rule="/all-personnel", endpoint="all-personnel", view_func=get_all_personnel, methods=["GET", "OPTIONS"])
 personnel_bp.add_url_rule(rule="/update-personnel", endpoint="update-personnel", view_func=update_personnel, methods=["PUT", "OPTIONS"])
