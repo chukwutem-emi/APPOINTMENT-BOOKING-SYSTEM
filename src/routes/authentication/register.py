@@ -43,7 +43,7 @@ def sign_up():
             receiver = email_address
             send_mail(subject=subject, body=body, receiver=receiver)
             
-            return jsonify({"success": "☑️ User created and uploaded successfully!"}), 201
+            return jsonify({"success": "☑️ User created and uploaded successfully!. Please login"}), 201
     except (KeyError, ValueError) as kvError:
         return jsonify({"registration_kvError":f"Invalid inputs!.:{str(kvError)}"}), 400
     except SQLAlchemyError as dataBaseError:
