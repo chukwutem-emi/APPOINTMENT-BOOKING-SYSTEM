@@ -8,7 +8,6 @@ from flask_mysqldb import MySQL
 from extensions import mail
 import logging
 from flask_cors import CORS
-from routes.utils.constants import FRONT_END_URL
 load_dotenv()
 
 def str_to_bool(value:str) -> bool:
@@ -45,7 +44,7 @@ def check_attack():
 CORS(
     app,
     supports_credentials=True,
-    origins=[FRONT_END_URL]
+    origins=["https://booksmart-ten.vercel.app"]
     # resources={r"/api/*":{"origins":"http://localhost:1234"}}
 )
 @app.route("/my-ip")

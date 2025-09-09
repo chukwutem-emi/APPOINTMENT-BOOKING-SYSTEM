@@ -3,13 +3,12 @@ from routes.professionalServices.financialAdvisory import financial_advisory
 from routes.professionalServices.realEstateAgentAppointment import  real_estate_agent
 from flask import Blueprint
 from flask_cors import CORS
-from routes.utils.constants import FRONT_END_URL
 
 pro_service_bp = Blueprint(name="professional", import_name=__name__, url_prefix="professional")
 
 CORS(
     pro_service_bp,
-    origins=[FRONT_END_URL],
+    origins=["https://booksmart-ten.vercel.app"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "AuthoriZation", "access-token"]

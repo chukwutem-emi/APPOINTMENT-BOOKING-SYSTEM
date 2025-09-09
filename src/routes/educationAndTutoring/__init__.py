@@ -3,13 +3,12 @@ from routes.educationAndTutoring.academicAdvising import academic_advising
 from routes.educationAndTutoring.careerCounseling import career_counseling
 from routes.educationAndTutoring.oneOnOneTutoringSessions import one_on_one_tutoring
 from flask_cors import CORS
-from routes.utils.constants import FRONT_END_URL
 
 edu_bp = Blueprint(name="/education_bp", import_name=__name__, url_prefix="education-bp")
 
 CORS(
     edu_bp,
-    origins=[FRONT_END_URL],
+    origins=["https://booksmart-ten.vercel.app"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]
