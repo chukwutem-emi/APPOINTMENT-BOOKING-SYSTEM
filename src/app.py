@@ -44,7 +44,7 @@ def check_attack():
 CORS(
     app,
     supports_credentials=True,
-    origins=["https://booksmart-ten.vercel.app"]
+    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"]
     # resources={r"/api/*":{"origins":"http://localhost:1234"}}
 )
 @app.route("/my-ip")
