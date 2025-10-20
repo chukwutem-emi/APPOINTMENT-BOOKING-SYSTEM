@@ -7,7 +7,7 @@ from flask_cors import CORS
 book_app_bp = Blueprint(name="bookApp", import_name=__name__, url_prefix="/bookApp")
 CORS(
     book_app_bp,
-    origins=["https://booksmart-ten.vercel.app"],
+    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

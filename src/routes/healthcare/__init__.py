@@ -10,7 +10,7 @@ from flask_cors import CORS
 health_bp = Blueprint(name="healthcare", import_name=__name__, url_prefix="/healthcare")
 CORS(
     health_bp,
-    origins=["https://booksmart-ten.vercel.app"],
+    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]
