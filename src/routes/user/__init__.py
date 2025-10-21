@@ -10,7 +10,7 @@ from flask_cors import CORS
 user_bp = Blueprint(name="a_user_bp", import_name=__name__, url_prefix="user-bp")
 CORS(
     user_bp,
-    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
+    origins=["https://booksmartapp.onrender.com", "http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

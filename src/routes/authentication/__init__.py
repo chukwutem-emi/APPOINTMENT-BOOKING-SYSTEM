@@ -7,7 +7,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 CORS(
     auth_bp,
-    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
+    origins=["https://booksmartapp.onrender.com", "http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

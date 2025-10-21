@@ -9,7 +9,7 @@ appointment_act_bp = Blueprint(name="appointment_act", import_name=__name__, url
 
 CORS(
     appointment_act_bp,
-    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
+    origins=["https://booksmartapp.onrender.com", "http://localhost:1234"],
     supports_credentials=True,
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "access-token"]

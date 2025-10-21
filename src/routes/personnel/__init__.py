@@ -9,7 +9,7 @@ personnel_bp = Blueprint(name="personnel", import_name=__name__, url_prefix="/pe
 
 CORS(
     personnel_bp,
-    origins=["https://booksmart-ten.vercel.app", "http://localhost:1234"],
+    origins=["https://booksmartapp.onrender.com", "http://localhost:1234"],
     methods=["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     supports_credentials=True,
     allow_headers=["Content-Type", "Authorization", "access-token"],
