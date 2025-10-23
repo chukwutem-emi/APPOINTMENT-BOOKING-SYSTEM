@@ -98,7 +98,7 @@ def career_counseling(current_user):
                 INSERT INTO appointment(
                     gender, user_phone_number, address, next_of_kin, next_of_kin_phone_number, next_of_kin_address, duration, price, appointment_types, user_id, appointment_time, appointment_date, appointment_description, appointment_endTime, personnel_id, personnel_role, organization_name, organization_address, personnel_tel, username 
                     ) VALUES(
-                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_id, :personnel_role, :organization_name , :organization_address, :personnel_tel, :username  
+                    :gender, :user_phone_number, :address, :next_of_kin,  :next_of_kin_phone_number, :next_of_kin_address, :duration, :price, :appointment_types, :user_id, :appointment_time, :appointment_date, :appointment_description, :appointment_endTime, :personnel_id, :personnel_role, :organization_name , :organization_address, :personnel_tel, :username  
                     )
             """)
 
