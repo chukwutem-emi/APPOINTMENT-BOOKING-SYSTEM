@@ -14,6 +14,7 @@ class User(db.Model):
     public_id     = db.Column(db.String(200))
     phone_number  = db.Column(db.String(14), unique=True)
     admin         = db.Column(Boolean, default=False)
+    role          = db.Column(db.String(200))
     google_token  = db.Column(db.String(1000), nullable=True)
     created_at    = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at    = db.Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

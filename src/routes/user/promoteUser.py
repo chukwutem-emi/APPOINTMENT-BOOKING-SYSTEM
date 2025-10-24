@@ -8,43 +8,40 @@ import os
 from mail.sendMail import send_mail
 load_dotenv()
 
-access_code = os.getenv("ACCESS_CODE")
 
 @token_required
 def promote_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    if not current_user:
+    if not current_user.role == "super-admin":
         return J({"Access_denied":"⚠️ You don't have the permission to carry out this request. Unauthorized!"}), 401
     try:
         data = request.get_json()
-        required_field_for_promotion = ["email_address", "code"]
+        required_field_for_promotion = ["username"]
 
         for field in required_field_for_promotion:
             if field not in data:
                 return J({"promotion_requiredField":f"Missing required field!.:{field}"}), 400
 
-        email_address = str(data["email_address"])
+        username = str(data["username"]).upper()
         admin = True
+        user_role = "admin"
         
-        provided_code = str(data["code"])
-        if provided_code != access_code:
-            return({"Code_Error":"⚠️ Access denied!. You provide an invalid code."}), 401
-
         with db.engine.connect() as connection:
-            check_user_smt = t("SELECT * FROM user WHERE email_address=:email_address")
-            user_smt = connection.execute(statement=check_user_smt, parameters={"email_address":email_address}).fetchone()
+            check_user_smt = t("SELECT * FROM user WHERE username=:username")
+            user_smt = connection.execute(statement=check_user_smt, parameters={"username":username}).fetchone()
             if not user_smt:
                 return J({"Promotion_error":"User not found or the user does not exist!"}), 404
             
             result = user_smt._asdict()
             userResult = result["admin"]
+            email_address = result["email_address"]
 
             if userResult == True:
                 return J({"AlreadyAdmin": "User is already an admin"}), 400
             
-            promote_user_to_admin_user = t("UPDATE user SET admin=:admin WHERE email_address=:email_address")
-            connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "email_address":email_address})
+            promote_user_to_admin_user = t("UPDATE user SET admin=:admin, role=:role WHERE username=:username")
+            connection.execute(statement=promote_user_to_admin_user, parameters={"admin":admin, "role":user_role, "username":username})
             connection.commit()
 
             subject = "Promotion"

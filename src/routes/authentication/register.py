@@ -26,16 +26,17 @@ def sign_up():
         phone_number=str(data["phone_number"])
         public_id=str(uuid.uuid4())
         admin=False
+        role="regular-user"
         with db.engine.connect() as connection:
             create_user=t("""
                 INSERT INTO user(
-                          password, username, email_address, phone_number, public_id, admin
+                          password, username, email_address, phone_number, public_id, admin, role
                           ) VALUES(
-                          :password, :username, :email_address, :phone_number, :public_id, :admin)
+                          :password, :username, :email_address, :phone_number, :public_id, :admin, :role)
             """)
 
             connection.execute(statement=create_user, parameters={
-                "password":password, "username":username, "email_address":email_address, "phone_number":phone_number, "public_id":public_id, "admin":admin
+                "password":password, "username":username, "email_address":email_address, "phone_number":phone_number, "public_id":public_id, "admin":admin, "role":role
                 })
             connection.commit()
             subject = "Welcome to Our Service"
