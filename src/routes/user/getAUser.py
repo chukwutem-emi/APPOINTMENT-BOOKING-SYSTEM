@@ -16,7 +16,8 @@ def get_user(current_user):
             "email_address":current_user.email_address,
             " public_id":current_user. public_id,
             "phone_number":current_user.phone_number,
-            "admin":current_user.admin
+            "admin":current_user.admin,
+            "role":current_user.role
         }
         if not user_data or len(user_data) == 0:
             return jsonify({"Not-Found": "User not found!"}), 404
