@@ -24,6 +24,7 @@ def promote_user(current_user):
                 return J({"promotion_requiredField":f"Missing required field!.:{field}"}), 400
 
         username = str(data["username"]).upper()
+        print(">>> RECEIVED USERNAME:", repr(username))
         admin = True
         user_role = "admin"
         
