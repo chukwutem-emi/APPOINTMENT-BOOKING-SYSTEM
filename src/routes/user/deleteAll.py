@@ -9,7 +9,7 @@ from routes.authentication.accessToken import token_required
 def delete_all_users(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    if not current_user.admin:
+    if not current_user.role == "super-admin":
         return jsonify({"permission_denied": "⚠️ Hey!, keep off. You are not allowed!."}), 403
     try: 
         with db.engine.connect() as connection:

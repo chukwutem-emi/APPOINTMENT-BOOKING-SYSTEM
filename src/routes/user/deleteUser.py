@@ -9,20 +9,20 @@ from sqlalchemy.exc import SQLAlchemyError
 def delete_user(current_user):
     if request.method == "OPTIONS":
         return make_response("", 204)
-    if not current_user.admin:
+    if not current_user.admin or not current_user.role == "super-admin":
         return J({"Not_permitted":"⚠️ You are Unauthorized to make this request"}), 401
     data = request.get_json()
-    if not data or not data.get("email_address"):
+    if not data or not data.get("username"):
         return J({"invalid-input":"You entered an invalid input"}), 400
-    required_field = ["email_address"]
+    required_field = ["username"]
     for field in required_field:
         if field not in data:
             return J({"required":f"Missing required field.{field}"}), 400
-    email_address = str(data["email_address"])
+    username = str(data["username"]).strip()
     try:  
         with db.engine.connect() as connection:
-            delete_user_info = t("DELETE FROM user WHERE email_address=:email_address")
-            user_details = connection.execute(statement=delete_user_info, parameters={"email_address":email_address})
+            delete_user_info = t("DELETE FROM user WHERE username=:username")
+            user_details = connection.execute(statement=delete_user_info, parameters={"username":username})
             user = user_details
 
             if user.rowcount ==0 :
