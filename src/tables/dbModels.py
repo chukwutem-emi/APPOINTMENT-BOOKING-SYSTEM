@@ -76,12 +76,12 @@ class Appointment(db.Model):
 class Personnel(db.Model):
     __tablename__ ="personnel"
     id                   = db.Column(db.Integer, primary_key=True)
-    name                 = db.Column(db.String(100), nullable=False)
+    name                 = db.Column(db.String(100), nullable=False, unique=True)
     role                 = db.Column(db.String(200), nullable=False)
     specialization       = db.Column(db.String(200), nullable=False)
     organization         = db.Column(db.String(200), nullable=False)
     organization_address = db.Column(db.String(300), nullable=False)
-    email                = db.Column(db.String(200), unique=True, nullable=False)
+    email                = db.Column(db.String(200), nullable=False)
     phone_number         = db.Column(db.String(200), nullable=False)
     created_at           = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at           = db.Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

@@ -32,7 +32,7 @@ def create_personnel(current_user):
         organization         = str(data["organization"]).capitalize()
         organization_address = str(data["organization_address"]).capitalize()
         email                = str(data["email"])
-        phone_number          = str(data["phone_number"])
+        phone_number         = str(data["phone_number"])
 
 
         with db.engine.connect() as connection:

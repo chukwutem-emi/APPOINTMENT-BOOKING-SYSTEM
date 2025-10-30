@@ -14,7 +14,7 @@ def get_users(current_user):
         with db.engine.connect() as connection:
             get_all_users = t("SELECT * FROM user")
             users=connection.execute(get_all_users).fetchall()
-            if len(users) == 0:
+            if not users:
                 return jsonify({"database_empty":"There are no records found in the database!."}), 404
             users_list = []
             for user in users:
