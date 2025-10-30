@@ -15,20 +15,20 @@ def delete_personnel(current_user):
     
 
     data = request.get_json()
-    if not data or not data.get("email"):
+    if not data or not data.get("name"):
         return jsonify({"inputError": "Invalid input!"}), 400
     
 
-    required_field = ["email"]
+    required_field = ["name"]
     for item in required_field:
         if item not in data:
             return jsonify({"missing":f"Missing required field. {item}"}), 400
         
     try:   
-        email = str(data["email"])
+        name = str(data["name"]).strip()
         with db.engine.connect() as connection:
-            delete = text("DELETE FROM personnel WHERE email=:email")
-            personnel_info = connection.execute(statement=delete, parameters={"email":email})
+            delete = text("DELETE FROM personnel WHERE name=:name")
+            personnel_info = connection.execute(statement=delete, parameters={"name":name})
             personnel_data = personnel_info
 
 

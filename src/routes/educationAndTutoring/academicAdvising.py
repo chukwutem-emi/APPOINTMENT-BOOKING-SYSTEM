@@ -45,7 +45,7 @@ def academic_advising(current_user):
         with db.engine.connect() as connection:
             get_the_login_user = t("SELECT * FROM user WHERE public_id=:public_id")
             user_data = connection.execute(get_the_login_user, {"public_id":current_user.public_id}).fetchone()
-            if len(user_data) == 0:
+            if not user_data:
                 return jsonify({"message":"user not found!"}), 404
             user = user_data._asdict()
             user_id       = user["id"]
