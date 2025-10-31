@@ -14,7 +14,7 @@ def delete_user_appointment_details(current_user):
     
     try:
         data =  request.get_json()
-        username = str(data["username"]).strip()
+        username = str(data["username"]).upper().strip()
 
         with db.engine.connect() as connection:
             delete_a_user_appointment_details = t("DELETE FROM appointment WHERE username=:username")

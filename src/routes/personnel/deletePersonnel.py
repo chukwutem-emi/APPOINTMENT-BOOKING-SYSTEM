@@ -25,7 +25,7 @@ def delete_personnel(current_user):
             return jsonify({"missing":f"Missing required field. {item}"}), 400
         
     try:   
-        name = str(data["name"]).strip()
+        name = str(data["name"]).upper().strip()
         with db.engine.connect() as connection:
             delete = text("DELETE FROM personnel WHERE name=:name")
             personnel_info = connection.execute(statement=delete, parameters={"name":name})
