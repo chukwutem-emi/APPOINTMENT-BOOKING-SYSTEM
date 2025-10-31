@@ -18,7 +18,7 @@ def delete_user(current_user):
     for field in required_field:
         if field not in data:
             return J({"required":f"Missing required field.{field}"}), 400
-    username = str(data["username"]).strip()
+    username = str(data["username"]).upper().strip()
     try:  
         with db.engine.connect() as connection:
             delete_user_info = t("DELETE FROM user WHERE username=:username")
